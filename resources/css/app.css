@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+
+@responsive {
+  .row {
+    @apply -mx-3 w-row flex flex-wrap;
+  }
+
+  .row .col {
+    @apply px-3;
+  }
+
+  .row-tight {
+    @apply -mx-1 w-row-tight flex flex-wrap;
+  }
+
+  .row-tight .col {
+    @apply px-1;
+  }
+
+  .border-box {
+    box-sizing: border-box;
+  }
+  .content-box {
+    box-sizing: content-box;
+  }
+}
+
+@tailwind utilities;
