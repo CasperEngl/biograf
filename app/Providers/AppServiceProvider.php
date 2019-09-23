@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        BladeX::component('components.*');
     }
 
     /**
