@@ -2,38 +2,56 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use Notifiable;
+    use Notifiable, HasMediaTrait, HasSlug;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstname',
+        'lastname',
+        'email',
+        'phonenumber',
+        'password',
     ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'preferences' => 'json',
     ];
+
+    protected $appends = [
+        'name',
+    ];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['firstname', 'lastname'])
+            ->saveSlugsTo('slug');
+    }
+
+    public function avatar()
+    {
+        return asset(
+            optional($this->getFirstMedia('avatar'))->getUrl('thumb') ?:
+            'images/placeholder.jpg'
+        );
+    }
+
+    public function getNameAttribute($value)
+    {
+        return ucwords("{$this->firstname} {$this->lastname}");
+    }
 }
