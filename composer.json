@@ -9,13 +9,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "caouecs/laravel-lang": "~4.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "spatie/laravel-blade-x": "^2.3",
+        "spatie/laravel-medialibrary": "^7.0.0",
+        "spatie/laravel-sluggable": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
+        "laravel-frontend-presets/tailwindcss": "^2.0",
+        "laravel/ui": "^1.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0"
