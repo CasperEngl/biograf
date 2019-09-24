@@ -4,6 +4,7 @@ namespace App;
 
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -12,7 +13,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Notifiable, HasMediaTrait, HasSlug;
+    use Notifiable, HasMediaTrait, HasSlug, HasRoles;
+
+    protected $guard_name = 'web';
 
     protected $fillable = [
         'firstname',
