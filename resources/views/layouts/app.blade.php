@@ -11,6 +11,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    @routes
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none">
     <div id="app">
@@ -45,9 +47,15 @@
         </nav>
 
         @yield('content')
+
+        <div class="fixed flex flex-col" style="bottom: 2rem; left: 2rem;">
+            @include('partials.status-boxes')
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
+
+    @livewireAssets
 </body>
 </html>
