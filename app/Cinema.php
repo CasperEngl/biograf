@@ -12,6 +12,12 @@ class Cinema extends Model
         'columns' => 'integer',
     ];
 
+    protected $fillable = [
+        'name',
+        'rows',
+        'columns',
+    ];
+
     public function users()
     {
         return $this->hasManyThrough(User::class, Reservation::class);
@@ -22,8 +28,8 @@ class Cinema extends Model
         return $this->hasMany(Seat::class);
     }
 
-    public function getNameAttribute()
-    {
-        return ucwords($this->name);
+    public function rows()
+    {        
+        return $this->seats->groupBy('row');
     }
 }
