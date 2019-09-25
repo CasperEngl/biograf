@@ -24,6 +24,8 @@
     "rules": {
         "indent": 2,
         "import/no-extraneous-dependencies": 0,
-        "quotes": [2, "single", { "avoidEscape": true }]
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "no-plusplus": 0,
+        "max-len": 0
     }
 }
