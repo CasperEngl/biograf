@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CinemaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +15,11 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', function () {
+  return redirect()->route('cinema.index');
+});
+
+Route::prefix('cinema')->group(function () {
+  Route::get('/', [CinemaController::class, 'index'])->name('cinema.index');
+  Route::get('/{cinema}', [CinemaController::class, 'edit'])->name('cinema.edit');
+});
