@@ -1,13 +1,19 @@
 <template>
   <table class="w-full">
     <col width="1">
+    <thead>
+      <tr>
+        <th class="px-2"></th>
+        <th class="text-gray-600 font-bold text-sm" v-for="(seat, index) in singleRow" :key="index">{{ seat.column }}</th>
+      </tr>
+    </thead>
     <tbody>
       <tr v-for="(row, letter) in rows" :key="letter">
-        <td class="px-2 text-gray-600 font-bold">{{ letter.toUpperCase() }}</td>
+        <td class="text-gray-600 font-bold text-sm">{{ letter.toUpperCase() }}</td>
         <td v-for="(seat, index) in row" :key="index">
           <button
             @click.prevent="toggleSeat(seat)"
-            class="w-full h-full block"
+            class="w-full h-full max-w-4 block mx-auto"
             :class="[
               disabled
                 ? `cursor-default ${seat.active ? 'bg-gray-300' : 'bg-yellow-500'}`
@@ -20,7 +26,7 @@
           >
             &nbsp;
           </button>
-          <input type="hidden" :name="`seats[${seat.row}][${seat.column}]`" :value="seat.active">
+          <input v-if="!inputsDisabled" type="hidden" :name="`seats[${seat.row}][${seat.column}]`" :value="seat.active">
         </td>
       </tr>
     </tbody>
@@ -39,6 +45,11 @@ export default {
       required: false,
       default: true,
     },
+    inputsDisabled: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data: (vm) => ({
     rows: vm.cinemaRows,
@@ -48,6 +59,16 @@ export default {
       const ref = seat;
 
       ref.active = seat.active ? 0 : 1;
+    },
+  },
+  watch: {
+    cinemaRows(value) {
+      this.rows = value;
+    },
+  },
+  computed: {
+    singleRow() {
+      return Object.values(this.rows).find(() => true);
     },
   },
 };
