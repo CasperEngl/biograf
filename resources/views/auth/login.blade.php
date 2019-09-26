@@ -44,9 +44,7 @@
                         </div>
 
                         <div class="flex flex-wrap items-center">
-                            <submit-button>
-                                {{ trans('auth.login.submit') }}
-                            </submit-button>
+                            <button type="submit" class="btn btn-primary">{{ trans('auth.login.submit') }}</button>
 
                             @if (Route::has('password.request'))
                                 <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('password.request') }}">

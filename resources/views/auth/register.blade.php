@@ -52,7 +52,7 @@
 
             <div class="row">
                 <div class="col w-full">
-                    <submit-button>{{ trans('auth.register.submit') }}</submit-button>
+                    <button type="submit" class="btn btn-primary">{{ trans('auth.register.submit') }}</button>
 
                     <p class="w-full text-xs text-center text-gray-700 mt-8 -mb-4">
                         {{ trans('auth.register.already-registered') }}
