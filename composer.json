@@ -12,6 +12,7 @@
         "caouecs/laravel-lang": "~4.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
+        "laravel/nova": "^2.3",
         "laravel/tinker": "^1.0",
         "livewire/livewire": "^0.3.7",
         "php-tmdb/api": "^2.1",
@@ -62,8 +63,8 @@
     "prefer-stable": true,
     "repositories": [
         {
-            "type": "path",
-            "url": "./nova"
+            "type": "composer",
+            "url": "https://nova.laravel.com"
         }
     ],
     "scripts": {
