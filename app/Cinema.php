@@ -30,6 +30,6 @@ class Cinema extends Model
 
     public function rows()
     {        
-        return $this->seats->groupBy('row');
+        return $this->seats->groupBy('row')->reverse();
     }
 }
