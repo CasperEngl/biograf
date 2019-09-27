@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9de8cffcd65bafc645976f20918b9ec",
+    "content-hash": "2ce185e948de39e54b417a597c303e15",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -105,6 +105,39 @@
                 "lpm"
             ],
             "time": "2019-08-22T19:36:14+00:00"
+        },
+        {
+            "name": "devant/cinema-maker",
+            "version": "dev-develop",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/CinemaMaker",
+                "reference": "ab02cfeddbc77a48c05878c9a036d123dea7b0e4"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Devant\\CinemaMaker\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Devant\\CinemaMaker\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ]
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1133,16 +1166,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.0.3",
+            "version": "v6.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "56789e9dec750e0fbe8e9e6ae90a01a4e6887902"
+                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/56789e9dec750e0fbe8e9e6ae90a01a4e6887902",
-                "reference": "56789e9dec750e0fbe8e9e6ae90a01a4e6887902",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
+                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
                 "shasum": ""
             },
             "require": {
@@ -1274,7 +1307,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-10T18:46:24+00:00"
+            "time": "2019-09-24T13:40:36+00:00"
         },
         {
             "name": "laravel/nova",
@@ -1556,16 +1589,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v0.3.7",
+            "version": "v0.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "65a45cea7e8912ce720aea39279b14325cbddffb"
+                "reference": "25834049871918dc07ec91c26dfa6898daf52043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/65a45cea7e8912ce720aea39279b14325cbddffb",
-                "reference": "65a45cea7e8912ce720aea39279b14325cbddffb",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/25834049871918dc07ec91c26dfa6898daf52043",
+                "reference": "25834049871918dc07ec91c26dfa6898daf52043",
                 "shasum": ""
             },
             "require": {
@@ -1605,7 +1638,7 @@
                 }
             ],
             "description": "Build and test rich client-side functionality: with only backend code.",
-            "time": "2019-09-22T00:55:37+00:00"
+            "time": "2019-09-25T03:16:30+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -2818,16 +2851,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "7.12.1",
+            "version": "7.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "8c4adaeb16985a108da4e0dab186bc7561bbbf8f"
+                "reference": "af0505b7e1f4c5c92b616aa30e5253f2c98fc647"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/8c4adaeb16985a108da4e0dab186bc7561bbbf8f",
-                "reference": "8c4adaeb16985a108da4e0dab186bc7561bbbf8f",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/af0505b7e1f4c5c92b616aa30e5253f2c98fc647",
+                "reference": "af0505b7e1f4c5c92b616aa30e5253f2c98fc647",
                 "shasum": ""
             },
             "require": {
@@ -2898,7 +2931,7 @@
                 "media",
                 "spatie"
             ],
-            "time": "2019-09-12T22:01:47+00:00"
+            "time": "2019-09-25T09:51:20+00:00"
         },
         {
             "name": "spatie/laravel-permission",
