@@ -4,10 +4,10 @@
     <div class="container">
         <h1 class="text-5xl uppercase font-bold">{{ trans('auth.register.title') }}</h1>
 
-        <form class="w-full p-6" method="POST" action="{{ route('register') }}">
+        <form class="w-full py-6" method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col w-1/2">
                     <input-label for="first_name">{{ trans('auth.register.first_name') }}</input-label>
                     <input-field id="first_name" type="text" class="{{ $errors->has('first_name') ? ' border-red-500' : '' }}" name="first_name" value="{{ old('first_name') }}" required autofocus></input-field>
@@ -20,9 +20,9 @@
 
                     <error-message key="last_name"></error-message>
                 </div>
-            <div>
+            </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col w-1/2">
                     <input-label for="email">{{ trans('auth.register.email') }}</input-label>
                     <input-field id="email" type="email" class="{{ $errors->has('email') ? ' border-red-500' : '' }}" name="email" value="{{ old('email') }}" required></input-field>
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col w-1/2">
                     <input-label for="password">{{ trans('auth.register.password') }}</input-label>
                     <input-field id="password" type="password" class-name="{{ $errors->has('password') ? ' border-red-500' : '' }}" name="password" required></input-field>
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col w-full">
                     <button type="submit" class="btn btn-primary">{{ trans('auth.register.submit') }}</button>
 
