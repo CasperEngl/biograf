@@ -1,6 +1,9 @@
 import Vue from 'vue';
+import AsyncComputed from 'vue-async-computed';
 
 import './bootstrap';
+
+Vue.use(AsyncComputed);
 
 const files = require.context('./', true, /\.vue$/i);
 
