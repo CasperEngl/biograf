@@ -36,8 +36,8 @@ module.exports = {
     },
     extend: {
       width: {
-        row: 'calc(100% - 0.75rem)',
-        'row-tight': 'calc(100% - 0.25rem)',
+        row: 'calc(100% + 1.5rem)',
+        'row-tight': 'calc(100% + 0.5rem)',
       },
       maxWidth: sizes,
       minWidth: sizes,
