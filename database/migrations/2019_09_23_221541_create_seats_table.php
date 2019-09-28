@@ -15,6 +15,12 @@ class CreateSeatsTable extends Migration
     {
         Schema::create('seats', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->bigInteger('cinema_id')->unsigned();
+            $table->string('row');
+            $table->string('column');
+            $table->boolean('active');
+
             $table->timestamps();
         });
     }
