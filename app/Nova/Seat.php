@@ -5,24 +5,56 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Seat extends Resource
 {
+    const ROW_IDS = [
+        'a' => 'A',
+        'b' => 'B',
+        'c' => 'C',
+        'd' => 'D',
+        'e' => 'E',
+        'f' => 'F',
+        'g' => 'G',
+        'h' => 'H',
+        'i' => 'I',
+        'j' => 'J',
+        'k' => 'K',
+        'l' => 'L',
+        'm' => 'M',
+        'n' => 'N',
+        'o' => 'O',
+        'p' => 'P',
+        'q' => 'Q',
+        'r' => 'R',
+        's' => 'S',
+        't' => 'T',
+        'u' => 'U',
+        'v' => 'V',
+        'w' => 'W',
+        'x' => 'X',
+        'y' => 'Y',
+        'z' => 'Z',
+    ];
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\Seat';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -30,7 +62,11 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email', 'phonenumber',
+        'id',
+        'cinema_id',
+        'row',
+        'column',
+        'active',
     ];
 
     /**
@@ -44,32 +80,19 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make(),
-
-            Text::make('Firstname')
+            BelongsTo::make('Cinema')
                 ->sortable()
-                ->rules('required', 'max:255'),
-            
-            Text::make('Lastname')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->searchable(),
                 
-            Text::make('Phonenumber')
-                ->sortable()
-                ->rules('required', 'digits:8')
-                ->creationRules('digits:8')
-                ->updateRules('digits:8,{{resourceId}}'),
+            Select::make('Row')
+                ->options(self::ROW_IDS)
+                ->sortable(),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+            Number::make('Column')
+                ->rules('numeric', 'max:20')
+                ->sortable(),
+
+            Boolean::make('Active')->sortable(),
         ];
     }
 

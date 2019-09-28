@@ -5,24 +5,25 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Cinema extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\\User';
+    public static $model = 'App\Cinema';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -30,7 +31,10 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email', 'phonenumber',
+        'id',
+        'name',
+        'row_count',
+        'column_count',
     ];
 
     /**
@@ -44,32 +48,19 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make(),
-
-            Text::make('Firstname')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            
-            Text::make('Lastname')
+            Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Number::make('Rows', 'row_count')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->readonly(),
                 
-            Text::make('Phonenumber')
+            Number::make('Columns', 'column_count')
                 ->sortable()
-                ->rules('required', 'digits:8')
-                ->creationRules('digits:8')
-                ->updateRules('digits:8,{{resourceId}}'),
+                ->readonly(),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+            HasMany::make('Seats'),
         ];
     }
 
