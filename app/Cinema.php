@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cinema extends Model
 {
-    protected $casts = [
-        'rows' => 'integer',
-        'columns' => 'integer',
-    ];
-
     protected $fillable = [
         'name',
-        'rows',
-        'columns',
+        'row_count',
+        'column_count',
+    ];
+
+    protected $casts = [
+        'row_count' => 'integer',
+        'column_count' => 'integer',
     ];
 
     public function users()
@@ -29,7 +29,7 @@ class Cinema extends Model
     }
 
     public function rows()
-    {        
+    {
         return $this->seats->groupBy('row')->reverse();
     }
 }
