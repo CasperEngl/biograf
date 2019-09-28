@@ -9,16 +9,16 @@
 
             <div class="row my-3">
                 <div class="col w-1/2">
-                    <input-label for="first_name">{{ trans('auth.register.first_name') }}</input-label>
-                    <input-field id="first_name" type="text" class="{{ $errors->has('first_name') ? ' border-red-500' : '' }}" name="first_name" value="{{ old('first_name') }}" required autofocus></input-field>
+                    <input-label for="firstname">{{ trans('auth.register.firstname') }}</input-label>
+                    <input-field id="firstname" type="text" class="{{ $errors->has('firstname') ? ' border-red-500' : '' }}" name="firstname" value="{{ old('firstname') }}" required autofocus></input-field>
 
-                    <error-message key="first_name"></error-message>
+                    <error-message key="firstname"></error-message>
                 </div>
                 <div class="col w-1/2">
-                    <input-label for="last_name">{{ trans('auth.register.last_name') }}</input-label>
-                    <input-field id="last_name" type="text" class="{{ $errors->has('last_name') ? ' border-red-500' : '' }}" name="last_name" value="{{ old('last_name') }}" required autofocus></input-field>
+                    <input-label for="lastname">{{ trans('auth.register.lastname') }}</input-label>
+                    <input-field id="lastname" type="text" class="{{ $errors->has('lastname') ? ' border-red-500' : '' }}" name="lastname" value="{{ old('lastname') }}" required autofocus></input-field>
 
-                    <error-message key="last_name"></error-message>
+                    <error-message key="lastname"></error-message>
                 </div>
             </div>
 

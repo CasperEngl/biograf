@@ -27,10 +27,10 @@ return [
 
     'register.title' => 'Register',
     'register.name' => 'Name',
-    'register.first_name' => 'First name',
-    'register.last_name' => 'Last name',
+    'register.firstname' => 'First name',
+    'register.lastname' => 'Last name',
     'register.email' => 'Email',
-    'register.phonenumber' => 'Phonenumber',
+    'register.phonenumber' => 'Phone number',
     'register.password' => 'Password',
     'register.password.confirm' => 'Confirm password',
     'register.submit' => 'Register',
