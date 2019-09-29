@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FilmController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 
 /*
@@ -15,11 +17,18 @@ use App\Http\Controllers\CinemaController;
 
 Auth::routes();
 
-Route::get('/', function () {
-  return redirect()->route('cinema.index');
+Route::get('/test', function (App\Tmdb $tmdb) {
+  
 });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('cinema')->group(function () {
   Route::get('/', [CinemaController::class, 'index'])->name('cinema.index');
   Route::get('/{cinema}', [CinemaController::class, 'edit'])->name('cinema.edit');
+});
+
+Route::prefix('film')->group(function () {
+  Route::get('/', [FilmController::class, 'index'])->name('film.index');
+  Route::get('/{film}', [FilmController::class, 'show'])->name('film.show');
 });
