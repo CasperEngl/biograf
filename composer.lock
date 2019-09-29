@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ce185e948de39e54b417a597c303e15",
+    "content-hash": "458dd618b992ac2d01c29e4b09e5dfa1",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -585,6 +585,50 @@
                 "schedule"
             ],
             "time": "2019-03-31T00:38:28+00:00"
+        },
+        {
+            "name": "ebess/advanced-nova-media-library",
+            "version": "2.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ebess/advanced-nova-media-library.git",
+                "reference": "9f3f596cdfdfcd200234dcb373b9da917ea004eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ebess/advanced-nova-media-library/zipball/9f3f596cdfdfcd200234dcb373b9da917ea004eb",
+                "reference": "9f3f596cdfdfcd200234dcb373b9da917ea004eb",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.6|^6.0",
+                "laravel/nova": "^2.0",
+                "php": ">=7.1.0",
+                "spatie/laravel-medialibrary": "^7.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ebess\\AdvancedNovaMediaLibrary\\AdvancedNovaMediaLibraryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ebess\\AdvancedNovaMediaLibrary\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Nova tools for managing the Spatie media library.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-09-09T19:55:46+00:00"
         },
         {
             "name": "egulias/email-validator",
