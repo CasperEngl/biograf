@@ -17,6 +17,7 @@ class CreateFilmsTable extends Migration
             $table->bigIncrements('id');
             $table->string('tmdb_id');
             $table->string('imdb_id')->nullable();
+            $table->string('slug');
             $table->string('category');
             $table->string('title');
             $table->string('language');
