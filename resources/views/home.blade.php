@@ -1,27 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex items-center">
-        <div class="md:w-1/2 md:mx-auto">
+<div class="py-32" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $featured->getFirstMediaUrl('backdrop') }}') no-repeat center center; background-size: cover;">
+    <div class="container">
+        <div class="row items-center justify-between">
+            <div class="col w-1/2">
+                <h2 class="text-4xl font-bold mb-4 text-white">
+                    {{ $featured->title }}
+                </h2>
+                <h3 class="max-w-3xl text-2xl mb-8 text-gray-200 leading-normal">
+                    {{ Str::limit($featured->overview, 150) }}
+                </h3>
 
-            @if (session('status'))
-                <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100 px-3 py-4 mb-4" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
-
-                <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
-                    Dashboard
-                </div>
-
-                <div class="w-full p-6">
-                    <p class="text-gray-700">
-                        You are logged in!
-                    </p>
-                </div>
+                <a class="btn btn-primary" href="{{ route('film.show', ['film' => $featured]) }}">
+                    {{ trans('cinema.read-more') }}
+                </a>
             </div>
+            <figure class="col w-1/2 max-w-md">
+                {{ $featured->getFirstMedia('poster') }}
+            </figure>
         </div>
     </div>
+</div>
 @endsection
