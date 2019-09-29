@@ -53,7 +53,7 @@ class User extends Authenticatable implements HasMedia
         );
     }
 
-    public function getNameAttribute($value)
+    public function getNameAttribute()
     {
         return ucwords("{$this->firstname} {$this->lastname}");
     }
