@@ -22,7 +22,9 @@
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "^3.0",
         "spatie/laravel-sluggable": "^2.2",
+        "spatie/laravel-translatable": "^4.2",
         "spatie/laravel-view-models": "^1.2",
+        "spatie/nova-translatable": "^2.0",
         "tightenco/ziggy": "^0.8.0"
     },
     "require-dev": {
