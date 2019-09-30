@@ -4,9 +4,12 @@ namespace App;
 
 use App\Reservation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cinema extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'name',
         'row_count',
@@ -26,10 +29,5 @@ class Cinema extends Model
     public function seats()
     {
         return $this->hasMany(Seat::class);
-    }
-
-    public function rows()
-    {
-        return $this->seats->groupBy('row')->reverse();
     }
 }
