@@ -30,4 +30,9 @@ class Cinema extends Model
     {
         return $this->hasMany(Seat::class);
     }
+
+    public function genres()
+    {
+        return $this->morphToMany(Genre::class, 'genreable');
+    }
 }
