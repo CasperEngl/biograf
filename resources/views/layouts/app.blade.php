@@ -14,7 +14,7 @@
 
     @routes
 </head>
-<body class="bg-gray-100 h-screen antialiased leading-none">
+<body class="bg-gray-900 text-white h-screen antialiased leading-none">
     <div id="app">
         <nav class="fixed w-full py-6">
             <div class="container mx-auto px-6 md:px-0">
