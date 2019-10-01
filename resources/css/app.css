@@ -55,4 +55,8 @@ select.field {
   @apply bg-red-600;
 }
 
+.tag {
+  @apply px-5 py-2 inline-block border-2 border-gray-700 bg-gray-600 text-white text-xs uppercase font-bold rounded-full;
+}
+
 @tailwind utilities;
