@@ -21,4 +21,9 @@ class Genre extends Model
     {
         return $this->morphedByMany(Film::class, 'genreable');
     }
+
+    public function genreable()
+    {
+        return $this->morphTo();
+    }
 }
