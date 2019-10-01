@@ -5,7 +5,10 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\MorphToMany;
+use Spatie\NovaTranslatable\Translatable;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 
@@ -45,8 +48,11 @@ class Film extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Title')
-                ->sortable(),
+            Translatable::make([
+                Text::make('Title')->sortable(),
+                Textarea::make('Overview'),
+                Text::make('Homepage'),
+            ])->locales(['da', 'en']),
 
             Images::make('Posters', 'poster') // second parameter is the media collection name
                 ->conversionOnIndexView('thumb') // conversion used to display the image
@@ -56,7 +62,7 @@ class Film extends Resource
                 ->conversionOnIndexView('thumb') // conversion used to display the image
                 ->rules('required'), // validation rules
 
-            Textarea::make('Overview'),
+            MorphToMany::make('Genres'),
         ];
     }
 
