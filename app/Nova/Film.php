@@ -62,7 +62,9 @@ class Film extends Resource
                 ->conversionOnIndexView('thumb') // conversion used to display the image
                 ->rules('required'), // validation rules
 
-            MorphToMany::make('Genres'),
+            MorphToMany::make('Genres')
+                ->searchable()
+                ->prepopulate(),
         ];
     }
 
