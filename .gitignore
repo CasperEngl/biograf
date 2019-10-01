@@ -17,4 +17,7 @@ npm-debug.log$
 yarn-error.log
 mix-manifest.json
 .env*
-!.env.example
+!.env.example.vapor/
+.env.production
+.env.staging
+.vapor
