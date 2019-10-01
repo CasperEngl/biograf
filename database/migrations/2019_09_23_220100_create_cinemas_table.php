@@ -20,6 +20,7 @@ class CreateCinemasTable extends Migration
             $table->string('row_count');
             $table->string('column_count');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

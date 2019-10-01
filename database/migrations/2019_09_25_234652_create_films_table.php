@@ -15,13 +15,17 @@ class CreateFilmsTable extends Migration
     {
         Schema::create('films', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->string('tmdb_id');
             $table->string('imdb_id')->nullable();
             $table->string('slug');
             $table->string('category');
-            $table->string('title');
             $table->string('language');
-            $table->text('overview');
+            $table->json('title');
+            $table->json('overview');
+            $table->json('homepage');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
