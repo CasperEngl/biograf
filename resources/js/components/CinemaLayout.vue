@@ -75,8 +75,6 @@ export default {
   },
   data: (vm) => ({
     rows: vm.cinemaRows,
-    screenShadow: {},
-    screenWidth: 0,
     seatWidth: 0,
   }),
   methods: {
