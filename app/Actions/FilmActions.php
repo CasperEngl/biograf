@@ -92,6 +92,8 @@ class FilmActions
             // Save translations
             $film->save();
 
+            $film->delete();
+
             // Process images from TMDB which are then added to
             // the film with $this->downloadTmdbImages
             ProcessTmdbFilm::dispatch($film, $movie);
@@ -106,20 +108,10 @@ class FilmActions
         // Don't add images if images already exist in the collection
         if (! count($film->getMedia($mediaCollection))) {
             foreach ($images as $image) {
-                // Temp file name
-                $temp = tempnam(sys_get_temp_dir(), $mediaCollection);
-    
-                // Store the external image to the temp file location
-                $stored = file_put_contents($temp, fopen('http:' . tmdb_image()->getUrl($image), 'r'));
-    
-                // Stored successfully in the temp file location,
-                // we add the image to the media collection
-                if ($stored) {
-                    $film
-                        ->addMedia($temp) // Add the image file
-                        ->withResponsiveImages() // Create responsive images from file
-                        ->toMediaCollection($mediaCollection); // Add to the passed collection
-                }
+                $film
+                    ->addMediaFromUrl('http:' . tmdb_image()->getUrl($image)) // Add the image file
+                    ->withResponsiveImages() // Create responsive images from file
+                    ->toMediaCollection($mediaCollection); // Add to the passed collection
             }
         }
     }
