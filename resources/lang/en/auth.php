@@ -16,8 +16,9 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
-    'login.title' => 'Login',
-    'login.email' => 'Email',
+    'login.title' => 'Find your tickets',
+    'login.subtitle' => 'Enter your e-mail or phonenumber and your password to find your tickets.',
+    'login.email' => 'Email or phonenumber',
     'login.password' => 'Password',
     'login.remember' => 'Remember me',
     'login.submit' => 'Login',
@@ -26,6 +27,7 @@ return [
     'login.register' => 'Register here',
 
     'register.title' => 'Register',
+    'register.subtitle' => 'Sign up to store your tickets.',
     'register.name' => 'Name',
     'register.firstname' => 'First name',
     'register.lastname' => 'Last name',
