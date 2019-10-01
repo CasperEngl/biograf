@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Film;
 use Tmdb\Model\Movie;
 use Illuminate\Bus\Queueable;
-use App\Actions\Film as FilmActions;
+use App\Actions\FilmActions;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +37,12 @@ class ProcessTmdbFilm implements ShouldQueue
      */
     public function handle(FilmActions $filmActions)
     {
-        $filmActions->downloadTmdbImage($this->film, $this->movie->getPosterPath(), 'poster');
-        $filmActions->downloadTmdbImage($this->film, $this->movie->getBackdropPath(), 'backdrop');
+        $images = $filmActions->tmdb($this->film)->getImages();
+
+        $posters = collect($images->filterPosters()->toArray());
+        $backdrops = collect($images->filterBackdrops()->toArray());
+
+        $filmActions->downloadTmdbImages($this->film, $posters, 'poster');
+        $filmActions->downloadTmdbImages($this->film, $backdrops, 'backdrop');
     }
 }
