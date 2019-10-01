@@ -1,7 +1,7 @@
 <?php
 
 use App\Tmdb;
-use App\Actions\Film;
+use App\Actions\FilmActions;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -15,30 +15,64 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command(
+    'inspire',
+    function () {
+        $this->comment(Inspiring::quote());
+    }
+)->describe('Display an inspiring quote');
 
-Artisan::command('import:movies:popular', function (Tmdb $tmdb) {
-    $this->comment('Importing movies...');
+Artisan::command(
+    'import:movies:popular',
+    function (Tmdb $tmdb) {
+        $this->comment('Importing movies...');
 
-    $repo = $tmdb->repository();
-    $films = $repo->getPopular()->toArray();
+        $repo = $tmdb->repository();
+        $films = $repo->getPopular()->toArray();
 
-    (new Film)->importMany($films, 'popular');
+        (new FilmActions)->importMany($films, 'popular');
+        
+        $this->comment('Import finished.');
+    }
+)->describe('Import popular movies from TMDB');
 
-    $this->comment('Import finished.');
+Artisan::command(
+    'import:movies:now-playing',
+    function (Tmdb $tmdb) {
+        $this->comment('Importing movies...');
+        
+        $repo = $tmdb->repository();
+        $films = $repo->getNowPlaying()->toArray();
 
-})->describe('Import popular movies from TMDB');
+        (new FilmActions)->importMany($films, 'now-playing');
 
-Artisan::command('import:movies:now-playing', function (Tmdb $tmdb) {
-    $this->comment('Importing movies...');
+        $this->comment('Import finished.');
+    }
+)->describe('Import movies playing now from TMDB');
 
-    $repo = $tmdb->repository();
-    $films = $repo->getNowPlaying()->toArray();
+Artisan::command(
+    'import:movies:genres',
+    function (Tmdb $tmdb) {
+        $this->comment('Importing movie genres...');
 
-    (new Film)->importMany($films, 'now-playing');
+        $client = $tmdb->client();
+        $genres = (object) $client->getGenresApi()->getGenres();
+        $genres = collect($genres->genres);
 
-    $this->comment('Import finished.');
+        $genres
+            ->map(
+                function ($genre) {
+                    return (object) $genre;
+                }
+            )->each(
+                function ($genre) {
+                    App\Genre::updateOrCreate(
+                        ['tmdb_genre_id' => $genre->id],
+                        ['name' => $genre->name]
+                    );
+                }
+            );
 
-})->describe('Import popular movies from TMDB');
+        $this->comment('Import finished.');
+    }
+);
