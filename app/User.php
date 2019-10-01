@@ -7,13 +7,14 @@ use Spatie\Sluggable\SlugOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Notifiable, HasMediaTrait, HasSlug, HasRoles;
+    use Notifiable, HasMediaTrait, HasSlug, HasRoles, SoftDeletes;
 
     protected $guard_name = 'web';
 
