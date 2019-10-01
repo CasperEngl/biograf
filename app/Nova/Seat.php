@@ -82,7 +82,8 @@ class Seat extends Resource
 
             BelongsTo::make('Cinema')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->prepopulate(),
                 
             Select::make('Row')
                 ->options(self::ROW_IDS)
