@@ -2,21 +2,23 @@
 
 namespace App\Nova;
 
+use App\Nova\Film;
+use App\Nova\Cinema;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Cinema extends Resource
+class Genre extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\Cinema';
+    public static $model = 'App\Genre';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -33,14 +35,13 @@ class Cinema extends Resource
     public static $search = [
         'id',
         'name',
-        'row_count',
-        'column_count',
+        'tmdb_genre_id',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function fields(Request $request)
@@ -48,28 +49,21 @@ class Cinema extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Text::make('Name'),
 
-            Number::make('Rows', 'row_count')
-                ->sortable()
-                ->readonly(),
-                
-            Number::make('Columns', 'column_count')
-                ->sortable()
-                ->readonly(),
+            Number::make('TMDB ID', 'tmdb_genre_id'),
 
-            HasMany::make('Seats'),
-
-            MorphToMany::make('Genres'),
+            MorphTo::make('Genreable')->types([
+                Cinema::class,
+                Film::class,
+            ])->nullable(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function cards(Request $request)
@@ -80,7 +74,7 @@ class Cinema extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function filters(Request $request)
@@ -91,7 +85,7 @@ class Cinema extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function lenses(Request $request)
@@ -102,7 +96,7 @@ class Cinema extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function actions(Request $request)
