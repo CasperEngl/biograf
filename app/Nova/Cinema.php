@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Cinema extends Resource
@@ -62,7 +63,9 @@ class Cinema extends Resource
 
             HasMany::make('Seats'),
 
-            MorphToMany::make('Genres'),
+            MorphToMany::make('Genres')
+                ->searchable()
+                ->prepopulate(),
         ];
     }
 
