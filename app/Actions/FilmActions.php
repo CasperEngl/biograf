@@ -92,7 +92,7 @@ class FilmActions
             // Save translations
             $film->save();
 
-            $film->delete();
+            // $film->delete();
 
             // Process images from TMDB which are then added to
             // the film with $this->downloadTmdbImages

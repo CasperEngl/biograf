@@ -1,5 +1,6 @@
 id: 2474
 name: biograf
+separate-vendor: true
 environments:
     production:
         memory: 1024
@@ -8,6 +9,8 @@ environments:
             - 'composer install --no-dev --classmap-authoritative'
             - 'php artisan event:cache'
             - 'yarn && yarn check --verify-tree && yarn prod && rm -rf node_modules'
+        deploy:
+            - 'php artisan migrate --force'
     staging:
         memory: 1024
         cli-memory: 512
@@ -15,3 +18,5 @@ environments:
             - 'composer install --classmap-authoritative'
             - 'php artisan event:cache'
             - 'yarn && yarn check --verify-tree && yarn dev && rm -rf node_modules'
+        deploy:
+            - 'php artisan migrate --force'
