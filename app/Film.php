@@ -6,12 +6,16 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Film extends Model implements HasMedia
 {
-    use HasMediaTrait, HasSlug;
+    use HasMediaTrait, HasSlug, HasTranslations, SoftDeletes;
+
+    public $translatable = ['title', 'overview', 'homepage'];
     
     protected $fillable = [
         'tmdb_id',
@@ -65,6 +69,6 @@ class Film extends Model implements HasMedia
 
     public function genres()
     {
-        return $this->morphToMany(Genre::class, 'taggable');
+        return $this->morphToMany(Genre::class, 'genreable');
     }
 }
