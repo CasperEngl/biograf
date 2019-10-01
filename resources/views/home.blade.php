@@ -12,8 +12,8 @@
                     {{ Str::limit($featured->overview, 150) }}
                 </h3>
 
-                <a class="btn btn-primary" href="{{ route('film.show', ['film' => $featured]) }}">
-                    {{ trans('cinema.read-more') }}
+                <a class="btn btn-primary" href="{{ $featured->homepage }}">
+                    {{ trans('film.read-more') }}
                 </a>
             </div>
             <figure class="col w-1/2 max-w-md">
