@@ -25,7 +25,7 @@ class Genre extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -35,7 +35,6 @@ class Genre extends Resource
     public static $search = [
         'id',
         'name',
-        'tmdb_genre_id',
     ];
 
     /**
@@ -49,14 +48,14 @@ class Genre extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Name'),
+            Text::make('Name')->readonly(),
 
-            Number::make('TMDB ID', 'tmdb_genre_id'),
+            Number::make('TMDB ID', 'tmdb_genre_id')->readonly(),
 
             MorphTo::make('Genreable')->types([
                 Cinema::class,
                 Film::class,
-            ])->nullable(),
+            ]),
         ];
     }
 
