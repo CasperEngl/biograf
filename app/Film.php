@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Genre;
+use App\FilmCast;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\MediaLibrary\Models\Media;
@@ -29,6 +31,7 @@ class Film extends Model implements HasMedia
     protected $casts = [
         'tmdb_id' => 'integer',
         'imdb_id' => 'integer',
+        'colors' => 'collection',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -38,37 +41,46 @@ class Film extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('thumb')
-            ->withResponsiveImages()
-            ->width(150)
-            ->height(150);
-        
-        $this->addMediaConversion('small')
-            ->withResponsiveImages()
-            ->width(450)
-            ->height(450);
-        
-        $this->addMediaConversion('medium')
-            ->withResponsiveImages()
-            ->width(1024)
-            ->height(1024);
-        
-        $this->addMediaConversion('large')
-            ->withResponsiveImages()
-            ->width(2048)
-            ->height(2048);
-    }
-
     public function registerMediaCollections()
     {
         $this->addMediaCollection('poster');
         $this->addMediaCollection('backdrop');
     }
 
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this
+            ->addMediaConversion('thumb')
+            ->width(256)
+            ->height(256)
+            ->performOnCollections(['poster', 'backdrop']);
+        
+        $this
+            ->addMediaConversion('small')
+            ->width(512)
+            ->height(512)
+            ->performOnCollections(['poster', 'backdrop']);
+        
+        $this
+            ->addMediaConversion('medium')
+            ->width(1024)
+            ->height(1024)
+            ->performOnCollections(['poster', 'backdrop']);
+        
+        $this
+            ->addMediaConversion('large')
+            ->width(2048)
+            ->height(2048)
+            ->performOnCollections(['poster', 'backdrop']);
+    }
+
     public function genres()
     {
         return $this->morphToMany(Genre::class, 'genreable');
+    }
+
+    public function casts()
+    {
+        return $this->hasMany(FilmCast::class)->orderBy('order', 'asc');
     }
 }
