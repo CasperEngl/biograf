@@ -3,13 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     @routes
@@ -51,11 +48,10 @@
         <div class="fixed flex flex-col" style="bottom: 2rem; left: 2rem;">
             @include('partials.status-boxes')
         </div>
+
+        <portal-target name="modal"></portal-target>
     </div>
 
-    <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
-
-    @livewireAssets
 </body>
 </html>
