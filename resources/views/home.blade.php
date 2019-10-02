@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="py-32" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $featured->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;">
+<div class="py-32" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $featured->getFirstMediaUrl('backdrop') }}') no-repeat center center; background-size: cover;">
     <div class="container">
         <div class="row items-center justify-between">
             <div class="col w-1/2">
@@ -21,7 +21,7 @@
                     {{ Str::limit($featured->overview, 150) }}
                 </h3>
 
-                <a class="btn btn-primary" href="{{ $featured->homepage }}">
+                <a class="btn btn-primary" href="{{ route('film.show', ['film' => $featured]) }}">
                     {{ trans('film.read-more') }}
                 </a>
             </div>
