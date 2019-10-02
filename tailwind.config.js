@@ -15,6 +15,7 @@ const sizes = {
   20: '5rem',
   22: '5.5rem',
   24: '6rem',
+  25: '6.25rem',
   26: '6.5rem',
   28: '7rem',
   30: '7.5rem',
@@ -27,14 +28,33 @@ const sizes = {
   56: '14rem',
   60: '15rem',
   64: '16rem',
+  xs: '20rem',
+  sm: '24rem',
+  md: '28rem',
+  lg: '32rem',
+  xl: '36rem',
+  '2xl': '42rem',
+  '3xl': '48rem',
+  '4xl': '56rem',
+  '5xl': '64rem',
+  '6xl': '72rem',
 };
 
 module.exports = {
   theme: {
     container: {
       center: true,
+      padding: '1rem',
+    },
+    aspectRatio: { // defaults to {}
+      square: [1, 1],
+      '16/9': [16, 9],
+      '4/3': [4, 3],
+      '21/9': [21, 9],
+      '9/16': [9, 16],
     },
     extend: {
+      margin: sizes,
       width: {
         row: 'calc(100% + 1.5rem)',
         'row-tight': 'calc(100% + 0.5rem)',
@@ -45,6 +65,12 @@ module.exports = {
       minHeight: sizes,
     },
   },
-  variants: {},
-  plugins: [],
+  variants: {
+    aspectRatio: ['responsive'],
+    opacity: ['group-hover'],
+  },
+  plugins: [
+    require('tailwindcss-aspect-ratio')(),
+    require('tailwindcss-transitions')(),
+  ],
 };

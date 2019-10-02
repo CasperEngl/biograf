@@ -1,7 +1,10 @@
 const mix = require('laravel-mix');
 
+const atImport = require('postcss-import');
+
 require('laravel-mix-tailwind');
 require('laravel-mix-purgecss');
+require('laravel-mix-postcss-config');
 
 /*
  |--------------------------------------------------------------------------
@@ -17,6 +20,11 @@ require('laravel-mix-purgecss');
 mix
   .js('resources/js/app.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css')
+  .postCssConfig({
+    plugins: [
+      atImport(),
+    ],
+  })
   .tailwind('./tailwind.config.js');
 
 if (mix.inProduction()) {

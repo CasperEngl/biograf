@@ -1,3 +1,8 @@
+@import '@fortawesome/fontawesome-free/css/fontawesome.css';
+@import '@fortawesome/fontawesome-free/css/regular.css';
+@import '@fortawesome/fontawesome-free/css/solid.css';
+@import '@fortawesome/fontawesome-free/css/brands.css';
+
 @tailwind base;
 @tailwind components;
 
@@ -40,7 +45,7 @@ select.field {
 }
 
 .btn {
-  @apply py-2 px-4 inline-block rounded text-gray-700 font-bold;
+  @apply py-2 px-5 inline-block rounded text-gray-700 font-bold;
 }
 
 .btn:focus {
@@ -53,6 +58,14 @@ select.field {
 
 .btn.btn-primary:hover {
   @apply bg-red-600;
+}
+
+.btn.btn-ghost {
+  @apply inline-flex items-center border-2 rounded-full;
+}
+
+.btn.btn-lg {
+  @apply py-4 px-10 text-xl;
 }
 
 .tag {
