@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d3090237f7aec1f5c96793700e0d1d5",
+    "content-hash": "326a6a7629cce43dc23c65b8dd377127",
     "packages": [
         {
             "name": "alexbowers/nova-prepopulate-searchable",
@@ -138,62 +138,6 @@
                 "sdk"
             ],
             "time": "2019-09-30T18:45:33+00:00"
-        },
-        {
-            "name": "brianmcdo/image-palette",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brianmcdo/ImagePalette.git",
-                "reference": "d48d828c33a438d8fbeed3f76534ad1db853bb9f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/brianmcdo/ImagePalette/zipball/d48d828c33a438d8fbeed3f76534ad1db853bb9f",
-                "reference": "d48d828c33a438d8fbeed3f76534ad1db853bb9f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": ">=5.4.0"
-            },
-            "replace": {
-                "bfoxwell/image-palette": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BrianMcdo\\ImagePalette\\": "src/BrianMcdo/ImagePalette"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian McDonald",
-                    "email": "brian@brianmcdonald.io",
-                    "homepage": "http://brianmcdonald.io",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Gandalf the Grey",
-                    "homepage": "https://github.com/gandalfx",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Extracts colors from an image and generates a color palette against a whitelist of colors.",
-            "homepage": "https://github.com/BrianMcdo/ImagePalette",
-            "keywords": [
-                "color",
-                "extractor",
-                "gd",
-                "image",
-                "laravel",
-                "palette"
-            ],
-            "time": "2015-10-25T01:38:04+00:00"
         },
         {
             "name": "cakephp/chronos",
