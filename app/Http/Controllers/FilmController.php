@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Film;
+use App\Actions\FilmActions;
 use Illuminate\Http\Request;
 
 class FilmController extends Controller
@@ -19,6 +20,8 @@ class FilmController extends Controller
 
     public function show(Request $request)
     {
-        return $this->film->find($request->film);
+        $film = $this->film->findOrFail($request->film);
+
+        return view('film.show', compact('film'));
     }
 }
