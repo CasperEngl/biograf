@@ -23,7 +23,7 @@ class Media extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'file_name';
 
     /**
      * The columns that should be searched.
