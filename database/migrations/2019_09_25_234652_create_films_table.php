@@ -21,9 +21,10 @@ class CreateFilmsTable extends Migration
             $table->string('slug');
             $table->string('category');
             $table->string('language');
+            $table->json('colors')->nullable();
+            $table->json('homepage')->nullable();
             $table->json('title');
             $table->json('overview');
-            $table->json('homepage');
 
             $table->softDeletes();
             $table->timestamps();
