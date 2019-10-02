@@ -4,9 +4,14 @@ namespace App\Actions;
 
 use App\Film;
 use App\Genre;
+use App\FilmCast;
 use App\Actions\FilmActions;
 use App\Jobs\ProcessTmdbFilm;
+use App\Jobs\ProcessFilmPoster;
+use League\ColorExtractor\Color;
 use Illuminate\Support\Collection;
+use League\ColorExtractor\Palette;
+use League\ColorExtractor\ColorExtractor;
 
 class FilmActions
 {
@@ -33,7 +38,7 @@ class FilmActions
                     'title' => $movie->getTitle(),
                     'language' => $movie->getOriginalLanguage(),
                     'overview' => $movie->getOverview(),
-                    'homepage' => $movie->getHomepage(),
+                    'homepage' => $movie->getHomepage() ?? 'https://themoviedb.org',
                 ],
             );
 
@@ -68,7 +73,7 @@ class FilmActions
                             'homepage',
                             $translation->getIso6391(),
                             empty($data->homepage)
-                                ? $movie->getHomepage()
+                                ? $movie->getHomepage() ?? 'https://themoviedb.org'
                                 : $data->homepage
                         );
                     }
@@ -88,11 +93,36 @@ class FilmActions
                         $film->genres()->attach($genre);
                     }
                 );
+            
+            collect((new FilmActions)->tmdb($film)->getCredits()->getCast())
+                ->each(
+                    function ($cast) use ($film) {
+                        $filmcast = FilmCast::updateOrCreate(
+                            [
+                                'film_id' => $film->id,
+                                'tmdb_credit_id' => $cast->getCreditId(),
+                                'tmdb_cast_id' => $cast->getCastId(),
+                                'tmdb_id' => $cast->getId(),
+                            ],
+                            [
+                                'character' => $cast->getCharacter(),
+                                'name' => $cast->getName(),
+                                'order' => $cast->getOrder(),
+                            ],
+                        );
+
+                        if ($cast->getProfilePath()) {
+                            $filmcast
+                                ->addMediaFromUrl('http:' . tmdb_image()->getUrl($cast->getProfilePath()))
+                                ->toMediaCollection('profile');
+                        }
+
+                        $film->casts()->save($filmcast);
+                    }
+                );
 
             // Save translations
             $film->save();
-
-            // $film->delete();
 
             // Process images from TMDB which are then added to
             // the film with $this->downloadTmdbImages
@@ -110,14 +140,26 @@ class FilmActions
             foreach ($images as $image) {
                 $film
                     ->addMediaFromUrl('http:' . tmdb_image()->getUrl($image)) // Add the image file
-                    ->withResponsiveImages() // Create responsive images from file
                     ->toMediaCollection($mediaCollection); // Add to the passed collection
             }
+
+            ProcessFilmPoster::dispatch($film)->delay(
+                now()->addMinutes(2)
+            );
         }
     }
 
     public function tmdb(Film $film)
     {
         return tmdb_repo()->load($film->tmdb_id);
+    }
+
+    public function trailerKey(Film $film)
+    {
+        $trailers = tmdb_repo()->load($film->tmdb_id)->getVideos()->toArray();
+
+        $key = collect($trailers)->first()->getKey();
+
+        return $key;
     }
 }
