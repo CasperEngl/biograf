@@ -1,9 +1,4 @@
 /node_modules
-/public/hot
-/public/css
-/public/js
-/public/storage
-/public/images
 /storage/*.key
 /storage/medialibrary/*
 /resources/js/svg.js
