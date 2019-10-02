@@ -3,6 +3,7 @@
 use App\Tmdb;
 use App\Actions\FilmActions;
 use Illuminate\Foundation\Inspiring;
+use Spatie\MediaLibrary\Models\Media;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Artisan::command(
         $repo = $tmdb->repository();
         $films = $repo->getPopular()->toArray();
 
+        $films = collect($films)->slice(0, 5)->all();
+
         (new FilmActions)->importMany($films, 'popular');
         
         $this->comment('Import finished.');
@@ -44,6 +47,8 @@ Artisan::command(
         $repo = $tmdb->repository();
         $films = $repo->getNowPlaying()->toArray();
 
+        $films = collect($films)->slice(0, 5)->all();
+
         (new FilmActions)->importMany($films, 'now-playing');
 
         $this->comment('Import finished.');
@@ -55,7 +60,7 @@ Artisan::command(
     function (Tmdb $tmdb) {
         $this->comment('Importing movie genres...');
 
-        $client = $tmdb->client();
+        $client = $tmdb->client;
         $genres = (object) $client->getGenresApi()->getGenres();
         $genres = collect($genres->genres);
 
@@ -74,5 +79,41 @@ Artisan::command(
             );
 
         $this->comment('Import finished.');
+    }
+);
+
+Artisan::command(
+    'movies:data',
+    function (Tmdb $tmdb) {
+        $this->comment('Getting movies data...');
+
+        $repo = $tmdb->repository();
+        $films = $repo->getPopular()->toArray();
+
+        dd($films);
+        
+        $this->comment('Finished.');
+    }
+)->describe('Get movie data from TMDB');
+
+Artisan::command(
+    'medialibrary:removeall',
+    function (Media $media) {
+        try {
+            $this->comment('Starting to remove all files');
+
+            $media->all()->each(function ($med) {
+                $this->comment(
+                    'Deleting ' . $med->id . ' ' . $med->file_name . ' (' . $med->model_type . '<' . $med->collection_name . '>)'
+                );
+
+                $med->forceDelete();
+            });
+
+            $this->comment('All files removed successfully');
+        } catch (Exception $e) {
+            $this->comment('Something went wrong.');
+            dd($e);
+        }
     }
 );
