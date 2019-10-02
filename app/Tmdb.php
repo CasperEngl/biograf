@@ -4,11 +4,24 @@ namespace App;
 
 use Tmdb\Client;
 use Tmdb\ApiToken;
+use Tmdb\Helper\ImageHelper;
 use Tmdb\Repository\MovieRepository;
 use Tmdb\Repository\ConfigurationRepository;
 
+/**
+ * Helper class for TMDB
+ *
+ * The class takes in TMDB_API_KEY from env and exposes client,
+ * movie repository and image helper from TMDB's API.
+ */
 class Tmdb
 {
+    public $client;
+
+    private $apiToken;
+
+    private $config;
+
     public function __construct()
     {
         $this->apiToken = new ApiToken(env('TMDB_API_KEY'));
@@ -19,11 +32,6 @@ class Tmdb
         $this->config = $configRepository->load();
     }
 
-    public function client()
-    {
-        return $this->client;
-    }
-
     public function repository()
     {
         return new MovieRepository($this->client);
@@ -31,6 +39,6 @@ class Tmdb
 
     public function imageHelper()
     {
-        return new \Tmdb\Helper\ImageHelper($this->config);
+        return new ImageHelper($this->config);
     }
 }
