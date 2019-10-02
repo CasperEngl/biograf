@@ -26,6 +26,7 @@
         "import/no-extraneous-dependencies": 0,
         "quotes": [2, "single", { "avoidEscape": true }],
         "no-plusplus": 0,
-        "max-len": 0
+        "max-len": 0,
+        "global-require": 0
     }
 }
