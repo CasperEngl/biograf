@@ -104,7 +104,16 @@ Artisan::command(
 
             $media->all()->each(function ($med) {
                 $this->comment(
-                    'Deleting ' . $med->id . ' ' . $med->file_name . ' (' . $med->model_type . '<' . $med->collection_name . '>)'
+                    'Deleting '
+                    . $med->id
+                    . ' '
+                    . $med->file_name
+                    . ' ('
+                    . $med->model_type
+                    . '<'
+                    . $med->collection_name
+                    . '>'
+                    . ')'
                 );
 
                 $med->forceDelete();
