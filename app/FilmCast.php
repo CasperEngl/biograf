@@ -22,8 +22,7 @@ class FilmCast extends Model implements HasMedia
     {
         $this
             ->addMediaConversion('thumb')
-            ->crop(Manipulations::CROP_CENTER, 100, 100)
-            ->performOnCollections(['profile']);
+            ->crop(Manipulations::CROP_CENTER, 100, 100);
     }
     
     public function film()
