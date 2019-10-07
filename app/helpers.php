@@ -72,16 +72,17 @@ if (! function_exists('console_log')) {
 
 if (! function_exists('getNearestTimeRoundedUpWithMinimum')) {
     /**
-     * 
+     *
      * @param \Carbon\Carbon $now
      * @param int $nearestMin
      * @param int $minimumMinutes
      * @return \Carbon\Carbon
      */
-    function getNearestTimeRoundedUpWithMinimum($now, $nearestMin = 30, $minimumMinutes = 8) {
+    function getNearestTimeRoundedUpWithMinimum($now, $nearestMin = 30, $minimumMinutes = 8)
+    {
         $nearestSec = $nearestMin * 60;
         $minimumMoment = $now->addMinutes($minimumMinutes);
-        $futureTimestamp = ceil($minimumMoment->timestamp / $nearestSec) * $nearestSec; 
+        $futureTimestamp = ceil($minimumMoment->timestamp / $nearestSec) * $nearestSec;
         $futureMoment = \Carbon\Carbon::createFromTimestamp($futureTimestamp);
         return $futureMoment->startOfMinute();
     }
