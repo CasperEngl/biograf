@@ -3,6 +3,7 @@
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\ShowingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +18,19 @@ use App\Http\Controllers\CinemaController;
 
 Auth::routes();
 
-Route::get('/test', function (App\Tmdb $tmdb) {
-  
-});
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('cinema')->group(function () {
-  Route::get('/', [CinemaController::class, 'index'])->name('cinema.index');
-  Route::get('/{cinema}', [CinemaController::class, 'edit'])->name('cinema.edit');
+    Route::get('/', [CinemaController::class, 'index'])->name('cinema.index');
+    Route::get('/{cinema}', [CinemaController::class, 'edit'])->name('cinema.edit');
 });
 
 Route::prefix('film')->group(function () {
-  Route::get('/', [FilmController::class, 'index'])->name('film.index');
-  Route::get('/{film}', [FilmController::class, 'show'])->name('film.show');
+    Route::get('/', [FilmController::class, 'index'])->name('film.index');
+    Route::get('/{film}', [FilmController::class, 'show'])->name('film.show');
+});
+
+Route::prefix('visninger')->group(function () {
+    Route::get('/{date}', [ShowingController::class, 'index'])->name('showing.index');
+    Route::get('/{date}/{showing}', [ShowingController::class, 'show'])->name('showing.show');
 });

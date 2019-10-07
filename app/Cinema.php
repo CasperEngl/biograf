@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Showing;
 use App\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,5 +35,10 @@ class Cinema extends Model
     public function genres()
     {
         return $this->morphToMany(Genre::class, 'genreable');
+    }
+
+    public function showings()
+    {
+        return $this->belongsToMany(Showing::class);
     }
 }
