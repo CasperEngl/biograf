@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Genre;
+use App\Showing;
 use App\FilmCast;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -52,26 +53,22 @@ class Film extends Model implements HasMedia
         $this
             ->addMediaConversion('thumb')
             ->width(256)
-            ->height(256)
-            ->performOnCollections(['poster', 'backdrop']);
+            ->height(256);
         
         $this
             ->addMediaConversion('small')
             ->width(512)
-            ->height(512)
-            ->performOnCollections(['poster', 'backdrop']);
+            ->height(512);
         
         $this
             ->addMediaConversion('medium')
             ->width(1024)
-            ->height(1024)
-            ->performOnCollections(['poster', 'backdrop']);
+            ->height(1024);
         
         $this
             ->addMediaConversion('large')
             ->width(2048)
-            ->height(2048)
-            ->performOnCollections(['poster', 'backdrop']);
+            ->height(2048);
     }
 
     public function genres()
@@ -82,5 +79,17 @@ class Film extends Model implements HasMedia
     public function casts()
     {
         return $this->hasMany(FilmCast::class)->orderBy('order', 'asc');
+    }
+
+    public function showings()
+    {
+        return $this->hasMany(Showing::class);
+    }
+
+    public function todaysShowings()
+    {
+        return collect($this->showings)->filter(function ($showing) {
+            return $showing->start->startOfDay()->eq(now()->startOfDay());
+        });
     }
 }
