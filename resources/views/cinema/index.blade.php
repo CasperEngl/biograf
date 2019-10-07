@@ -14,7 +14,7 @@
             <h2 class="text-2xl mb-2">{{ $cinema->name }}</h2>
             <p class="text-gray-600 mb-2">{{ trans('cinema.seat.count') }} {{ count($cinema->seats) }}</p>
             <cinema-layout class="mb-4" cinema-name="{{ $cinema->name }}" :cinema-rows="{{ json_encode((new \App\Actions\CinemaActions)->rows($cinema)) }}"></cinema-layout>
-            <a href="{{ route('cinema.edit', ['cinema' => $cinema]) }}" class="btn btn-primary">{{ trans('cinema.edit') }}</a>
+            <a href="{{ route('cinema.edit', compact('cinema')) }}" class="btn btn-primary">{{ trans('cinema.edit') }}</a>
           </div>
         </div>
       @empty
