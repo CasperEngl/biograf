@@ -1,6 +1,8 @@
 const mix = require('laravel-mix');
 
 const atImport = require('postcss-import');
+// const colorFunction = require('postcss-color-function');
+// const colorModFunction = require('postcss-color-mod-function');
 
 require('laravel-mix-tailwind');
 require('laravel-mix-purgecss');
@@ -23,6 +25,8 @@ mix
   .postCssConfig({
     plugins: [
       atImport(),
+      // colorFunction({ preserveCustomProps: true }),
+      // colorModFunction(),
     ],
   })
   .tailwind('./tailwind.config.js');

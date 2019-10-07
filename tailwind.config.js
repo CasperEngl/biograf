@@ -38,6 +38,8 @@ const sizes = {
   '4xl': '56rem',
   '5xl': '64rem',
   '6xl': '72rem',
+  '8xl': '96rem',
+  '10xl': '120rem',
 };
 
 module.exports = {
@@ -52,6 +54,21 @@ module.exports = {
       '4/3': [4, 3],
       '21/9': [21, 9],
       '9/16': [9, 16],
+    },
+    filter: {
+      none: 'none',
+      grayscale: 'grayscale(1)',
+      invert: 'invert(1)',
+      sepia: 'sepia(1)',
+    },
+    backdropFilter: {
+      none: 'none',
+      'blur-5': 'blur(5px)',
+      'blur-10': 'blur(10px)',
+      'blur-15': 'blur(15px)',
+      'blur-20': 'blur(20px)',
+      'blur-25': 'blur(25px)',
+      'blur-30': 'blur(30px)',
     },
     extend: {
       margin: sizes,
@@ -68,9 +85,29 @@ module.exports = {
   variants: {
     aspectRatio: ['responsive'],
     opacity: ['group-hover'],
+    textColor: ['responsive', 'hover', 'focus', 'visited', 'group-hover'],
   },
   plugins: [
     require('tailwindcss-aspect-ratio')(),
     require('tailwindcss-transitions')(),
+    require('tailwindcss-filters')(),
+    require('tailwindcss-alpha')({
+      modules: {
+        colors: true,
+      },
+      alpha: {
+        0: 0,
+        10: 0.1,
+        20: 0.2,
+        30: 0.3,
+        40: 0.4,
+        50: 0.5,
+        60: 0.6,
+        70: 0.7,
+        80: 0.8,
+        90: 0.9,
+        100: 1,
+      },
+    }),
   ],
 };
