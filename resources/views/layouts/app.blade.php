@@ -13,7 +13,7 @@
 </head>
 <body class="bg-gray-900 text-white h-screen antialiased leading-none">
     <div id="app">
-        <nav class="fixed w-full py-6">
+        <nav class="z-50 fixed w-full py-6" style="background: rgba(0,0,0,0.75);">
             <div class="container mx-auto px-6 md:px-0">
                 <div class="flex items-center justify-center">
                     <div class="mr-6">
