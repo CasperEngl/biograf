@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="py-32 border-b-2 border-gray-800" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $film->getFirstMediaUrl('backdrop') }}') no-repeat center center; background-size: cover; border-color: {{ $film->colors->get(0) }};">
+<div class="py-32 border-b-2 border-gray-800" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $film->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover; border-color: {{ optional($film->colors)->get(0) }};">
   <div class="container">
     <div class="row items-center justify-center md:justify-between">
       <div class="col flex-1">
@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col md:w-1/2 max-w-md">
-        <play-trailer video-key="{{ (new FilmActions)->trailerKey($film) }}" title="{{ $film->title }}" poster="{{ $film->getFirstMediaUrl('poster') }}" class="border-2 border-gray-800" style="border-color: {{ $film->colors->get(0) }};"></play-trailer>
+        <play-trailer video-key="{{ (new App\Actions\FilmActions)->trailerKey($film) }}" title="{{ $film->title }}" poster="{{ $film->getFirstMediaUrl('poster', 'medium') }}" background="{{ optional($film->colors)->get(0) }}" class="border-2 border-gray-800" style="border-color: {{ optional($film->colors)->get(0) }};"></play-trailer>
       </div>
     </div>
   </div>
@@ -22,11 +22,11 @@
   <div class="w-20 h-20" style="background: {{ $color }}"></div>
   @endforeach
 @endif --}}
-<div class="container">
-  <div class="mt-48 md:-mt-32">
+<div class="container mb-32">
+  <div class="mt-48 md:-mt-24">
     <div class="row">
       <div class="col flex-1">
-        <div class="p-10 bg-gray-800 shadow-lg">
+        <div class="p-10 bg-gray-800 shadow-lg h-full" style="">
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.premiere') }}</h3>
             <h3 class="text-xl text-white">{{ $film->title }}</h3>
@@ -34,7 +34,6 @@
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.director') }}</h3>
             <h3 class="text-xl text-white">{{ $film->title }}</h3>
-            
           </div>
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.genre') }}</h3>
@@ -66,31 +65,25 @@
           </div>
         </div>
       </div>
-      <div class="mt-25 col md:w-1/2 max-w-md inline-flex justify-between items-start">
+      <div class="col md:w-1/2 max-w-md inline-flex flex-col justify-between items-start">
         <div class="row-tight">
           <div class="col w-1/2">
-            @if (App\Film::where('id', '<', $film->id)->max('id'))
-              <a href="{{ route('film.show', ['film' => App\Film::where('id', '<', $film->id)->max('id')]) }}" class="w-full btn btn-primary btn-lg text-center" style="background: {{ $film->colors->get(0) }}; color: {{ $film->colors->get(2) }};">{{ trans('film.previous') }}</a>
-            @else
-              <div></div>
+            @if (App\Film::where('id', '<', $film->id)->max('id')) {{-- Only show if there is a previous film --}}
+              <a href="{{ route('film.show', ['film' => App\Film::where('id', '<', $film->id)->max('id')]) }}" class="w-full btn btn-primary btn-lg rounded-none text-center shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('film.previous') }}</a>
             @endif
           </div>
           <div class="col w-1/2">
-            @if (App\Film::where('id', '>', $film->id)->min('id'))
-              <a href="{{ route('film.show', ['film' => App\Film::where('id', '>', $film->id)->min('id')]) }}" class="w-full btn btn-primary btn-lg text-center" style="background: {{ $film->colors->get(0) }}; color: {{ $film->colors->get(2) }};">{{ trans('film.next') }}</a>
-            @else
-              <div></div>
+            @if (App\Film::where('id', '>', $film->id)->min('id')) {{-- Only show if there is a next film --}}
+              <a href="{{ route('film.show', ['film' => App\Film::where('id', '>', $film->id)->min('id')]) }}" class="w-full btn btn-primary btn-lg rounded-none text-center shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('film.next') }}</a>
             @endif
           </div>
         </div>
+        <div class="p-10 mt-8 h-full bg-gray-800 shadow-lg">
+          <h2 class="mb-4 text-3xl uppercase font-black text-gray-500">{{ trans('film.overview') }}</h2>
+          <p class="text-2xl text-gray-200 leading-normal">{{ $film->overview }}</p>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="container mt-8 md:mt-24 mb-64">
-  <div class="p-10 bg-gray-800 shadow-lg">
-    <h2 class="mb-4 text-3xl uppercase font-black text-gray-500">{{ trans('film.overview') }}</h2>
-    <p class="text-2xl text-gray-200 leading-normal">{{ $film->overview }}</p>
   </div>
 </div>
 @endsection
