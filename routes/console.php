@@ -31,7 +31,7 @@ Artisan::command(
         $repo = $tmdb->repository();
         $films = $repo->getPopular()->toArray();
 
-        $films = collect($films)->slice(0, 5)->all();
+        $films = collect($films)/* ->slice(0, 5) */->all();
 
         (new FilmActions)->importMany($films, 'popular');
         
@@ -47,7 +47,7 @@ Artisan::command(
         $repo = $tmdb->repository();
         $films = $repo->getNowPlaying()->toArray();
 
-        $films = collect($films)->slice(0, 5)->all();
+        $films = collect($films)/* ->slice(0, 5) */->all();
 
         (new FilmActions)->importMany($films, 'now-playing');
 
