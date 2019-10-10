@@ -13,10 +13,23 @@ class Showing extends Model
 
     protected $casts = [
         'price' => 'integer',
-        'date' => 'datetime:Y-m-d',
-        'start' => 'datetime:Y-m-d',
-        'end' => 'datetime:Y-m-d',
     ];
+
+    protected $dates = [
+        'date',
+        'start',
+        'end',
+    ];
+
+    public function getStartTimeAttribute()
+    {
+        return $this->start->toLocaleString();
+    }
+    
+    public function getEndTimeAttribute()
+    {
+        return $this->end->toLocaleString();
+    }
 
     public function cinema()
     {
@@ -26,10 +39,5 @@ class Showing extends Model
     public function film()
     {
         return $this->belongsTo(Film::class);
-    }
-
-    public function getStartTimeAttribute()
-    {
-        return \Carbon\Carbon::instance($this->start)->toLocaleString();
     }
 }
