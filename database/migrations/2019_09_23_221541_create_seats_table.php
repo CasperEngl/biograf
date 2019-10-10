@@ -23,6 +23,12 @@ class CreateSeatsTable extends Migration
 
             $table->softDeletes();
             $table->timestamps();
+
+            $table
+                ->foreign('cinema_id')
+                ->references('id')
+                ->on('cinemas')
+                ->onDelete('cascade');
         });
     }
 

@@ -16,17 +16,30 @@ class CreateShowingsTable extends Migration
         Schema::create('showings', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('cinema_id');
-            $table->bigInteger('film_id');
+            $table->bigInteger('cinema_id')->unsigned();
+            $table->bigInteger('film_id')->unsigned();
+            
             $table->string('price');
+            $table->string('version');
 
             $table->date('date');
             $table->dateTimeTz('start');
             $table->dateTimeTz('end');
 
-
             $table->softDeletes();
             $table->timestamps();
+
+            $table
+                ->foreign('cinema_id')
+                ->references('id')
+                ->on('cinemas')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('film_id')
+                ->references('id')
+                ->on('films')
+                ->onDelete('cascade');
         });
     }
 

@@ -16,8 +16,8 @@ class CreateFilmCrewsTable extends Migration
         Schema::create('film_crews', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('film_id');
-            $table->bigInteger('contributor_id');
+            $table->bigInteger('film_id')->unsigned();
+            $table->bigInteger('contributor_id')->unsigned();
 
             $table->string('tmdb_credit_id');
             $table->string('department');
@@ -25,6 +25,18 @@ class CreateFilmCrewsTable extends Migration
             $table->string('order');
             
             $table->timestamps();
+
+            $table
+                ->foreign('film_id')
+                ->references('id')
+                ->on('films')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('contributor_id')
+                ->references('id')
+                ->on('contributors')
+                ->onDelete('cascade');
         });
     }
 
