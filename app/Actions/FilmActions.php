@@ -5,9 +5,12 @@ namespace App\Actions;
 use App\Film;
 use App\Genre;
 use App\FilmCast;
+use App\FilmCrew;
+use App\Contributor;
 use App\Actions\FilmActions;
 use App\Jobs\ProcessTmdbFilm;
 use App\Jobs\ProcessFilmPoster;
+use App\Jobs\ProcessContributor;
 use League\ColorExtractor\Color;
 use Illuminate\Support\Collection;
 use League\ColorExtractor\Palette;
@@ -15,119 +18,52 @@ use League\ColorExtractor\ColorExtractor;
 
 class FilmActions
 {
-    public function importMany(array $movies, string $category)
+    public function import($movie, string $category)
     {
-        foreach ($movies as $movie) {
-            // Only echo the title of the movie if it has not been imported before
-            if (! Film::where(
-                'title->en',
-                $movie->getTitle()
-            )->get()->count()) {
-                echo $movie->getTitle();
-                echo "\n";
-            }
+        echo $movie->getTitle();
+        echo "\n";
 
-            // All TMDB movie data must be accessed with getters
-            $film = Film::updateOrCreate(
-                [
-                    'tmdb_id' => $movie->getId(),
-                    'category' => $category,
-                ],
-                [
-                    'imdb_id' => $movie->getImdbId(),
-                    'title' => $movie->getTitle(),
-                    'language' => $movie->getOriginalLanguage(),
-                    'overview' => $movie->getOverview(),
-                    'homepage' => $movie->getHomepage() ?? 'https://themoviedb.org',
-                ],
-            );
+        // All TMDB movie data must be accessed with getters
+        $film = Film::updateOrCreate(
+            [
+                'tmdb_id' => $movie->getId(),
+                'category' => $category,
+            ],
+            [
+                'runtime' => $movie->getRuntime(),
+                'imdb_id' => $movie->getImdbId(),
+                'title' => $movie->getTitle(),
+                'language' => $movie->getOriginalLanguage(),
+                'overview' => $movie->getOverview(),
+                'homepage' => $movie->getHomepage() ?? 'https://themoviedb.org',
+            ],
+        );
 
-            // Make sure the original language title exists
-            $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
+        // Make sure the original language title exists
+        $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
 
-            // Go over each translation and add them to the film
-            collect((new FilmActions)->tmdb($film)->getTranslations())
-                ->each(
-                    function ($translation) use ($film, $movie) {
-                        // Data is array form, so we cast it to object
-                        // for readability with our other code
-                        $data = (object) $translation->getData();
+        echo '  Adding translations';
+        echo "\n";
+        $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations()));
+        
+        echo '  Adding genres';
+        echo "\n";
+        $this->addGenres($film, collect($this->tmdb($film)->getGenres()));
+        
+        echo '  Adding cast';
+        echo "\n";
+        $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast()));
+        
+        echo '  Adding crew';
+        echo "\n";
+        $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew()));
 
-                        // Set title, overview and homepage according
-                        // to translation entries
-                        $film->setTranslation(
-                            'title',
-                            $translation->getIso6391(),
-                            empty($data->title)
-                                ? $movie->getTitle()
-                                : $data->title
-                        );
-                        $film->setTranslation(
-                            'overview',
-                            $translation->getIso6391(),
-                            empty($data->overview)
-                                ? $movie->getOverview()
-                                : $data->overview
-                        );
-                        $film->setTranslation(
-                            'homepage',
-                            $translation->getIso6391(),
-                            empty($data->homepage)
-                                ? $movie->getHomepage() ?? 'https://themoviedb.org'
-                                : $data->homepage
-                        );
-                    }
-                );
+        // Save translations
+        $film->save();
 
-            // Go over each genre and add them to the film
-            collect((new FilmActions)->tmdb($film)->getGenres())
-                ->each(
-                    function ($genre) use ($film) {
-                        // Find the genre in database from genre id
-                        $genre = Genre::where(
-                            'tmdb_genre_id',
-                            $genre->getId()
-                        )->firstOrFail(); // Get the first match
-    
-                        // Attach the genre found in database to film genres
-                        $film->genres()->attach($genre);
-                    }
-                );
-            
-            collect((new FilmActions)->tmdb($film)->getCredits()->getCast())
-                ->each(
-                    function ($cast) use ($film) {
-                        $filmcast = FilmCast::updateOrCreate(
-                            [
-                                'film_id' => $film->id,
-                                'tmdb_credit_id' => $cast->getCreditId(),
-                                'tmdb_cast_id' => $cast->getCastId(),
-                                'tmdb_id' => $cast->getId(),
-                            ],
-                            [
-                                'character' => $cast->getCharacter(),
-                                'name' => $cast->getName(),
-                                'order' => $cast->getOrder(),
-                            ],
-                        );
-
-                        if ($cast->getProfilePath()) {
-                            $filmcast
-                                ->addMediaFromUrl('http:' . tmdb_image()->getUrl($cast->getProfilePath()))
-                                ->toMediaCollection('profile');
-                        }
-
-                        $film->casts()->save($filmcast);
-                    }
-                );
-
-            // Save translations
-            $film->save();
-
-            // Process images from TMDB which are then added to
-            // the film with $this->downloadTmdbImages
-            ProcessTmdbFilm::dispatch($film, $movie);
-        }
+        // Process images from TMDB which are then added to
+        // the film with $this->downloadTmdbImages
+        ProcessTmdbFilm::dispatch($film, $movie);
     }
 
     public function downloadTmdbImages(
@@ -158,8 +94,144 @@ class FilmActions
     {
         $trailers = tmdb_repo()->load($film->tmdb_id)->getVideos()->toArray();
 
-        $key = collect($trailers)->first()->getKey();
+        if (collect($trailers)->first()) {
+            return collect($trailers)->first()->getKey();
+        }
 
-        return $key;
+        return null;
+    }
+
+    public function addTranslations(Film $film, $movie, Collection $translations)
+    {
+        $translations->each(
+            function ($translation) use ($film, $movie) {
+                // Data is array form, so we cast it to object
+                // for readability with our other code
+                $data = (object) $translation->getData();
+
+                // Set title, overview and homepage according
+                // to translation entries
+                $film->setTranslation(
+                    'title',
+                    $translation->getIso6391(),
+                    empty($data->title)
+                        ? $movie->getTitle()
+                        : $data->title
+                );
+                $film->setTranslation(
+                    'overview',
+                    $translation->getIso6391(),
+                    empty($data->overview)
+                        ? $movie->getOverview()
+                        : $data->overview
+                );
+                $film->setTranslation(
+                    'homepage',
+                    $translation->getIso6391(),
+                    empty($data->homepage)
+                        ? $movie->getHomepage() ?? 'https://themoviedb.org'
+                        : $data->homepage
+                );
+            }
+        );
+    }
+
+    public function addGenres(Film $film, Collection $genres)
+    {
+        $genres->each(
+            function ($genre) use ($film) {
+                // Find the genre in database from genre id
+                $genre = Genre::where(
+                    'tmdb_genre_id',
+                    $genre->getId()
+                )->firstOrFail(); // Get the first match
+
+                // Attach the genre found in database to film genres
+                $film->genres()->attach($genre);
+            }
+        );
+    }
+
+    public function addCast(Film $film, Collection $casts)
+    {
+        $casts->each(
+            function ($cast) use ($film) {
+                $contributor = Contributor::updateOrCreate(
+                    [
+                        'tmdb_id' => $cast->getId(),
+                    ],
+                    [
+                        'name' => $cast->getName(),
+                    ],
+                );
+
+                $filmcast = FilmCast::updateOrCreate(
+                    [
+                        'tmdb_credit_id' => $cast->getCreditId(),
+                    ],
+                    [
+                        'film_id' => $film->id,
+                        'contributor_id' => $contributor->id,
+                        'tmdb_cast_id' => $cast->getCastId(),
+                        'character' => $cast->getCharacter(),
+                        'order' => $cast->getOrder(),
+                    ],
+                );
+
+                $contributor->filmCasts()->save($filmcast);
+                $film->casts()->save($filmcast);
+                
+                ProcessContributor::dispatch($cast, $contributor, $filmcast);
+            }
+        );
+    }
+
+    public function addCrew(Film $film, Collection $crews)
+    {
+        $crews->each(
+            function ($crew) use ($film) {
+                $contributor = Contributor::updateOrCreate(
+                    [
+                        'tmdb_id' => $crew->getId(),
+                    ],
+                    [
+                        'name' => $crew->getName(),
+                    ],
+                );
+
+                $filmcrew = FilmCrew::updateOrCreate(
+                    [
+                        'tmdb_credit_id' => $crew->getCreditId(),
+                    ],
+                    [
+                        'film_id' => $film->id,
+                        'contributor_id' => $contributor->id,
+                        'department' => $crew->getDepartment(),
+                        'job' => $crew->getJob(),
+                        'order' => 0, // Crew doesn't have order
+                    ],
+                );
+
+                $contributor->filmCrews()->save($filmcrew);
+                $film->casts()->save($filmcrew);
+                
+                ProcessContributor::dispatch($crew, $contributor, $filmcrew);
+            }
+        );
+    }
+
+    public function siblings(Film $film): Collection
+    {
+        $films = collect();
+
+        if (Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()) {
+            $films->put('previous', Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first());
+        }
+
+        if (Film::where('id', '>', $film->id)->orderBy('id')->first()) {
+            $films->put('next', Film::where('id', '>', $film->id)->orderBy('id')->first());
+        }
+
+        return $films;
     }
 }
