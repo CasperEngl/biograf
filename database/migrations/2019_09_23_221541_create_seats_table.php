@@ -19,8 +19,9 @@ class CreateSeatsTable extends Migration
             $table->bigInteger('cinema_id')->unsigned();
             $table->string('row');
             $table->string('column');
-            $table->boolean('active');
+            $table->boolean('disability');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
