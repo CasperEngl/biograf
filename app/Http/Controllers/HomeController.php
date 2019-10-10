@@ -14,7 +14,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $featured = $this->film->latest()->first();
+        $featured = $this->film->all()->random();
 
         return view('home', compact('featured'));
     }
