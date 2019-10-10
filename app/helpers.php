@@ -78,7 +78,7 @@ if (! function_exists('getNearestTimeRoundedUpWithMinimum')) {
      * @param int $minimumMinutes
      * @return \Carbon\Carbon
      */
-    function getNearestTimeRoundedUpWithMinimum($now, $nearestMin = 30, $minimumMinutes = 8)
+    function getNearestTimeRoundedUpWithMinimum($now, $nearestMin = 30, $minimumMinutes = 1)
     {
         $nearestSec = $nearestMin * 60;
         $minimumMoment = $now->addMinutes($minimumMinutes);
