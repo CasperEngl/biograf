@@ -5,9 +5,12 @@ namespace App;
 use App\Cinema;
 use App\Reservation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Seat extends Model
 {
+    use SoftDeletes;
+    
     const ROW_IDS = [
         'a',
         'b',
@@ -49,6 +52,15 @@ class Seat extends Model
         'column' => 'integer',
         'active' => 'boolean',
     ];
+
+    protected $appends = [
+        'selected',
+    ];
+
+    public function getSelectedAttribute()
+    {
+        return false;
+    }
 
     public function cinema()
     {
