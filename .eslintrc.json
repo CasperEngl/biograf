@@ -27,6 +27,8 @@
         "quotes": [2, "single", { "avoidEscape": true }],
         "no-plusplus": 0,
         "max-len": 0,
-        "global-require": 0
+        "global-require": 0,
+        "import/prefer-default-export": 0,
+        "no-param-reassign": 0
     }
 }
