@@ -19,9 +19,9 @@ class FilmController extends Controller
         return $this->film->all();
     }
 
-    public function show(Request $request)
+    public function show(string $slug)
     {
-        $film = $this->film->where('slug', $request->slug)->firstOrFail();
+        $film = $this->film->where('slug', $slug)->firstOrFail();
         $siblings = $this->filmActions->siblings($film);
 
         return view('film.show', compact('film', 'siblings'));
