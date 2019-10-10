@@ -29,11 +29,11 @@ Artisan::command(
         $this->comment('Importing movies...');
 
         $repo = $tmdb->repository();
-        $films = $repo->getPopular()->toArray();
+        $movies = collect($repo->getPopular()->toArray());
 
-        $films = collect($films)/* ->slice(0, 5) */->all();
-
-        (new FilmActions)->importMany($films, 'popular');
+        $movies->each(function ($movie) {
+            (new FilmActions)->import($movie, 'popular');
+        });
         
         $this->comment('Import finished.');
     }
@@ -45,11 +45,11 @@ Artisan::command(
         $this->comment('Importing movies...');
         
         $repo = $tmdb->repository();
-        $films = $repo->getNowPlaying()->toArray();
+        $movies = collect($repo->getNowPlaying()->toArray());
 
-        $films = collect($films)/* ->slice(0, 5) */->all();
-
-        (new FilmActions)->importMany($films, 'now-playing');
+        $movies->each(function ($movie) {
+            (new FilmActions)->import($movie, 'now-playing');
+        });
 
         $this->comment('Import finished.');
     }
