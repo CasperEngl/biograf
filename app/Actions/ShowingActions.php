@@ -18,4 +18,11 @@ class ShowingActions
             return $collection;
         });
     }
+
+    public function showingsOnDate(Collection $showings, \Carbon\Carbon $date): Collection
+    {
+        return collect($showings)->filter(function ($showing) use ($date) {
+            return $showing->start->startOfDay()->eq($date->startOfDay());
+        });
+    }
 }
