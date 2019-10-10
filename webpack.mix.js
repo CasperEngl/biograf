@@ -7,17 +7,16 @@ const atImport = require('postcss-import');
 require('laravel-mix-tailwind');
 require('laravel-mix-purgecss');
 require('laravel-mix-postcss-config');
+require('laravel-mix-svg');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+mix.copyDirectory('resources/img', 'public/img');
+mix.copyDirectory('resources/favicon', 'public/favicon');
+
+mix.svg({
+  class: 'icon fill-current max-w-full h-auto',
+  assets: ['./resources/svg/'],
+  output: './resources/js/svg.js',
+});
 
 mix
   .js('resources/js/app.js', 'public/js')
