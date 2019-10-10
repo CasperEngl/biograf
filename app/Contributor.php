@@ -2,38 +2,29 @@
 
 namespace App;
 
-use App\Cast;
-use App\Film;
+use App\FilmCast;
+use App\FilmCrew;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class FilmCast extends Model implements HasMedia
+class Contributor extends Model implements HasMedia
 {
     use HasMediaTrait;
 
     protected $fillable = [
-        'film_id',
-        'contributor_id',
-        'tmdb_credit_id',
-        'tmdb_cast_id',
-        'character',
-        'order',
-    ];
-
-    protected $casts = [
-        'film_id' => 'integer',
-        'contributor_id' => 'integer',
-        'tmdb_cast_id' => 'integer',
-        'order' => 'integer',
+        'tmdb_id',
+        'name',
     ];
 
     public function registerMediaCollections()
     {
         $this
             ->addMediaCollection('profile')
+            ->useFallbackUrl('/images/anonymous-user.jpg')
+            ->useFallbackPath(public_path('/images/anonymous-user.jpg'))
             ->singleFile();
     }
 
@@ -44,13 +35,18 @@ class FilmCast extends Model implements HasMedia
             ->crop(Manipulations::CROP_CENTER, 100, 100);
     }
 
-    public function contributor()
+    public function getTmdbLinkAttribute()
     {
-        return $this->belongsTo(Contributor::class);
+        return sprintf('https://www.themoviedb.org/person/%s', $this->tmdb_id);
     }
-    
-    public function film()
+
+    public function filmCrews()
     {
-        return $this->belongsTo(Film::class);
+        return $this->hasMany(FilmCrew::class);
+    }
+
+    public function filmCasts()
+    {
+        return $this->hasMany(FilmCast::class);
     }
 }

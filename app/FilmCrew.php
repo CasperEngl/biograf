@@ -2,15 +2,15 @@
 
 namespace App;
 
-use App\Cast;
 use App\Film;
+use App\Contributor;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class FilmCast extends Model implements HasMedia
+class FilmCrew extends Model implements HasMedia
 {
     use HasMediaTrait;
 
@@ -18,15 +18,15 @@ class FilmCast extends Model implements HasMedia
         'film_id',
         'contributor_id',
         'tmdb_credit_id',
-        'tmdb_cast_id',
-        'character',
+        'department',
+        'job',
         'order',
     ];
 
     protected $casts = [
         'film_id' => 'integer',
         'contributor_id' => 'integer',
-        'tmdb_cast_id' => 'integer',
+        'tmdb_credit_id' => 'integer',
         'order' => 'integer',
     ];
 

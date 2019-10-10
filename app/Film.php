@@ -35,6 +35,10 @@ class Film extends Model implements HasMedia
         'colors' => 'collection',
     ];
 
+    protected $dates = [
+        'premiere',
+    ];
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
@@ -78,18 +82,16 @@ class Film extends Model implements HasMedia
 
     public function casts()
     {
-        return $this->hasMany(FilmCast::class)->orderBy('order', 'asc');
+        return $this->hasMany(FilmCast::class)->orderBy('order');
+    }
+
+    public function crews()
+    {
+        return $this->hasMany(FilmCrew::class)->orderBy('order');
     }
 
     public function showings()
     {
         return $this->hasMany(Showing::class);
-    }
-
-    public function todaysShowings()
-    {
-        return collect($this->showings)->filter(function ($showing) {
-            return $showing->start->startOfDay()->eq(now()->startOfDay());
-        });
     }
 }
