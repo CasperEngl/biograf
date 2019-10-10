@@ -37,7 +37,11 @@ class ProcessFilmPoster implements ShouldQueue
     {
         $film = $this->film;
 
-        $palette = Palette::fromFilename($film->getFirstMediaUrl('poster'));
+        $palette = Palette::fromFilename(
+            env('MEDIA_DISK') === 'public'
+                ? public_path($film->getFirstMediaUrl('poster'))
+                : $film->getFirstMediaUrl('poster')
+        );
 
         $extractor = new ColorExtractor($palette);
 
