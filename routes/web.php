@@ -27,7 +27,7 @@ Route::prefix('cinema')->group(function () {
 
 Route::prefix('film')->group(function () {
     Route::get('/', [FilmController::class, 'index'])->name('film.index');
-    Route::get('/{film}', [FilmController::class, 'show'])->name('film.show');
+    Route::get('/{slug}', [FilmController::class, 'show'])->name('film.show');
 });
 
 Route::prefix('visninger')->group(function () {
