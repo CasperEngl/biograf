@@ -62,11 +62,7 @@ class Seat extends Resource
      * @var array
      */
     public static $search = [
-        'id',
         'cinema_id',
-        'row',
-        'column',
-        'active',
     ];
 
     /**
@@ -93,7 +89,7 @@ class Seat extends Resource
                 ->rules('numeric', 'max:20')
                 ->sortable(),
 
-            Boolean::make('Active')->sortable(),
+            Boolean::make('Disability')->sortable(),
         ];
     }
 

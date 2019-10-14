@@ -50,7 +50,6 @@ class Seat extends Model
     protected $casts = [
         'row' => 'string',
         'column' => 'integer',
-        'active' => 'boolean',
     ];
 
     protected $appends = [
@@ -59,7 +58,7 @@ class Seat extends Model
 
     public function getSelectedAttribute()
     {
-        return false;
+        return 0;
     }
 
     public function cinema()

@@ -21,7 +21,7 @@
             <h3 class="max-w-3xl text-2xl mb-8 text-gray-200 leading-normal">
                 {{ Str::limit($featured->overview, 150) }}
             </h3>
-            <a class="btn btn-lg" href="{{ route('film.show', ['film' => $featured]) }}">
+            <a class="btn btn-lg" href="{{ route('film.show', ['slug' => $featured->slug]) }}">
                 {{ trans('film.read-more') }}
             </a>
           </div>
@@ -38,13 +38,28 @@
 <div class="container py-16">
     <div class="row">
         <div class="col w-full md:w-1/3 flex items-center">
-            <div class="px-5">@svg('ud_awards')</div>
+            <div class="px-5">
+              <figure class="mb-2">
+                @svg('ud_awards', 'text-red-700')
+              </figure>
+              <h2 class="text-3xl uppercase font-black text-center">{{ trans('home.awards') }}</h2>
+            </div>
         </div>
         <div class="col w-full md:w-1/3 flex items-center">
-            <div class="px-5">@svg('ud_horror_movie')</div>
+            <div class="px-5">
+              <figure class="mb-2">
+                @svg('ud_horror_movie', 'text-red-700')
+              </figure>
+              <h2 class="text-3xl uppercase font-black text-center">{{ trans('home.horror_movie') }}</h2>
+            </div>
         </div>
         <div class="col w-full md:w-1/3 flex items-center">
-            <div class="px-5">@svg('ud_movie_night')</div>
+            <div class="px-5">
+              <figure class="mb-2">
+                @svg('ud_movie_night', 'text-red-700')
+              </figure>
+              <h2 class="text-3xl uppercase font-black text-center">{{ trans('home.movie_night') }}</h2>
+            </div>
         </div>
     </div>
 </div>

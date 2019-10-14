@@ -4,17 +4,7 @@ use App\Http\Controllers\FilmController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\ShowingController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\ReservationController;
 
 Auth::routes();
 
@@ -31,6 +21,17 @@ Route::prefix('film')->group(function () {
 });
 
 Route::prefix('visninger')->group(function () {
-    Route::get('/{date}', [ShowingController::class, 'index'])->name('showing.index');
-    Route::get('/{date}/{showing}', [ShowingController::class, 'show'])->name('showing.show');
+    Route::get('/{date}', [ShowingController::class, 'index'])
+        ->where(['date' => '\d{4}-\d{2}-\d{2}'])
+        ->name('showing.index');
+    Route::get('/{date}/{showing}', [ShowingController::class, 'show'])
+        ->where(['date' => '\d{4}-\d{2}-\d{2}'])
+        ->name('showing.show');
+});
+
+Route::prefix('reservation')->group(function () {
+    Route::post('/{date}/{showing}', [ReservationController::class, 'store'])
+        ->where(['date' => '\d{4}-\d{2}-\d{2}'])
+        ->name('reservation.store');
+    Route::get('/betal', [ReservationController::class, 'pay'])->name('reservation.pay');
 });

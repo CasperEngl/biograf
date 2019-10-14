@@ -18,8 +18,10 @@ class CreateReservationsTable extends Migration
 
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('seat_id')->unsigned();
+            $table->bigInteger('showing_id')->unsigned();
+            $table->boolean('paid')->default(false);
             $table->dateTime('end');
-
+            
             $table->timestamps();
 
             $table
@@ -32,6 +34,12 @@ class CreateReservationsTable extends Migration
                 ->foreign('seat_id')
                 ->references('id')
                 ->on('seats')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('showing_id')
+                ->references('id')
+                ->on('showings')
                 ->onDelete('cascade');
         });
     }

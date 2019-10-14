@@ -46,6 +46,11 @@ class User extends Authenticatable implements HasMedia
             ->saveSlugsTo('slug');
     }
 
+    public function getNameAttribute()
+    {
+        return ucwords("{$this->firstname} {$this->lastname}");
+    }
+
     public function avatar()
     {
         return asset(
@@ -54,8 +59,8 @@ class User extends Authenticatable implements HasMedia
         );
     }
 
-    public function getNameAttribute()
+    public function reservations()
     {
-        return ucwords("{$this->firstname} {$this->lastname}");
+        return $this->hasMany(Reservation::class);
     }
 }

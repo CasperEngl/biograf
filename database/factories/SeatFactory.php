@@ -9,6 +9,6 @@ $factory->define(Seat::class, function (Faker $faker) {
     return [
         'row' => $faker->randomElement(Seat::ROW_IDS),
         'column' => $faker->numberBetween(5, 20),
-        'active' => $faker->boolean(90),
+        'disability' => $faker->boolean(5),
     ];
 });

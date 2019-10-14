@@ -1,65 +1,83 @@
 <template>
-  <section class="relative p-4 bg-gray-900">
-    <div class="relative w-full min-h-12 flex items-center justify-center bg-white" ref="screen" :style="{
-      width: 'calc(90% - 25px)',
-      marginLeft: 'calc(5% + 25px)',
-    }">
-      <h3 class="text-xl text-center py-2" v-if="cinemaName">{{ cinemaName }}</h3>
-      <div :style="{
-        position: 'absolute',
-        top: '48px',
-        height: '200px',
-        width: '100%',
-        background: 'linear-gradient(to bottom, rgba(255, 255, 255, .1) 0%, transparent 100%)',
-        clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)',
-      }"></div>
-    </div>
-    <table class="w-full mt-16 table-fixed">
-      <col width="25">
+  <section class="relative container p-4 bg-gray-900">
+    <h3 class="text-xl text-center py-4" v-if="cinema.name">{{ cinema.name }}</h3>
+    <span
+      v-html="svg('screen', 'block mx-auto text-red-700')"
+      class="block mx-auto"
+      :style="{
+        maxWidth: `${cinemaWidth * 1.15}px`,
+      }"
+    ></span>
+    <table class="my-8 mx-auto" ref="cinema">
+      <col width="35" />
+      <col width="30" v-for="(seat, index) in singleRow" :key="index" />
       <thead>
         <tr>
           <th></th>
-          <th class="pb-1 text-gray-600 font-bold text-sm" v-for="(seat, index) in singleRow" :key="index" ref="seat">{{ seat.column }}</th>
+          <th
+            class="pb-1 text-gray-600 font-bold text-sm"
+            v-for="(seat, index) in singleRow"
+            :key="index"
+            ref="seat"
+          >{{ seat.column + 1 }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, letter) in rows" :key="letter">
-          <td class="text-gray-600 font-bold text-sm text-center" :style="{
-            paddingRight: `${seatWidth / 4}px`
-          }" v-if="letter">{{ letter.toUpperCase() }}</td>
-          <td v-for="(seat, index) in row" :key="index">
-            <button
-              @click.prevent="toggleSeat(seat)"
-              class="w-full h-full block mx-auto"
-              :class="[
-                disabled
-                  ? `cursor-default ${seat.active ? 'bg-gray-300' : 'bg-yellow-500'}`
-                  :
-                    seat.active
-                      ? 'bg-gray-300 hover:bg-gray-500'
-                      : 'bg-yellow-500 hover:bg-yellow-600'
-              ]"
-              :disabled="disabled"
-            >
-              &nbsp;
-            </button>
-            <input v-if="!inputsDisabled" type="hidden" :name="`seats[${seat.row}][${seat.column}]`" :value="seat.active">
+        <tr v-for="(row, letter) in cinemaRows" :key="letter">
+          <td
+            class="text-gray-600 font-bold text-sm text-center"
+          >{{ letter.toUpperCase() }}</td>
+          <td class="py-1" v-for="(seat, index) in row" :key="index">
+            <template v-if="findSeat(seat)">
+              <button
+                @click.prevent="selectSeat(seat)"
+                class="w-full h-full flex justify-center"
+                :class="[
+                  (findSeat(seat) && findSeat(seat).reservation && 'text-red-600 hover:text-red-700')
+                  ||
+                  (findSeat(seat) && findSeat(seat).selected && 'text-green-600 hover:text-green-700')
+                  ||
+                  (findSeat(seat) && findSeat(seat).disability && 'text-blue-500 hover:text-blue-600')
+                  ||
+                  'text-gray-700 hover:text-gray-800'
+                ]"
+                :disabled="disabled"
+                v-html="svg('seat')"
+              >&nbsp;</button>
+              <input
+                v-if="!inputsDisabled"
+                type="hidden"
+                :name="`seats[${seat.row}][${seat.column}]`"
+                :value="findSeat(seat).selected"
+              />
+            </template>
           </td>
         </tr>
       </tbody>
     </table>
+    <cinema-seat-explainer class="mx-auto" :style="{
+      maxWidth: `${cinemaWidth * 1.15}px`,
+    }"></cinema-seat-explainer>
   </section>
 </template>
 
 <script>
+import groupBy from 'lodash-es/groupBy';
+
+import { reverseObject } from '../util';
+
 export default {
   props: {
-    cinemaName: {
-      type: String,
+    cinema: {
+      type: Object,
       required: true,
     },
-    cinemaRows: {
-      type: Object,
+    seats: {
+      type: Array,
+      required: false,
+    },
+    reservations: {
+      type: Array,
       required: false,
     },
     disabled: {
@@ -70,28 +88,78 @@ export default {
     inputsDisabled: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
     },
   },
+  created() {
+    console.log(this.seats);
+  },
   data: (vm) => ({
-    rows: vm.cinemaRows,
-    seatWidth: 0,
+    seatmaxWidth: 0,
+    rows: vm.cinema.row_count,
+    columns: vm.cinema.column_count,
+    alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
   }),
   methods: {
     toggleSeat(seat) {
       const ref = seat;
 
-      ref.active = seat.active ? 0 : 1;
+      ref.selected = seat.selected ? 0 : 1;
     },
-  },
-  watch: {
-    cinemaRows(value) {
-      this.rows = value;
+    findSeat({ row, column }) {
+      return this.seats.find((seat) => seat.row === row && seat.column === column);
+    },
+    selectSeat({ row, column }) {
+      const refs = [];
+
+      Array.from(Array(this.$store.getters.ticketsCount)).forEach((_, i) => {
+        for (const s of this.seats) { // eslint-disable-line
+          s.selected = 0;
+
+          if (s.row === row && s.column === column + i) {
+            refs.push(s);
+          }
+        }
+      });
+
+      refs.forEach((ref) => {
+        ref.selected = ref.selected ? 0 : 1;
+      });
+
+      this.$forceUpdate();
     },
   },
   computed: {
     singleRow() {
-      return Object.values(this.rows).find(() => true);
+      return Object.values(this.cinemaRows).find(() => true);
+    },
+    cinemaRows() {
+      const rows = [];
+
+      for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+        const row = this.alphabet[rowIndex];
+
+        for (let column = 0; column < this.columns; column++) {
+          rows.push({
+            row,
+            column,
+          });
+        }
+      }
+
+      const ordered = reverseObject(groupBy(rows, 'row'));
+
+      return ordered;
+    },
+  },
+  asyncComputed: {
+    async cinemaWidth() {
+      await this.$nextTick();
+
+      const el = this.$refs.cinema;
+      const rect = el.getBoundingClientRect();
+
+      return rect.width;
     },
   },
 };

@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col md:w-1/2 max-w-md">
-        <play-trailer video-key="{{ (new App\Actions\FilmActions)->trailerKey($film) }}" title="{{ $film->title }}" poster="{{ $film->getFirstMediaUrl('poster', 'medium') }}" background="{{ optional($film->colors)->get(0) }}" class="border-2 border-gray-800" style="border-color: {{ optional($film->colors)->get(0) }};"></play-trailer>
+        <play-trailer video-key="{{ (new App\Actions\FilmActions)->trailerKey($film) }}" title="{{ $film->title }}" poster="{{ $film->getFirstMediaUrl('poster', 'medium') }}" background="{{ optional($film->colors)->get(0) }}" class="border-2 border-gray-800 rounded" style="border-color: {{ optional($film->colors)->get(0) }};"></play-trailer>
       </div>
     </div>
   </div>
@@ -26,59 +26,67 @@
   <div class="mt-48 md:-mt-24">
     <div class="row">
       <div class="col flex-1">
-        <div class="p-10 bg-gray-800 shadow-lg h-full" style="">
+        <div class="p-10 bg-gray-800 shadow-lg h-full rounded">
+          @if ($film->premiere)
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.premiere') }}</h3>
-            <h3 class="text-xl text-white">{{ $film->title }}</h3>
+            <h3 class="text-xl text-white">{{ $film->premiere->toFormattedDateString() }}</h3>
           </div>
-          <div class="my-5">
-            <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.director') }}</h3>
-            <h3 class="text-xl text-white">{{ $film->title }}</h3>
-          </div>
+          @endif
+          @if ($film->genres->count())
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.genre') }}</h3>
-            @if ($film->genres->count())
             <div class="row-tight">
-                @foreach ($film->genres as $genre)
-                <div class="col my-1">
-                    <span class="tag">{{ $genre->name }}</span>
-                </div>
-                @endforeach
+              @foreach ($film->genres as $genre)
+              <div class="col my-1">
+                <span class="tag">{{ $genre->name }}</span>
+              </div>
+              @endforeach
             </div>
-            @endif
           </div>
+          @endif
+          @if ($film->casts->count())
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.cast') }}</h3>
-            @if ($film->casts->count())
             <div class="row">
                 @foreach ($film->casts->take(4) as $cast)
-                <div class="col my-1 inline-flex flex-col items-center">
-                    <figure class="mb-1">
-                      <img src="{{ $cast->getFirstMediaUrl('profile', 'thumb') }}" alt="{{ $cast->name }}" class="rounded-full border-2 border-gray-800">
-                    </figure>
-                    <h4 class="mb-2 text-gray-400 font-black">{{ $cast->name }}</h4>
-                    <h5 class="text-gray-400">{{ $cast->character }}</h5>
-                </div>
+                <a href="{{ $cast->contributor->tmdbLink }}" class="col my-1 inline-flex flex-col items-center">
+                  <figure class="mb-1">
+                    <img src="{{ $cast->getFirstMediaUrl('profile', 'thumb') }}" onerror="this.src='{{ Avatar::create($cast->contributor->name)->toBase64() }}'" alt="{{ $cast->contributor->name }}" class="rounded-full border-2 border-gray-800">
+                  </figure>
+                  <h4 class="mb-2 text-gray-400 font-black">{{ $cast->contributor->name }}</h4>
+                  <h5 class="text-gray-400">{{ $cast->character }}</h5>
+                </a>
                 @endforeach
             </div>
-            @endif
           </div>
+          @endif
+          @if ($film->crews->where('job', 'Director')->count())
+          <div class="my-5">
+            <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.director') }}</h3>
+            <div class="row">
+                @foreach ($film->crews->where('job', 'Director')->take(4) as $director)
+                <a href="{{ $director->contributor->tmdbLink }}" class="col my-1 inline-flex flex-col items-center">
+                    <figure class="mb-1">
+                      <img src="{{ $director->getFirstMediaUrl('profile', 'thumb') }}" onerror="this.src='{{ Avatar::create($director->contributor->name)->toBase64() }}'" alt="{{ $director->contributor->name }}" class="rounded-full border-2 border-gray-800">
+                    </figure>
+                    <h4 class="mb-2 text-gray-400 font-black">{{ $director->contributor->name }}</h4>
+                    <h5 class="text-gray-400">{{ $director->job }}</h5>
+                </a>
+                @endforeach
+            </div>
+          </div>
+          @endif
         </div>
       </div>
       <div class="col md:w-1/2 max-w-md inline-flex flex-col justify-between items-start">
-        <div class="row-tight">
-          <div class="col w-1/2">
-            @if (App\Film::where('id', '<', $film->id)->max('id')) {{-- Only show if there is a previous film --}}
-              <a href="{{ route('film.show', ['film' => App\Film::where('id', '<', $film->id)->max('id')]) }}" class="w-full btn btn-primary btn-lg rounded-none text-center shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('film.previous') }}</a>
-            @endif
-          </div>
-          <div class="col w-1/2">
-            @if (App\Film::where('id', '>', $film->id)->min('id')) {{-- Only show if there is a next film --}}
-              <a href="{{ route('film.show', ['film' => App\Film::where('id', '>', $film->id)->min('id')]) }}" class="w-full btn btn-primary btn-lg rounded-none text-center shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('film.next') }}</a>
-            @endif
-          </div>
-        </div>
-        <div class="p-10 mt-8 h-full bg-gray-800 shadow-lg">
+        @if ($siblings->get('previous')) {{-- Only show if there is a previous film --}}
+          <a href="{{ route('film.show', ['slug' => $siblings->get('previous')->slug]) }}" class="my-1 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};"><i class="fa fa-chevron-left mr-2 text-sm"></i> {{ App\Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()->title }}</a>
+        @endif
+        @if ($siblings->get('next')) {{-- Only show if there is a next film --}}
+          <a href="{{ route('film.show', ['slug' => $siblings->get('next')->slug]) }}" class="my-1 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ App\Film::where('id', '>', $film->id)->orderBy('id')->first()->title }} <i class="fa fa-chevron-right ml-2 text-sm"></i></a>
+        @endif
+        <div class="p-10 mt-8 w-full h-full bg-gray-800 shadow-lg rounded">
           <h2 class="mb-4 text-3xl uppercase font-black text-gray-500">{{ trans('film.overview') }}</h2>
           <p class="text-2xl text-gray-200 leading-normal">{{ $film->overview }}</p>
         </div>

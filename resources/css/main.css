@@ -1,0 +1,70 @@
+@import '@fortawesome/fontawesome-free/css/fontawesome.css';
+@import '@fortawesome/fontawesome-free/css/regular.css';
+@import '@fortawesome/fontawesome-free/css/solid.css';
+@import '@fortawesome/fontawesome-free/css/brands.css';
+
+@responsive {
+  .row {
+    @apply -mx-3 w-row flex flex-wrap;
+  }
+
+  .row .col {
+    @apply px-3;
+  }
+
+  .row-tight {
+    @apply -mx-1 w-row-tight flex flex-wrap;
+  }
+
+  .row-tight .col {
+    @apply px-1;
+  }
+
+  .border-box {
+    box-sizing: border-box;
+  }
+  .content-box {
+    box-sizing: content-box;
+  }
+}
+
+[v-cloak] {
+  display: none;
+}
+
+input.field {
+  @apply bg-white border border-gray-300 border-2 rounded-sm px-5 py-2 leading-normal text-gray-700 text-base w-full appearance-none;
+}
+
+select.field {
+  @apply appearance-none px-4 py-2 pr-12 w-full border border-gray-300 border-2 rounded leading-normal text-gray-700 text-base;
+  background: #fff url("data:image/svg+xml,%3Csvg width='10px' height='6px' viewBox='0 0 10 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='UI' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Edit-account' transform='translate(-721.000000, -472.000000)' fill='%23C5C5C5' fill-rule='nonzero'%3E%3Cg id='Group-24' transform='translate(375.000000, 178.000000)'%3E%3Cg id='Group-5'%3E%3Cg id='Group-42' transform='translate(0.000000, 246.000000)'%3E%3Cpath d='M353.849661,53.6267188 C354.253063,54.0039259 354.274298,54.6367347 353.897091,55.0401368 C353.519884,55.4435388 352.887075,55.464774 352.483673,55.0875669 L348.817006,51.6589955 C348.394331,51.2637671 348.394331,50.5933757 348.817006,50.1981474 L352.483673,46.7695759 C352.887075,46.3923688 353.519884,46.413604 353.897091,46.8170061 C354.274298,47.2204081 354.253063,47.8532169 353.849661,48.2304241 L350.964142,50.9285714 L353.849661,53.6267188 Z' id='Path-6' transform='translate(351.333335, 50.928571) rotate(-90.000000) translate(-351.333335, -50.928571) '%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat right 20px center;
+}
+
+.btn {
+  @apply py-2 px-5 inline-block inline-flex items-center justify-center bg-white rounded text-gray-700 font-bold;
+}
+
+.btn:focus {
+  @apply outline-none shadow-outline;
+}
+
+.btn.btn-primary {
+  @apply bg-red-500 text-white;
+}
+
+.btn.btn-primary:hover {
+  @apply bg-red-600;
+}
+
+.btn.btn-ghost {
+  @apply inline-flex items-center border-2 rounded-full bg-transparent text-white;
+}
+
+.btn.btn-lg {
+  @apply py-4 px-10 text-xl;
+}
+
+.tag {
+  @apply px-5 py-2 inline-block border-2 border-gray-700 bg-gray-600 text-white text-xs uppercase font-bold rounded-full;
+}

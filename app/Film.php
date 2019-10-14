@@ -32,6 +32,7 @@ class Film extends Model implements HasMedia
     protected $casts = [
         'tmdb_id' => 'integer',
         'imdb_id' => 'integer',
+        'runtime' => 'integer',
         'colors' => 'collection',
     ];
 
@@ -48,8 +49,12 @@ class Film extends Model implements HasMedia
 
     public function registerMediaCollections()
     {
-        $this->addMediaCollection('poster');
-        $this->addMediaCollection('backdrop');
+        $this
+            ->addMediaCollection('poster')
+            ->useFallbackUrl('/img/placeholder/poster-medium.png');
+        $this
+            ->addMediaCollection('backdrop')
+            ->useFallbackUrl('/img/placeholder/backdrop-medium.png');
     }
 
     public function registerMediaConversions(Media $media = null)

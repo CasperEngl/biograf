@@ -4,8 +4,10 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\MorphToMany;
 use Spatie\NovaTranslatable\Translatable;
@@ -54,6 +56,8 @@ class Film extends Resource
                 Text::make('Homepage'),
             ])->locales(['da', 'en']),
 
+            Date::make('Premiere'),
+
             Images::make('Posters', 'poster') // second parameter is the media collection name
                 ->conversionOnIndexView('thumb') // conversion used to display the image
                 ->rules('required'), // validation rules
@@ -65,6 +69,10 @@ class Film extends Resource
             MorphToMany::make('Genres')
                 ->searchable()
                 ->prepopulate(),
+
+            HasMany::make('Cast', 'casts', FilmCast::class),
+
+            HasMany::make('Crew', 'crews', FilmCrew::class),
         ];
     }
 

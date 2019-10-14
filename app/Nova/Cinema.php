@@ -53,13 +53,9 @@ class Cinema extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Number::make('Rows', 'row_count')
-                ->sortable()
-                ->readonly(),
+            Number::make('Rows', 'row_count')->sortable(),
                 
-            Number::make('Columns', 'column_count')
-                ->sortable()
-                ->readonly(),
+            Number::make('Columns', 'column_count')->sortable(),
 
             HasMany::make('Seats'),
 

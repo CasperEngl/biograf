@@ -1,17 +1,8 @@
 <?php
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Pagination Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
-    |
-    */
-
-    'previous' => '&laquo; Forrige',
-    'next'     => 'Næste &raquo;',
+    'back' => '<i class="fa fa-caret-left pr-2"></i> Tilbage',
+    'forward'     => 'Fremad <i class="fa fa-caret-right pl-2"></i>',
+    'previous' => '<i class="fa fa-caret-left pr-2"></i> Forrige',
+    'next'     => 'Næste <i class="fa fa-caret-right pl-2"></i>',
 ];

@@ -7,8 +7,8 @@
       <div class="col w-1/4 my-3">
         <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="overflow-hidden relative py-3 block">
           {{-- <div class="absolute inset-0 z-10 w-full" style="background: linear-gradient(transparent 70%, rgba(26, 32, 44, 1) 90%); pointer-events: none;"></div> --}}
-          <figure class="block mb-2">
-            <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" alt="{{ $film->title }}">
+          <figure class="relative aspect-ratio-16/9 mb-2 block">
+            <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" onerror="this.src = '/img/placeholder/backdrop-small.png'" alt="{{ $film->title }}" class="absolute">
           </figure>
           <h3 class="text-2xl uppercase font-black">{{ Str::limit($film->title, 18) }}</h3>
         </a>

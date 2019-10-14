@@ -6,12 +6,21 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laraning\NovaTimeField\TimeField;
 
 class Showing extends Resource
 {
+    const VERSIONS = [
+        '2D',
+        '3D',
+        'IMAX 2D',
+        'IMAX 3D',
+    ];
+
     /**
      * The model the resource corresponds to.
      *
@@ -51,6 +60,10 @@ class Showing extends Resource
             })->readonly(),
             
             Number::make('Real Price', 'price'),
+            
+            Select::make('Version')
+                ->options(self::VERSIONS)
+                ->sortable(),
 
             Date::make('Date'),
 

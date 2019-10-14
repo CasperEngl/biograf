@@ -11,6 +11,6 @@ class ShowingsTableSeeder extends Seeder
      */
     public function run()
     {        
-        factory(App\Showing::class, 50)->create();
+        factory(App\Showing::class, 1000)->create();
     }
 }

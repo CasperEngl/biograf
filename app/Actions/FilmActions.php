@@ -30,7 +30,6 @@ class FilmActions
                 'category' => $category,
             ],
             [
-                'runtime' => $movie->getRuntime(),
                 'imdb_id' => $movie->getImdbId(),
                 'title' => $movie->getTitle(),
                 'language' => $movie->getOriginalLanguage(),
