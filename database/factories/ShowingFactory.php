@@ -10,7 +10,7 @@ $factory->define(Showing::class, function (Faker $faker) {
     $morning = Carbon::create(now()->year, now()->month, now()->day, 8, 0, 0); //set time to 08:00
     $evening = Carbon::create(now()->year, now()->month, now()->day, 16, 0, 0); //set time to 16:00
 
-    if(now()->between($morning, $evening, true)) {
+    if (now()->between($morning, $evening, true)) {
         $date = $faker->dateTimeBetween(now(), now()->addDays(30));
     } else {
         $date = $faker->dateTimeBetween($morning, now()->addDays(30));
