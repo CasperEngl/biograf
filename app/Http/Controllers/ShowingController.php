@@ -12,10 +12,9 @@ use App\Actions\ShowingActions;
 
 class ShowingController extends Controller
 {
-    public function __construct(Film $film, ShowingActions $showingActions, Carbon $carbon)
+    public function __construct(Film $film, Carbon $carbon)
     {
         $this->film = $film;
-        $this->showingActions = $showingActions;
         $this->carbon = $carbon;
     }
 
@@ -24,7 +23,7 @@ class ShowingController extends Controller
         $date = $this->carbon->parse($date);
 
         $films = $this->film->all()->map(function ($film) use ($date) {
-            $film->showings = $this->showingActions->showingsOnDate($film->showings, $date);
+            $film->showings = (new ShowingActions)->showingsOnDate($film->showings, $date)->sortBy('start');
 
             return $film;
         });

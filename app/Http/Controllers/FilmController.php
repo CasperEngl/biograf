@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class FilmController extends Controller
 {
-    public function __construct(Film $film, FilmActions $filmActions)
+    public function __construct(Film $film)
     {
         $this->film = $film;
-        $this->filmActions = $filmActions;
     }
 
     public function index()
@@ -22,7 +21,7 @@ class FilmController extends Controller
     public function show(string $slug)
     {
         $film = $this->film->where('slug', $slug)->firstOrFail();
-        $siblings = $this->filmActions->siblings($film);
+        $siblings = (new FilmActions)->siblings($film);
 
         return view('film.show', compact('film', 'siblings'));
     }

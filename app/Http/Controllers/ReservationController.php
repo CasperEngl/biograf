@@ -9,14 +9,9 @@ use App\Actions\ShowingActions;
 
 class ReservationController extends Controller
 {
-    public function __construct(ShowingActions $showingActions)
-    {
-        $this->showingActions = $showingActions;
-    }
-
     public function store(string $date, Showing $showing, Request $request)
     {
-        $reservation = $this->showingActions->reserveSeats(
+        $reservation = (new ShowingActions)->reserveSeats(
             $showing,
             collect($request->seats),
             collect($request->ticket_count)
