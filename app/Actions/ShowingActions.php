@@ -62,4 +62,9 @@ class ShowingActions
 
         return auth()->user()->reservations->last();
     }
+
+    public function nextShowings(Showing $showing, $count = 1)
+    {
+        return Showing::where('film_id', $showing->film->id)->orderBy('start')->take($count)->get();
+    }
 }
