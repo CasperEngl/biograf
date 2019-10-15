@@ -40,6 +40,15 @@ class Film extends Model implements HasMedia
         'premiere',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($film) {
+            $film->delete();
+        });
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
