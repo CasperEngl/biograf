@@ -1,16 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="pt-32 mb-16" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $showing->film->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover; border-color: {{ optional($showing->film->colors)->get(0) }};">
+<section class="pt-32 mb-8" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $showing->film->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover; border-color: {{ optional($showing->film->colors)->get(0) }};">
   <div class="container md:-mb-64">
     <div class="row items-center flex-col-reverse md:flex-row">
       <div class="col w-full md:w-1/3">
-        <figure class="mb-4 shadow-2xl">
-          <img src="{{ $showing->film->getFirstMediaUrl('poster', 'large') }}" alt="{{ $showing->film->title }}">
-        </figure>
+        <a href="{{ route('film.show', ['slug' => $showing->film->slug]) }}">
+          <figure class="mb-4 shadow-2xl">
+            <img src="{{ $showing->film->getFirstMediaUrl('poster', 'large') }}" alt="{{ $showing->film->title }}">
+          </figure>
+        </a>
       </div>
       <div class="col w-full md:w-2/3 md:mb-64">
-        <h1 class="text-6xl italic uppercase font-black my-4 text-white text-center md:text-left">{{ $showing->film->title }}</h1>
+        <a href="{{ route('film.show', ['slug' => $showing->film->slug]) }}">
+          <h1 class="text-6xl italic uppercase font-black my-4 text-white text-center md:text-left">{{ $showing->film->title }}</h1>
+        </a>
       </div>
     </div>
   </div>
@@ -37,6 +41,26 @@
     </div>
   </div>
 </section>
+<section class="container mb-8">
+  <div class="row-tight">
+  @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $showing)
+  @if ($loop->first)
+  <div class="col w-full">
+    <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
+  </div>
+  @endif
+  <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
+    <a href="{{ route('showing.show', ['date' => $showing->start->toDateString(), 'showing' => $showing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
+      <div class="text-sm">{{ $showing->start->format('D') }}</div>
+      <div class="text-xl my-2">{{ $showing->start->format('m-d') }} {{ $showing->start->format('h:m') }}</div>
+      <div class="text-sm">{{ $showing->start->format('M') }}</div>
+    </a>
+  </div>
+  @empty
+  <p class="text-xl">{{ trans('showing.next.none') }}</p>
+  @endforelse
+  </div>
+</section>
 <div class="container">
   <form action="{{ route('reservation.store', compact('date', 'showing')) }}" method="POST">
     @csrf
@@ -45,7 +69,7 @@
       <div class="col w-full" :class="{
         'md:w-1/3': $store.getters.ticketsCount,
       }">
-        <cinema-ticket-controller price="{{ $showing->price }}" class="h-full"></cinema-ticket-controller>
+        <cinema-ticket-controller price="{{ $showing->price }}" class="h-full rounded"></cinema-ticket-controller>
       </div>
       <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
         <cinema-layout class="mb-4" :cinema="{{ json_encode($showing->cinema) }}" :seats="{{ $showing->cinema->seats }}" :disabled="false"></cinema-layout>
