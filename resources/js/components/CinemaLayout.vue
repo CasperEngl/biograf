@@ -33,11 +33,11 @@
                 @click.prevent="selectSeat(seat)"
                 class="w-full h-full flex justify-center"
                 :class="[
-                  (findSeat(seat) && findSeat(seat).reservation && 'text-red-600 hover:text-red-700')
+                  (findSeat(seat).reservation && 'text-red-600 hover:text-red-700')
                   ||
-                  (findSeat(seat) && findSeat(seat).selected && 'text-green-600 hover:text-green-700')
+                  (findSeat(seat).selected && 'text-green-600 hover:text-green-700')
                   ||
-                  (findSeat(seat) && findSeat(seat).disability && 'text-blue-500 hover:text-blue-600')
+                  (findSeat(seat).disability && 'text-blue-500 hover:text-blue-600')
                   ||
                   'text-gray-700 hover:text-gray-800'
                 ]"
@@ -73,10 +73,6 @@ export default {
       required: true,
     },
     seats: {
-      type: Array,
-      required: false,
-    },
-    reservations: {
       type: Array,
       required: false,
     },

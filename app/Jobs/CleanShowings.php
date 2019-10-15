@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Reservation;
+use App\Showing;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class CleanReservations implements ShouldQueue
+class CleanShowings implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -28,11 +28,11 @@ class CleanReservations implements ShouldQueue
      *
      * @return void
      */
-    public function handle(Reservation $reservation)
+    public function handle(Showing $showing)
     {
-        $reservation->all()->each(function ($reservation) {
-            if ($reservation->end->isPast() && !$reservation->isPaid) {
-                $reservation->delete();
+        $showing->all()->each(function ($showing) {
+            if ($showing->endTime->isPast()) {
+                $showing->forceDelete();
             }
         });
     }

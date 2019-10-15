@@ -6,6 +6,7 @@ use App\Seat;
 use App\Showing;
 use App\Reservation;
 use Illuminate\Support\Collection;
+use App\Actions\ReservationActions;
 
 class ShowingActions
 {
@@ -29,22 +30,7 @@ class ShowingActions
         });
     }
 
-    public function calculatePrice(Showing $showing, Collection $ticket_count)
-    {
-        $price = 0;
-
-        for ($i = 0; $i < (int) $ticket_count->get('regular'); $i++) {
-            $price += $showing->price;
-        }
-
-        for ($i = 0; $i < (int) $ticket_count->get('senior'); $i++) {
-            $price += $showing->price * $showing->senior_discount;
-        }
-
-        return price;
-    }
-
-    public function reserveSeats(Showing $showing, Collection $seats)
+    public function reserveSeats(Showing $showing, Collection $seats, Collection $ticket_count)
     {
         $seats = $seats
             ->map(function ($row) {
@@ -55,22 +41,25 @@ class ShowingActions
             ->filter(function ($row) {
                 return collect($row)->count();
             })
-            ->each(function ($columns, $row) use ($showing) {
-                collect($columns)->each(function ($_, $column) use ($showing, $row) {
+            ->each(function ($columns, $row) use ($showing, $ticket_count) {
+                collect($columns)->each(function ($_, $column) use ($showing, $row, $ticket_count) {
                     $seat = Seat::where('row', $row)->where('column', $column)->firstOrFail();
+
                     $reservation = Reservation::firstOrCreate(
                         [
                             'showing_id' => $showing->id,
-                            'seat_id' => $seat->id,
+                            'user_id' => auth()->id(),
                         ],
                         [
-                            'user_id' => auth()->id(),
                             'end' => now()->addMinutes(10),
+                            'ticket_count' => $ticket_count,
                         ],
                     );
-    
-                    $seat->reservation()->save($reservation);
+
+                    $reservation->seats()->save($seat);
                 });
             });
+
+        return auth()->user()->reservations->last();
     }
 }

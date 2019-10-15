@@ -1,4 +1,4 @@
-const sizes = {
+const spacing = {
   1: '0.25rem',
   2: '0.5rem',
   3: '0.75rem',
@@ -28,6 +28,10 @@ const sizes = {
   56: '14rem',
   60: '15rem',
   64: '16rem',
+  72: '18rem',
+  80: '20rem',
+  88: '22rem',
+  96: '24rem',
   xs: '20rem',
   sm: '24rem',
   md: '28rem',
@@ -83,15 +87,17 @@ module.exports = {
       none: 'none',
     },
     extend: {
-      margin: sizes,
+      negativeMargin: spacing,
+      margin: spacing,
+      padding: spacing,
       width: {
         row: 'calc(100% + 1.5rem)',
         'row-tight': 'calc(100% + 0.5rem)',
       },
-      maxWidth: sizes,
-      minWidth: sizes,
-      maxHeight: sizes,
-      minHeight: sizes,
+      maxWidth: spacing,
+      minWidth: spacing,
+      maxHeight: spacing,
+      minHeight: spacing,
     },
   },
   variants: {

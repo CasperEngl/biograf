@@ -5,6 +5,6 @@ return [
   'title.date' => 'Date',
   'title.runtime' => 'Runtime',
   'title.version' => 'Version',
-  'runtime' => ':hours::minutes',
-  'purchase' => 'Purchase tickets',
+  'runtime' => ':hours hours :minutes minutes',
+  'order' => 'Order tickets',
 ];

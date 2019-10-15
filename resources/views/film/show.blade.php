@@ -23,10 +23,12 @@
   @endforeach
 @endif --}}
 <div class="container mb-32">
-  <div class="mt-48 md:-mt-24">
-    <div class="row">
+  <div class="-mt-24">
+    <div class="row flex-col-reverse md:flex-row">
       <div class="col flex-1">
         <div class="p-10 bg-gray-800 shadow-lg h-full rounded">
+          <h2 class="mb-4 text-3xl uppercase font-black text-gray-500">{{ trans('film.overview') }}</h2>
+          <p class="text-2xl text-gray-200 leading-normal">{{ $film->overview }}</p>
           @if ($film->premiere)
           <div class="my-5">
             <h3 class="mb-2 text-2xl uppercase font-black text-gray-500">{{ trans('film.premiere') }}</h3>
@@ -79,17 +81,14 @@
           @endif
         </div>
       </div>
-      <div class="col md:w-1/2 max-w-md inline-flex flex-col justify-between items-start">
+      <div class="col mx-auto mb-8 md:mb-0 md:w-1/2 max-w-md inline-flex flex-col items-start">
         @if ($siblings->get('previous')) {{-- Only show if there is a previous film --}}
-          <a href="{{ route('film.show', ['slug' => $siblings->get('previous')->slug]) }}" class="my-1 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};"><i class="fa fa-chevron-left mr-2 text-sm"></i> {{ App\Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()->title }}</a>
+          <a href="{{ route('film.show', ['slug' => $siblings->get('previous')->slug]) }}" class="my-1 w-full btn btn-md text-center uppercase shadow-md"><i class="fa fa-chevron-left mr-2 text-sm"></i> {{ App\Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()->title }}</a>
         @endif
         @if ($siblings->get('next')) {{-- Only show if there is a next film --}}
-          <a href="{{ route('film.show', ['slug' => $siblings->get('next')->slug]) }}" class="my-1 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ App\Film::where('id', '>', $film->id)->orderBy('id')->first()->title }} <i class="fa fa-chevron-right ml-2 text-sm"></i></a>
+          <a href="{{ route('film.show', ['slug' => $siblings->get('next')->slug]) }}" class="my-1 w-full btn btn-md text-center uppercase shadow-md">{{ App\Film::where('id', '>', $film->id)->orderBy('id')->first()->title }} <i class="fa fa-chevron-right ml-2 text-sm"></i></a>
         @endif
-        <div class="p-10 mt-8 w-full h-full bg-gray-800 shadow-lg rounded">
-          <h2 class="mb-4 text-3xl uppercase font-black text-gray-500">{{ trans('film.overview') }}</h2>
-          <p class="text-2xl text-gray-200 leading-normal">{{ $film->overview }}</p>
-        </div>
+        <a href="{{  }}" class="my-1 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('showing.order') }}</a>
       </div>
     </div>
   </div>

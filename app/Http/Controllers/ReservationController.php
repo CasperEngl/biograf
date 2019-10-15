@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Showing;
+use App\Reservation;
 use Illuminate\Http\Request;
 use App\Actions\ShowingActions;
 
@@ -15,15 +16,17 @@ class ReservationController extends Controller
 
     public function store(string $date, Showing $showing, Request $request)
     {
-        $this->showingActions->reserveSeats($showing, collect($request->seats), collect($request->ticket_count));
+        $reservation = $this->showingActions->reserveSeats(
+            $showing,
+            collect($request->seats),
+            collect($request->ticket_count)
+        );
 
-        return redirect()->route('reservation.pay');
+        return redirect()->route('reservation.payment.index', $reservation);
     }
 
-    public function pay()
+    public function show(Reservation $reservation)
     {
-        $reservations = auth()->user()->reservations->where('paid', false)->groupBy('showing_id');
-
-        return view('reservation.pay', compact('reservations'));
+        return view('reservation.overview.show', compact('reservation'));
     }
 }

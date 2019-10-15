@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Tmdb\Model\Collection\People\PersonInterface;
 
 class ProcessContributor implements ShouldQueue
 {
@@ -24,7 +25,7 @@ class ProcessContributor implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($person, Contributor $contributor, $model)
+    public function __construct(PersonInterface $person, Contributor $contributor, $model)
     {
         $this->person = $person;
         $this->contributor = $contributor;

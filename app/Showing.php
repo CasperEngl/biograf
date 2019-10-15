@@ -13,8 +13,16 @@ class Showing extends Model
 {
     use SoftDeletes;
 
+    const VERSIONS = [
+        '2D',
+        '3D',
+        'IMAX 2D',
+        'IMAX 3D',
+    ];
+
     protected $casts = [
         'price' => 'integer',
+        'multiplier' => 'collection',
     ];
 
     protected $dates = [
@@ -23,6 +31,11 @@ class Showing extends Model
         'end',
     ];
 
+    public function setStartAttribute($value)
+    {
+        $this->attributes['start'] = getNearestTimeRoundedUpWithMinimum($value, 5);
+    }
+
     public function getStartTimeAttribute()
     {
         return $this->start->toLocaleString();
@@ -30,7 +43,7 @@ class Showing extends Model
     
     public function getEndTimeAttribute()
     {
-        return $this->end->toLocaleString();
+        return $this->start->addMinutes($this->film->runtime);
     }
 
     public function cinema()

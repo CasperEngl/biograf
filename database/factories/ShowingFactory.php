@@ -16,20 +16,15 @@ $factory->define(Showing::class, function (Faker $faker) {
         $date = $faker->dateTimeBetween($morning, now()->addDays(30));
     }
 
-    $versions = [
-        '2D',
-        '3D',
-        'IMAX 2D',
-        'IMAX 3D',
-    ];
-
     return [
         'cinema_id' => App\Cinema::all()->random(),
         'film_id' => App\Film::all()->random(),
-        'version' => $faker->randomElement($versions),
+        'version' => $faker->randomElement(Showing::VERSIONS),
         'price' => 10000,
-        'date' => Carbon::instance($date),
-        'start' => Carbon::instance($date)->addHours(4),
-        'end' => Carbon::instance($date)->addHours(6),
+        'multiplier' => collect([
+            'regular' => 1,
+            'senior' => 0.9,
+        ]),
+        'start' => Carbon::instance($date),
     ];
 });

@@ -17,6 +17,7 @@ class CreateSeatsTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('cinema_id')->unsigned();
+            $table->bigInteger('reservation_id')->unsigned()->nullable();
             $table->string('row');
             $table->string('column');
             $table->boolean('disability');

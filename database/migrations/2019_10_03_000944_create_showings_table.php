@@ -20,12 +20,10 @@ class CreateShowingsTable extends Migration
             $table->bigInteger('film_id')->unsigned();
             
             $table->string('price');
-            $table->string('senior_discount');
             $table->string('version');
+            $table->json('multiplier');
 
-            $table->date('date');
             $table->dateTimeTz('start');
-            $table->dateTimeTz('end');
 
             $table->softDeletes();
             $table->timestamps();

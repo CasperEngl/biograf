@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(
+            'App\Payment\PaymentGateway',
+            'App\Payment\Gateways\Quickpay\PaymentGateway'
+        );
     }
 }

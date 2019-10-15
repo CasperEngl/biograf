@@ -68,6 +68,6 @@ class Seat extends Model
 
     public function reservation()
     {
-        return $this->hasOne(Reservation::class);
+        return $this->belongsTo(Reservation::class);
     }
 }
