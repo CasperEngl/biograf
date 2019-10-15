@@ -32,8 +32,18 @@
       </div>
     </div>
   </div>
-<div class="container">
-    <calendar-slider></calendar-slider>
+<div class="container my-8">
+  <div class="row-tight">
+    @foreach ($dates as $date)
+    <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
+      <a href="{{ route('showing.index', ['date' => $date->toDateString()]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
+        <div class="text-sm">{{ $date->format('D') }}</div>
+        <div class="text-3xl my-2">{{ $date->format('m-d') }}</div>
+        <div class="text-sm">{{ $date->format('M') }}</div>
+      </a>
+    </div>
+    @endforeach
+  </div>
 </div>
 <div class="container py-16">
     <div class="row">
