@@ -15,7 +15,8 @@ class HomeController extends Controller
     public function index()
     {
         $featured = $this->film->all()->random();
+        $dates = generateSubsequentDates(now(), 6);
 
-        return view('home', compact('featured'));
+        return view('home', compact('featured', 'dates'));
     }
 }
