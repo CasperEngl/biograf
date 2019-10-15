@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Film;
 use App\Genre;
+use App\Showing;
 use App\FilmCast;
 use App\FilmCrew;
 use App\Contributor;
@@ -42,20 +43,20 @@ class FilmActions
         $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
 
         echo '  Adding translations';
+        echo $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations())) ? '✅' : '🚫';
         echo "\n";
-        $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations()));
         
         echo '  Adding genres';
+        echo $this->addGenres($film, collect($this->tmdb($film)->getGenres())) ? '✅' : '🚫';
         echo "\n";
-        $this->addGenres($film, collect($this->tmdb($film)->getGenres()));
         
         echo '  Adding cast';
+        echo $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast())) ? '✅' : '🚫';
         echo "\n";
-        $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast()));
         
         echo '  Adding crew';
+        echo $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew())) ? '✅' : '🚫';
         echo "\n";
-        $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew()));
 
         // Save translations
         $film->save();
@@ -102,121 +103,145 @@ class FilmActions
 
     public function addTranslations(Film $film, $movie, Collection $translations)
     {
-        $translations->each(
-            function ($translation) use ($film, $movie) {
-                // Data is array form, so we cast it to object
-                // for readability with our other code
-                $data = (object) $translation->getData();
+        try {
+            $translations->each(
+                function ($translation) use ($film, $movie) {
+                    // Data is array form, so we cast it to object
+                    // for readability with our other code
+                    $data = (object) $translation->getData();
+    
+                    // Set title, overview and homepage according
+                    // to translation entries
+                    $film->setTranslation(
+                        'title',
+                        $translation->getIso6391(),
+                        empty($data->title)
+                            ? $movie->getTitle()
+                            : $data->title
+                    );
+                    $film->setTranslation(
+                        'overview',
+                        $translation->getIso6391(),
+                        empty($data->overview)
+                            ? $movie->getOverview()
+                            : $data->overview
+                    );
+                    $film->setTranslation(
+                        'homepage',
+                        $translation->getIso6391(),
+                        empty($data->homepage)
+                            ? $movie->getHomepage() ?? 'https://themoviedb.org'
+                            : $data->homepage
+                    );
+                }
+            );
 
-                // Set title, overview and homepage according
-                // to translation entries
-                $film->setTranslation(
-                    'title',
-                    $translation->getIso6391(),
-                    empty($data->title)
-                        ? $movie->getTitle()
-                        : $data->title
-                );
-                $film->setTranslation(
-                    'overview',
-                    $translation->getIso6391(),
-                    empty($data->overview)
-                        ? $movie->getOverview()
-                        : $data->overview
-                );
-                $film->setTranslation(
-                    'homepage',
-                    $translation->getIso6391(),
-                    empty($data->homepage)
-                        ? $movie->getHomepage() ?? 'https://themoviedb.org'
-                        : $data->homepage
-                );
-            }
-        );
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function addGenres(Film $film, Collection $genres)
     {
-        $genres->each(
-            function ($genre) use ($film) {
-                // Find the genre in database from genre id
-                $genre = Genre::where(
-                    'tmdb_genre_id',
-                    $genre->getId()
-                )->firstOrFail(); // Get the first match
+        try {
+            $genres->each(
+                function ($genre) use ($film) {
+                    // Find the genre in database from genre id
+                    $genre = Genre::where(
+                        'tmdb_genre_id',
+                        $genre->getId()
+                    )->firstOrFail(); // Get the first match
+    
+                    // Attach the genre found in database to film genres
+                    $film->genres()->attach($genre);
+                }
+            );
 
-                // Attach the genre found in database to film genres
-                $film->genres()->attach($genre);
-            }
-        );
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function addCast(Film $film, Collection $casts)
     {
-        $casts->each(
-            function ($cast) use ($film) {
-                $contributor = Contributor::updateOrCreate(
-                    [
-                        'tmdb_id' => $cast->getId(),
-                    ],
-                    [
-                        'name' => $cast->getName(),
-                    ],
-                );
+        try {
+            $casts->each(
+                function ($cast) use ($film) {
+                    $contributor = Contributor::updateOrCreate(
+                        [
+                            'tmdb_id' => $cast->getId(),
+                        ],
+                        [
+                            'name' => $cast->getName(),
+                        ],
+                    );
+    
+                    $filmcast = FilmCast::updateOrCreate(
+                        [
+                            'tmdb_credit_id' => $cast->getCreditId(),
+                        ],
+                        [
+                            'film_id' => $film->id,
+                            'contributor_id' => $contributor->id,
+                            'tmdb_cast_id' => $cast->getCastId(),
+                            'character' => $cast->getCharacter(),
+                            'order' => $cast->getOrder(),
+                        ],
+                    );
+    
+                    $contributor->filmCasts()->save($filmcast);
+                    $film->casts()->save($filmcast);
+                    
+                    ProcessContributor::dispatch($cast, $contributor, $filmcast);
+                }
+            );
 
-                $filmcast = FilmCast::updateOrCreate(
-                    [
-                        'tmdb_credit_id' => $cast->getCreditId(),
-                    ],
-                    [
-                        'film_id' => $film->id,
-                        'contributor_id' => $contributor->id,
-                        'tmdb_cast_id' => $cast->getCastId(),
-                        'character' => $cast->getCharacter(),
-                        'order' => $cast->getOrder(),
-                    ],
-                );
-
-                $contributor->filmCasts()->save($filmcast);
-                $film->casts()->save($filmcast);
-                
-                ProcessContributor::dispatch($cast, $contributor, $filmcast);
-            }
-        );
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function addCrew(Film $film, Collection $crews)
     {
-        $crews->each(
-            function ($crew) use ($film) {
-                $contributor = Contributor::updateOrCreate(
-                    [
-                        'tmdb_id' => $crew->getId(),
-                    ],
-                    [
-                        'name' => $crew->getName(),
-                    ],
-                );
+        try {
+            $crews->each(
+                function ($crew) use ($film) {
+                    $contributor = Contributor::updateOrCreate(
+                        [
+                            'tmdb_id' => $crew->getId(),
+                        ],
+                        [
+                            'name' => $crew->getName(),
+                        ],
+                    );
+    
+                    $filmcrew = FilmCrew::updateOrCreate(
+                        [
+                            'tmdb_credit_id' => $crew->getCreditId(),
+                        ],
+                        [
+                            'film_id' => $film->id,
+                            'contributor_id' => $contributor->id,
+                            'department' => $crew->getDepartment(),
+                            'job' => $crew->getJob(),
+                            'order' => 0, // Crew doesn't have order
+                        ],
+                    );
+    
+                    $contributor->filmCrews()->save($filmcrew);
+                    $film->casts()->save($filmcrew);
+                    
+                    ProcessContributor::dispatch($crew, $contributor, $filmcrew);
+                }
+            );
 
-                $filmcrew = FilmCrew::updateOrCreate(
-                    [
-                        'tmdb_credit_id' => $crew->getCreditId(),
-                    ],
-                    [
-                        'film_id' => $film->id,
-                        'contributor_id' => $contributor->id,
-                        'department' => $crew->getDepartment(),
-                        'job' => $crew->getJob(),
-                        'order' => 0, // Crew doesn't have order
-                    ],
-                );
-
-                $contributor->filmCrews()->save($filmcrew);
-                $film->casts()->save($filmcrew);
-                
-                ProcessContributor::dispatch($crew, $contributor, $filmcrew);
-            }
-        );
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function siblings(Film $film): Collection
@@ -232,5 +257,12 @@ class FilmActions
         }
 
         return $films;
+    }
+
+    public function nextShowing(Film $film)
+    {
+        $showing = Showing::where('film_id', $film->id)->orderBy('start')->first();
+
+        return $showing;
     }
 }
