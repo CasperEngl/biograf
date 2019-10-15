@@ -87,3 +87,22 @@ if (! function_exists('getNearestTimeRoundedUpWithMinimum')) {
         return $futureMoment->startOfMinute();
     }
 }
+
+if (! function_exists('generateSubsequentDates')) {
+    /**
+     * Generates a collection of dates following the start date up to the maximum count
+     * @param \Carbon\Carbon $startDate
+     * @param int $count
+     * @return Illuminate\Support\Collection
+     */
+    function generateSubsequentDates($startDate, $count)
+    {
+        $dates = collect([]);
+        
+        for ($i = 0; $i < $count; $i++) {
+            $dates->push($startDate->copy()->add($i, 'day'));
+        }
+
+        return $dates;
+    }
+}
