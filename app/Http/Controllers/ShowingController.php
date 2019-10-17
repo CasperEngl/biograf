@@ -7,6 +7,7 @@ use App\Seat;
 use App\Showing;
 use Carbon\Carbon;
 use App\Reservation;
+use App\Actions\FilmActions;
 use Illuminate\Http\Request;
 use App\Actions\ShowingActions;
 
@@ -40,5 +41,16 @@ class ShowingController extends Controller
         $minutes = $showing->film->runtime - ($days * 1440) - ($hours * 60) ?? 0;
 
         return view('showing.show', compact('showing', 'date', 'hours', 'minutes'));
+    }
+
+    public function days(string $slug)
+    {
+        $film = $this->film->where('slug', $slug)->firstOrFail();
+        $showing = (new FilmActions)->nextShowing($film);
+        $showingDays = (new ShowingActions)->nextShowings($showing, 999)->groupBy(function ($showing) {
+            return $showing->start->format('Y-m-d');
+        });
+
+        return view('showing.days', compact('film', 'showingDays'));
     }
 }
