@@ -8,6 +8,9 @@ require('laravel-mix-tailwind');
 require('laravel-mix-purgecss');
 require('laravel-mix-postcss-config');
 require('laravel-mix-svg');
+require('laravel-mix-imagemin');
+
+mix.imagemin('resources/img/**/*', 'optimized');
 
 mix.copyDirectory('resources/img', 'public/img');
 mix.copyDirectory('resources/favicon', 'public/favicon');
