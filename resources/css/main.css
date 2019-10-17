@@ -61,6 +61,10 @@ select.field {
   @apply inline-flex items-center border-2 bg-transparent text-white;
 }
 
+.btn.btn-ghost:hover {
+  @apply border-gray-300 bg-white text-black;
+}
+
 .btn.btn-md {
   @apply py-3 px-7 text-lg;
 }
