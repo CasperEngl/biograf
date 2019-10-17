@@ -33,6 +33,7 @@ Route::prefix('visninger')->group(
         Route::get('/{date}/{showing}', [ShowingController::class, 'show'])
             ->where(['date' => '\d{4}-\d{2}-\d{2}'])
             ->name('showing.show');
+        Route::get('/{slug}', [ShowingController::class, 'days'])->name('showing.days');
     }
 );
 
