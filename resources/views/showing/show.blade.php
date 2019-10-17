@@ -42,13 +42,9 @@
   </div>
 </section>
 <section class="container mb-8">
+  <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
   <div class="row-tight">
   @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $showing)
-  @if ($loop->first)
-  <div class="col w-full">
-    <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
-  </div>
-  @endif
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
     <a href="{{ route('showing.show', ['date' => $showing->start->toDateString(), 'showing' => $showing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
       <div class="text-sm">{{ $showing->start->format('D') }}</div>
