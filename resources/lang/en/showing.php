@@ -10,4 +10,7 @@ return [
   'order.description' => 'Click to view the next showing of this film.',
   'next.title' => 'Following showings of this film',
   'next.none' => 'This is the last showing.',
+  'now_playing' => 'Now playing',
+  'all' => 'See all days',
+  'days' => 'You can watch this movie these days',
 ];

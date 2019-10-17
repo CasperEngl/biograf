@@ -1,7 +1,7 @@
 <?php
 
 return [
-  'read-more' => 'Read more',
+  'read_more' => 'Read more',
   'trailer' => 'Play trailer',
   'overview' => 'Overview',
   'premiere' => 'Premiere',
