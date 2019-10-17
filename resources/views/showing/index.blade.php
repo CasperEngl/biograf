@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-32">
+<div class="min-h-lg pt-64 pb-32"
+  style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ asset('resources/img/showing-hero.jpg') }}') no-repeat center center; background-size: cover;">
+  <div class="container">
+    <h1 class="text-6xl italic uppercase font-black mb-4 text-white text-center md:text-left">
+      {{ trans('showing.now_playing') }}
+    </h1>
+  </div>
+</div>
+<div class="mt-16 mb-64 container">
   <div class="row">
     @foreach ($films as $film)
       <div class="col w-1/4 my-3">
@@ -13,15 +21,21 @@
           <h3 class="text-2xl uppercase font-black">{{ Str::limit($film->title, 18) }}</h3>
         </a>
         @if (count($film->showings))
+        <div class="row-tight">
           @foreach ($film->showings as $showing)
-            <a href="{{ route('showing.show', compact('date', 'showing')) }}" class="relative my-1 h-12 bg-gray-700 flex justify-between">
-              <p class="p-1 w-full flex items-center justify-center">{{ getNearestTimeRoundedUpWithMinimum($showing->start, 5)->format('H:i') }}</p>
-              <span class="absolute inset-y-0 right-0 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500 p-px w-12" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinema->name }}</span>
+          <div class="col w-1/2">
+            <a href="{{ route('showing.show', compact('date', 'showing')) }}" class="relative my-1 h-12 bg-gray-700 hover:bg-gray-800 group flex">
+              <p class="p-1 pl-4 w-full flex items-center">{{ getNearestTimeRoundedUpWithMinimum($showing->start, 5)->format('H:i') }}</p>
+              <span class="absolute inset-y-0 right-0 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500 group-hover:bg-orange-400 p-px w-12" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinema->name }}</span>
             </a>
+          </div>
           @endforeach
+        </div>
         @else
-          <p class="my-1">{{ trans('showing.none') }}</p>
+        <p class="my-1">{{ trans('showing.none') }}</p>
         @endif
+        <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('film.read_more') }}</a>
+        <a href="{{ route('showing.days', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('showing.all') }}</a>
       </div>
     @endforeach
   </div>
