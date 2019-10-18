@@ -23,7 +23,7 @@
       <div class="row md:w-2/3">
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.date') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->start->toFormattedDateString() }}</h3>
+          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->start->toFormattedDateString() }} {{ $showing->start->format('H:i') }}</h3>
         </div>
         @if ($showing->film->runtime)
         <div class="col my-3 w-full">
@@ -41,14 +41,14 @@
     </div>
   </div>
 </section>
-<section class="container mb-8">
+<section class="container my-16">
   <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
   <div class="row-tight">
   @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $showing)
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
     <a href="{{ route('showing.show', ['date' => $showing->start->toDateString(), 'showing' => $showing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
       <div class="text-sm">{{ $showing->start->format('D') }}</div>
-      <div class="text-xl my-2">{{ $showing->start->format('m-d') }} {{ $showing->start->format('h:m') }}</div>
+      <div class="text-xl my-2">{{ $showing->start->format('m-d') }} {{ $showing->start->format('H:i') }}</div>
       <div class="text-sm">{{ $showing->start->format('M') }}</div>
     </a>
   </div>
@@ -57,7 +57,7 @@
   @endforelse
   </div>
 </section>
-<div class="container">
+<section class="container my-16">
   <form action="{{ route('reservation.store', compact('date', 'showing')) }}" method="POST">
     @csrf
     @method('POST')
@@ -76,5 +76,5 @@
       </div>
     </div>
   </form>
-</div>
+</section>
 @endsection
