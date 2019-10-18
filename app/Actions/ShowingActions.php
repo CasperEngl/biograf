@@ -43,11 +43,14 @@ class ShowingActions
             })
             ->each(function ($columns, $row) use ($showing, $ticket_count) {
                 collect($columns)->each(function ($_, $column) use ($showing, $row, $ticket_count) {
-                    $seat = Seat::where('row', $row)->where('column', $column)->firstOrFail();
+                    $seat = Seat::where('cinema_id', $showing->cinema->getKey())
+                        ->where('row', $row)
+                        ->where('column', $column)
+                        ->firstOrFail();
 
                     $reservation = Reservation::firstOrCreate(
                         [
-                            'showing_id' => $showing->id,
+                            'showing_id' => $showing->getKey(),
                             'user_id' => auth()->id(),
                         ],
                         [
@@ -65,6 +68,6 @@ class ShowingActions
 
     public function nextShowings(Showing $showing, $count = 1)
     {
-        return Showing::where('film_id', $showing->film->id)->orderBy('start')->take($count)->get();
+        return Showing::where('film_id', $showing->film->getKey())->orderBy('start')->take($count)->get();
     }
 }
