@@ -102,21 +102,21 @@ Artisan::command(
         try {
             $this->comment('Starting to remove all files');
 
-            $media->all()->each(function ($med) {
+            $media->all()->each(function ($media) {
                 $this->comment(
                     'Deleting '
-                    . $med->id
+                    . $media->getKey()
                     . ' '
-                    . $med->file_name
+                    . $media->file_name
                     . ' ('
-                    . $med->model_type
+                    . $media->model_type
                     . '<'
-                    . $med->collection_name
+                    . $media->collection_name
                     . '>'
                     . ')'
                 );
 
-                $med->forceDelete();
+                $media->forceDelete();
             });
 
             $this->comment('All files removed successfully');

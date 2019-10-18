@@ -15,7 +15,7 @@ class CinemasTableSeeder extends Seeder
             for ($rowIndex = 0; $rowIndex <= $cinema->row_count; $rowIndex++) {
                 for ($columnIndex = 0; $columnIndex <= $cinema->row_count; $columnIndex++) {
                     $seat = factory(App\Seat::class)->make([
-                        'cinema_id' => $cinema->id,
+                        'cinema_id' => $cinema->getKey(),
                         'row' => App\Seat::ROW_IDS[$rowIndex],
                         'column' => $columnIndex,
                     ]);

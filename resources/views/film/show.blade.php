@@ -83,10 +83,10 @@
       </div>
       <div class="col mx-auto mb-8 md:mb-0 md:w-1/2 max-w-md inline-flex flex-col items-start">
         @if ($siblings->get('previous')) {{-- Only show if there is a previous film --}}
-          <a href="{{ route('film.show', ['slug' => $siblings->get('previous')->slug]) }}" class="mb-2 w-full btn btn-md uppercase shadow-md"><i class="fa fa-chevron-left mr-2 text-sm"></i> {{ App\Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()->title }}</a>
+          <a href="{{ route('film.show', ['slug' => $siblings->get('previous')->slug]) }}" class="mb-2 w-full btn btn-md uppercase shadow-md"><i class="fa fa-chevron-left mr-2 text-sm"></i> {{ App\Film::where('id', '<', $film->getKey())->orderBy('id', 'desc')->first()->title }}</a>
         @endif
         @if ($siblings->get('next')) {{-- Only show if there is a next film --}}
-          <a href="{{ route('film.show', ['slug' => $siblings->get('next')->slug]) }}" class="mb-2 w-full btn btn-md uppercase shadow-md">{{ App\Film::where('id', '>', $film->id)->orderBy('id')->first()->title }} <i class="fa fa-chevron-right ml-2 text-sm"></i></a>
+          <a href="{{ route('film.show', ['slug' => $siblings->get('next')->slug]) }}" class="mb-2 w-full btn btn-md uppercase shadow-md">{{ App\Film::where('id', '>', $film->getKey())->orderBy('id')->first()->title }} <i class="fa fa-chevron-right ml-2 text-sm"></i></a>
         @endif
         <div class="w-full text-center" :class="{
           'my-4': {{ $siblings->count() }}

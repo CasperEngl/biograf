@@ -44,7 +44,7 @@ class ReservationPolicy
      */
     public function create(User $user)
     {
-        return $user->id;
+        return $user->getKey();
     }
 
     /**
