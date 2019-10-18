@@ -26,6 +26,7 @@ class Reservation extends Model implements PayableInterface
         'showing_id',
         'seat_id',
         'user_id',
+        'payment_key',
         'ticket_count',
         'end',
     ];
@@ -45,6 +46,10 @@ class Reservation extends Model implements PayableInterface
 
         self::created(function ($reservation) {
             $reservation->setStatus(self::PENDING);
+
+            $reservation->update([
+                'payment_key' => bin2hex(random_bytes(2))
+            ]);
         });
 
         self::deleting(function ($reservation) {
@@ -107,7 +112,12 @@ class Reservation extends Model implements PayableInterface
 
     public function getTransactionId()
     {
-        return 'reservation-' . config('payment.suffix', 'unknown') . '-' . $this->id;
+        return 'reservation' . $this->getTransactionIdSuffix();
+    }
+
+    public function getTransactionIdSuffix()
+    {
+        return sprintf('-%s-%s', config('payment.suffix', 'unknown'), $this->getKey());
     }
 
     public function getPaymentAmount()
