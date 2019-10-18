@@ -42,19 +42,19 @@ class FilmActions
         // Make sure the original language title exists
         $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
 
-        echo '  Adding translations';
+        echo '  Adding translations ';
         echo $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations())) ? '✅' : '🚫';
         echo "\n";
         
-        echo '  Adding genres';
+        echo '  Adding genres ';
         echo $this->addGenres($film, collect($this->tmdb($film)->getGenres())) ? '✅' : '🚫';
         echo "\n";
         
-        echo '  Adding cast';
+        echo '  Adding cast ';
         echo $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast())) ? '✅' : '🚫';
         echo "\n";
         
-        echo '  Adding crew';
+        echo '  Adding crew ';
         echo $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew())) ? '✅' : '🚫';
         echo "\n";
 
@@ -183,8 +183,8 @@ class FilmActions
                             'tmdb_credit_id' => $cast->getCreditId(),
                         ],
                         [
-                            'film_id' => $film->id,
-                            'contributor_id' => $contributor->id,
+                            'film_id' => $film->getKey(),
+                            'contributor_id' => $contributor->getKey(),
                             'tmdb_cast_id' => $cast->getCastId(),
                             'character' => $cast->getCharacter(),
                             'order' => $cast->getOrder(),
@@ -223,8 +223,8 @@ class FilmActions
                             'tmdb_credit_id' => $crew->getCreditId(),
                         ],
                         [
-                            'film_id' => $film->id,
-                            'contributor_id' => $contributor->id,
+                            'film_id' => $film->getKey(),
+                            'contributor_id' => $contributor->getKey(),
                             'department' => $crew->getDepartment(),
                             'job' => $crew->getJob(),
                             'order' => 0, // Crew doesn't have order
@@ -248,12 +248,12 @@ class FilmActions
     {
         $films = collect();
 
-        if (Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first()) {
-            $films->put('previous', Film::where('id', '<', $film->id)->orderBy('id', 'desc')->first());
+        if (Film::where('id', '<', $film->getKey())->orderBy('id', 'desc')->first()) {
+            $films->put('previous', Film::where('id', '<', $film->getKey())->orderBy('id', 'desc')->first());
         }
 
-        if (Film::where('id', '>', $film->id)->orderBy('id')->first()) {
-            $films->put('next', Film::where('id', '>', $film->id)->orderBy('id')->first());
+        if (Film::where('id', '>', $film->getKey())->orderBy('id')->first()) {
+            $films->put('next', Film::where('id', '>', $film->getKey())->orderBy('id')->first());
         }
 
         return $films;
@@ -261,7 +261,7 @@ class FilmActions
 
     public function nextShowing(Film $film)
     {
-        $showing = Showing::where('film_id', $film->id)->orderBy('start')->first();
+        $showing = Showing::where('film_id', $film->getKey())->orderBy('start')->first();
 
         return $showing;
     }
