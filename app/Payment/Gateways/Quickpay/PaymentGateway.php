@@ -41,7 +41,7 @@ class PaymentGateway implements PaymentGatewayInterface
 
         $payment_status =
             $this->getPaymentResult() === self::PAYMENT_RESULT_OK &&
-            $this->payableItem->fresh()->transactions->last()->status === 'approved';
+            optional($this->payableItem->fresh()->transactions->last())->status === 'approved';
 
         if ($payment_status) {
             return $this->payableItem->getContinueUrl();
@@ -57,7 +57,7 @@ class PaymentGateway implements PaymentGatewayInterface
             ]
         )->asArray();
 
-        $this->payableItem->fresh()->transactions->last()->update(
+        optional($this->payableItem->fresh()->transactions->last())->update(
             [
                 'payment_link' => $response['url'],
             ]
