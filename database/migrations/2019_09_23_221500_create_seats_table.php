@@ -30,6 +30,12 @@ class CreateSeatsTable extends Migration
                 ->references('id')
                 ->on('cinemas')
                 ->onDelete('cascade');
+
+            $table
+                ->foreign('reservation_id')
+                ->references('id')
+                ->on('reservations')
+                ->onDelete('set null');
         });
     }
 

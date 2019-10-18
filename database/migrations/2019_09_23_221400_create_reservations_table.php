@@ -18,6 +18,7 @@ class CreateReservationsTable extends Migration
 
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('showing_id')->unsigned();
+            $table->string('payment_key')->nullable();
             $table->json('ticket_count');
             $table->dateTime('end');
 
