@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="pt-32 mb-8" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $showing->film->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover; border-color: {{ optional($showing->film->colors)->get(0) }};">
-  <div class="container md:-mb-64">
+  <div class="container md:-mb-66">
     <div class="row items-center flex-col-reverse md:flex-row">
       <div class="col w-full md:w-1/3">
         <a href="{{ route('film.show', ['slug' => $showing->film->slug]) }}">
@@ -44,12 +44,12 @@
 <section class="container my-16">
   <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
   <div class="row-tight">
-  @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $showing)
+  @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $nextShowing)
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
-    <a href="{{ route('showing.show', ['date' => $showing->start->toDateString(), 'showing' => $showing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
-      <div class="text-sm">{{ $showing->start->format('D') }}</div>
-      <div class="text-xl my-2">{{ $showing->start->format('m-d') }} {{ $showing->start->format('H:i') }}</div>
-      <div class="text-sm">{{ $showing->start->format('M') }}</div>
+    <a href="{{ route('showing.show', ['date' => $nextShowing->start->toDateString(), 'showing' => $nextShowing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
+      <div class="text-sm">{{ $nextShowing->start->format('D') }}</div>
+      <div class="text-xl my-2">{{ $nextShowing->start->format('m-d') }} {{ $nextShowing->start->format('H:i') }}</div>
+      <div class="text-sm">{{ $nextShowing->start->format('M') }}</div>
     </a>
   </div>
   @empty
@@ -68,7 +68,7 @@
         <cinema-ticket-controller price="{{ $showing->price }}" class="h-full rounded"></cinema-ticket-controller>
       </div>
       <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
-        <cinema-layout class="mb-4" :cinema="{{ json_encode($showing->cinema) }}" :seats="{{ $showing->cinema->seats }}" :disabled="false"></cinema-layout>
+        <cinema-layout class="mb-4" :cinema="{{ json_encode($showing->cinema()) }}" :disabled="false"></cinema-layout>
       </div>
       <div class="my-8 col w-full flex justify-between">
         <a href="{{ url()->previous() }}" class="btn btn-lg btn-ghost">{!! trans('pagination.back') !!}</a>
