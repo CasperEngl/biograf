@@ -22,6 +22,10 @@ class Cinema extends Model
         'column_count' => 'integer',
     ];
 
+    protected $with = [
+        'seats',
+    ];
+
     public function users()
     {
         return $this->hasManyThrough(User::class, Reservation::class);
@@ -29,7 +33,7 @@ class Cinema extends Model
 
     public function seats()
     {
-        return $this->hasMany(Seat::class)->with('reservation');
+        return $this->hasMany(Seat::class);
     }
 
     public function genres()
