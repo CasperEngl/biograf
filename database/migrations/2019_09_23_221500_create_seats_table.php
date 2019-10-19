@@ -17,7 +17,6 @@ class CreateSeatsTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('cinema_id')->unsigned();
-            $table->bigInteger('reservation_id')->unsigned()->nullable();
             $table->string('row');
             $table->string('column');
             $table->boolean('disability');
@@ -30,12 +29,6 @@ class CreateSeatsTable extends Migration
                 ->references('id')
                 ->on('cinemas')
                 ->onDelete('cascade');
-
-            $table
-                ->foreign('reservation_id')
-                ->references('id')
-                ->on('reservations')
-                ->onDelete('set null');
         });
     }
 

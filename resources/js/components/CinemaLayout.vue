@@ -72,10 +72,6 @@ export default {
       type: Object,
       required: true,
     },
-    seats: {
-      type: Array,
-      required: false,
-    },
     disabled: {
       type: Boolean,
       required: false,
@@ -126,6 +122,9 @@ export default {
     },
   },
   computed: {
+    seats() {
+      return this.cinema.seats;
+    },
     singleRow() {
       return Object.values(this.cinemaRows).find(() => true);
     },

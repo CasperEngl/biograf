@@ -66,8 +66,8 @@ class Seat extends Model
         return $this->belongsTo(Cinema::class);
     }
 
-    public function reservation()
+    public function reservations()
     {
-        return $this->belongsTo(Reservation::class);
+        return $this->belongsToMany(Reservation::class, 'reservation_to_seat');
     }
 }

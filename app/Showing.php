@@ -48,7 +48,25 @@ class Showing extends Model
 
     public function cinema()
     {
-        return $this->belongsTo(Cinema::class);
+        // get() wraps up query builder
+        // first() is used because get() returns a collection of one item
+        $cinema = $this->belongsTo(Cinema::class)->get()->first();
+
+        $cinema->seats->map(function ($seat) {
+            // Only attach the current reservation for this showing
+            $seat->reservation = $seat->reservations
+                ->filter(function ($reservation) {
+                    return $reservation->showing_id === $this->getKey();
+                })
+                ->first();
+
+            // Unset other reservations as they will not be needed
+            unset($seat->reservations);
+
+            return $seat;
+        });
+
+        return $cinema;
     }
 
     public function reservations()

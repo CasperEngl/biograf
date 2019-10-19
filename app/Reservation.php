@@ -73,7 +73,7 @@ class Reservation extends Model implements PayableInterface
 
     public function seats()
     {
-        return $this->hasMany(Seat::class);
+        return $this->belongsToMany(Seat::class, 'reservation_to_seat');
     }
 
     public function getTransaction()
