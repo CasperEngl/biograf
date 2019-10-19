@@ -38,7 +38,7 @@
           <div class="col w-1/2 sm:w-1/3 my-1">
             <a href="{{ route('showing.show', compact('date', 'showing')) }}" class="relative my-1 h-12 flex bg-gray-700 hover:bg-gray-600">
               <p class="p-1 pl-4 w-full flex items-center">{{ getNearestTimeRoundedUpWithMinimum($showing->start, 5)->format('H:i') }}</p>
-              <span class="absolute inset-y-0 right-0 p-px w-12 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinema->name }}</span>
+              <span class="absolute inset-y-0 right-0 p-px w-12 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinema()->name }}</span>
             </a>
           </div>
           @endforeach
