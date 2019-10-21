@@ -62,9 +62,15 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import groupBy from 'lodash-es/groupBy';
 
 import { reverseObject } from '../util';
+
+import {
+  assertTicketAndSeatCountEqual,
+  assertReservationsDoNotExist,
+} from '../assertions';
 
 export default {
   props: {
@@ -90,6 +96,7 @@ export default {
     seatmaxWidth: 0,
     rows: vm.cinema.row_count,
     columns: vm.cinema.column_count,
+    seats: vm.cinema.seats,
     alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
   }),
   methods: {
@@ -102,29 +109,37 @@ export default {
       return this.seats.find((seat) => seat.row === row && seat.column === column);
     },
     selectSeat({ row, column }) {
-      const refs = [];
+      const { ticketsCount } = this.$store.getters;
 
-      Array.from(Array(this.$store.getters.ticketsCount)).forEach((_, i) => {
-        for (const s of this.seats) { // eslint-disable-line
-          s.selected = 0;
+      const seats = [];
 
-          if (s.row === row && s.column === column + i) {
-            refs.push(s);
+      for (let i = 0; i < ticketsCount; i++) {
+        for (const seat of this.seats) {
+          seat.selected = 0;
+
+          if (seat.row === row && seat.column === column + i) {
+            seats.push(seat);
           }
         }
-      });
+      }
 
-      refs.forEach((ref) => {
-        ref.selected = ref.selected ? 0 : 1;
-      });
+      try {
+        assertTicketAndSeatCountEqual(ticketsCount, seats.length);
+        assertReservationsDoNotExist(seats);
 
-      this.$forceUpdate();
+        for (const seat of seats) {
+          seat.selected = seat.selected ? 0 : 1;
+        }
+
+        this.$forceUpdate();
+      } catch (error) {
+        Swal.fire({
+          title: error.message,
+        });
+      }
     },
   },
   computed: {
-    seats() {
-      return this.cinema.seats;
-    },
     singleRow() {
       return Object.values(this.cinemaRows).find(() => true);
     },
@@ -142,9 +157,7 @@ export default {
         }
       }
 
-      const ordered = reverseObject(groupBy(rows, 'row'));
-
-      return ordered;
+      return reverseObject(groupBy(rows, 'row'));
     },
   },
   asyncComputed: {
