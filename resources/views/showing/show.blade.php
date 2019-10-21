@@ -47,9 +47,9 @@
   @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $nextShowing)
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
     <a href="{{ route('showing.show', ['date' => $nextShowing->start->toDateString(), 'showing' => $nextShowing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
-      <div class="text-sm">{{ $nextShowing->start->format('D') }}</div>
-      <div class="text-xl my-2">{{ $nextShowing->start->format('m-d') }} {{ $nextShowing->start->format('H:i') }}</div>
-      <div class="text-sm">{{ $nextShowing->start->format('M') }}</div>
+      <div class="text-sm mb-1">{{ $nextShowing->start->format('l') }}</div>
+      <div class="text-sm mb-2">{{ $nextShowing->start->format('d. M') }}</div>
+      <div class="text-xl mb-1">{{ $nextShowing->start->format('H:i') }}</div>
     </a>
   </div>
   @empty
@@ -68,7 +68,7 @@
         <cinema-ticket-controller price="{{ $showing->price }}" class="h-full rounded"></cinema-ticket-controller>
       </div>
       <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
-        <cinema-layout class="mb-4" :cinema="{{ json_encode($showing->cinema()) }}" :disabled="false"></cinema-layout>
+        <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" :disabled="false"></cinema-layout>
       </div>
       <div class="my-8 col w-full flex justify-between">
         <a href="{{ url()->previous() }}" class="btn btn-lg btn-ghost">{!! trans('pagination.back') !!}</a>
