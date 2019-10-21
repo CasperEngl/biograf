@@ -23,7 +23,7 @@
       <div class="row md:w-2/3">
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.date') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->start->toFormattedDateString() }} {{ $showing->start->format('H:i') }}</h3>
+          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->start->format('l') }} {{ $showing->start->toFormattedDateString() }} {{ $showing->start->format('H:i') }}</h3>
         </div>
         @if ($showing->film->runtime)
         <div class="col my-3 w-full">
