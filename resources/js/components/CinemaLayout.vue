@@ -2,10 +2,11 @@
   <section class="relative container p-4 bg-gray-900">
     <h3 class="text-xl text-center py-4" v-if="cinema.name">{{ cinema.name }}</h3>
     <span
-      v-html="svg('screen', 'block mx-auto text-red-700')"
-      class="block mx-auto"
+      v-html="svg('screen')"
+      class="block mx-auto text-red-700"
       :style="{
         maxWidth: `${cinemaWidth * 1.15}px`,
+        color: `${showing.film.colors && showing.film.colors.pop()}` || false,
       }"
     ></span>
     <table class="my-8 mx-auto" ref="cinema">
@@ -20,13 +21,12 @@
             :key="index"
             ref="seat"
           >{{ seat.column + 1 }}</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(row, letter) in cinemaRows" :key="letter">
-          <td
-            class="text-gray-600 font-bold text-sm text-center"
-          >{{ letter.toUpperCase() }}</td>
+          <td class="text-gray-600 font-bold text-sm text-center">{{ letter.toUpperCase() }}</td>
           <td class="py-1" v-for="(seat, index) in row" :key="index">
             <template v-if="findSeat(seat)">
               <button
@@ -52,8 +52,21 @@
               />
             </template>
           </td>
+          <td class="text-gray-600 font-bold text-sm text-center">{{ letter.toUpperCase() }}</td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <td
+            class="pb-1 text-gray-600 font-bold text-sm"
+            v-for="(seat, index) in singleRow"
+            :key="index"
+            ref="seat"
+          >{{ seat.column + 1 }}</td>
+          <th></th>
+        </tr>
+      </tfoot>
     </table>
     <cinema-seat-explainer class="mx-auto" :style="{
       maxWidth: `${cinemaWidth * 1.15}px`,
@@ -65,7 +78,7 @@
 import Swal from 'sweetalert2';
 import groupBy from 'lodash-es/groupBy';
 
-import { reverseObject } from '../util';
+import { reverseObject, alphabet, bestSeats } from '../util';
 
 import {
   assertTicketAndSeatCountEqual,
@@ -74,6 +87,10 @@ import {
 
 export default {
   props: {
+    showing: {
+      type: Object,
+      required: true,
+    },
     cinema: {
       type: Object,
       required: true,
@@ -90,14 +107,13 @@ export default {
     },
   },
   created() {
-    console.log(this.seats);
+    console.log(this.showing);
   },
   data: (vm) => ({
     seatmaxWidth: 0,
     rows: vm.cinema.row_count,
     columns: vm.cinema.column_count,
     seats: vm.cinema.seats,
-    alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
   }),
   methods: {
     toggleSeat(seat) {
@@ -111,25 +127,26 @@ export default {
     selectSeat({ row, column }) {
       const { ticketsCount } = this.$store.getters;
 
-      const seats = [];
+      this.seats.forEach((seat) => seat.selected = 0);
 
-      for (let i = 0; i < ticketsCount; i++) {
-        for (const seat of this.seats) {
-          seat.selected = 0;
+      // Get the actual row
+      let seats = groupBy(this.seats, 'row')[row];
+      // Get offset for deleted seats
+      // Half of ticketsCount is used to determine middle seat, so we can select adjacent seats
+      const columnOffset = column + (seats.length - this.columns);
 
-          if (seat.row === row && seat.column === column + i) {
-            seats.push(seat);
-          }
-        }
-      }
+      // Apply mutation with column offset
+      seats = seats.slice(
+        columnOffset,
+        columnOffset + ticketsCount,
+      );
 
       try {
         assertTicketAndSeatCountEqual(ticketsCount, seats.length);
         assertReservationsDoNotExist(seats);
 
-        for (const seat of seats) {
-          seat.selected = seat.selected ? 0 : 1;
-        }
+        // Set selected seats determined by column offset
+        seats.forEach((seat) => seat.selected = Number(!seat.selected));
 
         this.$forceUpdate();
       } catch (error) {
@@ -147,7 +164,7 @@ export default {
       const rows = [];
 
       for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
-        const row = this.alphabet[rowIndex];
+        const row = alphabet(rowIndex, true);
 
         for (let column = 0; column < this.columns; column++) {
           rows.push({
