@@ -40,8 +40,6 @@ class ProcessTmdbFilm implements ShouldQueue
         $images = $filmActions->tmdb($this->film)->getImages();
         $runtime = (integer) $filmActions->tmdb($this->film)->getRuntime();
 
-        logger('runtime ' . $runtime);
-
         $posters = collect($images->filterPosters()->toArray());
         $backdrops = collect($images->filterBackdrops()->toArray());
 
