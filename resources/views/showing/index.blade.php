@@ -35,7 +35,7 @@
         <p class="my-1">{{ trans('showing.none') }}</p>
         @endif
         <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('film.read_more') }}</a>
-        <a href="{{ route('showing.days', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('showing.all') }}</a>
+        <a href="{{ route('showing.days', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('showing.all_days') }}</a>
       </div>
     @endforeach
   </div>

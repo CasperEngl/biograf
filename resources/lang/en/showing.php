@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'all' => 'Showings',
   'none' => 'No showing on this date',
   'title.date' => 'Date',
   'title.runtime' => 'Runtime',
@@ -11,6 +12,6 @@ return [
   'next.title' => 'Following showings of this film',
   'next.none' => 'This is the last showing.',
   'now_playing' => 'Now playing',
-  'all' => 'See all days',
+  'all_days' => 'See all days',
   'days' => 'You can watch this movie these days',
 ];

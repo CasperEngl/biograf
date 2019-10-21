@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'all' => 'Films',
   'read_more' => 'Read more',
   'trailer' => 'Play trailer',
   'overview' => 'Overview',
