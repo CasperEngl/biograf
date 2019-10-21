@@ -15,7 +15,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\FlushRedis',
+        'App\Console\Commands\ImportMovieGenres',
+        'App\Console\Commands\ImportNowPlayingMovies',
+        'App\Console\Commands\ImportPopularMovies',
+        'App\Console\Commands\MoviesData',
+        'App\Console\Commands\RemoveAllMediaLibrary',
     ];
 
     /**
