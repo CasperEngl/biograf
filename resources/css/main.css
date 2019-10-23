@@ -3,6 +3,20 @@
 @import '@fortawesome/fontawesome-free/css/solid.css';
 @import '@fortawesome/fontawesome-free/css/brands.css';
 
+:root {
+  --primary: #E53E3E;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
 @responsive {
   .row {
     @apply -mx-3 w-row flex flex-wrap;
@@ -32,7 +46,7 @@
   display: none;
 }
 
-input.field {
+.field {
   @apply bg-white border border-gray-300 border-2 rounded-sm px-5 py-2 leading-normal text-gray-700 text-base w-full appearance-none;
 }
 
@@ -45,34 +59,50 @@ select.field {
   @apply py-2 px-5 inline-block inline-flex items-center justify-center bg-white rounded text-gray-800 font-bold;
 }
 
-.btn:focus {
+.btn:not([disabled]):not(.btn-disabled):hover {
+  @apply bg-gray-200;
+}
+
+.btn:not([disabled]):not(.btn-disabled):focus {
   @apply outline-none shadow-outline;
 }
 
-.btn.btn-primary {
-  @apply bg-red-500 text-white;
+.btn:disabled, .btn-disabled {
+  @apply bg-gray-500;
 }
 
-.btn.btn-primary:hover {
-  @apply bg-red-600;
+.btn-default {
+  @apply leading-none;
 }
 
-.btn.btn-ghost {
+.btn-primary:not([disabled]):not(.btn-disabled) {
+  @apply bg-red-600 text-white;
+}
+
+.btn-primary:not([disabled]):not(.btn-disabled):hover {
+  @apply bg-red-700;
+}
+
+.btn-ghost {
   @apply inline-flex items-center border-2 bg-transparent text-white;
 }
 
-.btn.btn-ghost:hover {
+.btn-ghost:not([disabled]):not(.btn-disabled):hover {
   @apply border-gray-300 bg-white text-black;
 }
 
-.btn.btn-md {
+.btn-md {
   @apply py-3 px-7 text-lg;
 }
 
-.btn.btn-lg {
+.btn-lg {
   @apply py-4 px-10 text-xl;
 }
 
 .tag {
   @apply px-5 py-2 inline-block border-2 border-gray-700 bg-gray-600 text-white text-xs uppercase font-bold rounded-full;
+}
+
+#nova svg {
+  display: inherit;
 }

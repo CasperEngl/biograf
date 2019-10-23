@@ -2,6 +2,8 @@
 
 namespace App\Actions;
 
+use App\Film;
+use App\User;
 use App\Reservation;
 
 class ReservationActions
@@ -23,6 +25,13 @@ class ReservationActions
         } catch (\Throwable $th) {
             abort(back())->with('status.error', $th->getMessage());
         }
+    }
+
+    public function pastFilmReservations(User $user, Film $film)
+    {
+        return $user->reservations->where('showing.film.id', $film->getKey())->filter(function ($reservation) {
+            return $reservation->showing->end->isPast();
+        });
     }
 
     public function assertTicketAndSeatCountEqual(Reservation $reservation)

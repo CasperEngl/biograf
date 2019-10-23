@@ -26,24 +26,27 @@ class Showing extends Model
     ];
 
     protected $dates = [
-        'date',
         'start',
         'end',
+    ];
+
+    protected $appends = [
+        'cinema',
     ];
 
     public function setStartAttribute($value)
     {
         $this->attributes['start'] = getNearestTimeRoundedUpWithMinimum($value, 5);
     }
-
-    public function getStartTimeAttribute()
-    {
-        return $this->start->toLocaleString();
-    }
     
-    public function getEndTimeAttribute()
+    public function getEndAttribute()
     {
         return $this->start->addMinutes($this->film->runtime);
+    }
+
+    public function getCinemaAttribute()
+    {
+        return $this->cinema();
     }
 
     public function cinema()

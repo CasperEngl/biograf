@@ -91,11 +91,38 @@
         <div class="w-full text-center" :class="{
           'my-4': {{ $siblings->count() }}
         }">
-        @if ((new App\Actions\FilmActions)->nextShowing($film))
-        <a href="{{ route('showing.show', ['date' => (new App\Actions\FilmActions)->nextShowing($film)->start->toDateString(), 'showing' => (new App\Actions\FilmActions)->nextShowing($film)]) }}" class="mb-2 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('showing.order') }}</a>
-        <p class="rounded text-gray-500 text-sm">{{ trans('showing.order.description') }}</p>
-        @endif
+          @if ((new App\Actions\FilmActions)->nextShowing($film))
+          <a href="{{ route('showing.show', ['date' => (new App\Actions\FilmActions)->nextShowing($film)->start->toDateString(), 'showing' => (new App\Actions\FilmActions)->nextShowing($film)]) }}" class="mb-2 w-full btn btn-primary btn-lg text-center uppercase shadow-md" style="background: {{ optional($film->colors)->get(0) }}; color: {{ optional($film->colors)->get(2) }};">{{ trans('showing.order') }}</a>
+          <p class="rounded text-gray-500 text-sm">{{ trans('showing.order.description') }}</p>
+          @endif
         </div>
+        @if ($film->ratings->count())
+          <div class="w-full h-full flex flex-col">
+            <h3 class="text-3xl uppercase text-center font-black">{{ trans_choice('film_rating.review', $film->ratings->count()) }}</h3>
+            @foreach ($film->ratings->take(4) as $rating)
+              <div class="p-4 mt-4 h-full flex items-center bg-gray-800 rounded shadow-lg">
+                <div class="row items-center">
+                  @if ($rating->user->getFirstMediaUrl('profile'))
+                    <div class="col w-1/6">
+                      <figure class="max-w-12">
+                        <img src="{{ $rating->user->getFirstMediaUrl('profile', 'thumb') }}" alt="{{ $rating->user->name }}">
+                      </figure>
+                    </div>
+                  @endif
+                  <div class="col w-5/6">
+                    <h4 class="mb-2 text-lg uppercase font-bold">{{ Str::limit($rating->title, 50) }}</h4>
+                    <read-more-text :max-length="80">{{ $rating->review }}</read-more-text>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+            @if ((new App\Actions\ReservationActions)->pastFilmReservations(auth()->user(), $film)->count())
+              <a href="{{ route('film.rating.index', compact('film')) }}" class="mt-4 btn btn-ghost">{{ trans('film_rating.review.write') }}</a>
+            @else
+              
+            @endif
+          </div>
+        @endif
       </div>
     </div>
   </div>

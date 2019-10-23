@@ -59,6 +59,7 @@
         "vue-async-computed": "^3.7.0",
         "vue-carousel": "^0.18.0",
         "vue-mq": "^1.0.1",
+        "vue-star-rating": "^1.6.1",
         "vue-youtube-embed": "^2.2.2",
         "vuex": "^3.1.1"
     }

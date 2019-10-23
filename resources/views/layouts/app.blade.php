@@ -22,19 +22,18 @@
                             {{ config('app.name', 'Laravel') }}
                         </a>
                     </div>
-                    <div class="flex-1 text-right">
+                    <div class="flex-1 flex items-center justify-end">
+                        <a href="{{ route('showing.pick') }}" class="p-3 border-t-2 border-b-2 border-red-600 hover:border-red-700 rounded-none uppercase font-bold">{{ trans('showing.pick') }}</a>
+                        <a href="{{ route('film.pick') }}" class="p-3 border-t-2 border-b-2 border-red-600 hover:border-red-700 rounded-none uppercase font-bold">{{ trans('film.pick') }}</a>
                         @guest
-                            <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('login') }}">{{ trans('auth.login') }}</a>
+                            <a class="no-underline hover:underline text-gray-300 text-sm font-bold uppercase p-3" href="{{ route('login') }}">{{ trans('auth.login') }}</a>
                             @if (Route::has('register'))
-                                <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('register') }}">{{ trans('auth.register') }}</a>
+                                <a class="no-underline hover:underline text-gray-300 text-sm font-bold uppercase p-3" href="{{ route('register') }}">{{ trans('auth.register') }}</a>
                             @endif
                         @else
-                            <span class="text-gray-300 text-sm pr-4">{{ Auth::user()->name }}</span>
+                            <span class="ml-2 p-2 text-gray-300 font-bold">{{ Auth::user()->name }}</span>
 
-                            <a href="{{ route('logout') }}"
-                               class="no-underline hover:underline text-gray-300 text-sm p-3"
-                               onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">{{ trans('auth.logout') }}</a>
+                            <a href="{{ route('logout') }}" class="p-2 text-gray-300 hover:text-white font-bold" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ trans('auth.logout') }}</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                                 {{ csrf_field() }}
                             </form>
@@ -44,7 +43,9 @@
             </div>
         </nav>
 
-        @yield('content')
+        <main class="content">
+            @yield('content')
+        </main>
         
         <footer class="py-16 min-h-md flex items-center" style="background: rgba(0,0,0,0.75);">
             <div class="container">
@@ -54,24 +55,17 @@
                         <nav>
                             <a href="{{ route('showing.index', ['date' => now()->toDateString()]) }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('showing.all') }}</a>
                             <a href="{{ route('film.index') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('film.all') }}</a>
+                        </nav>
+                    </div>
+                    <div class="col w-full md:w-1/3">
+                        <nav>
                             <a href="{{ route('register') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.register') }}</a>
                             <a href="{{ route('login') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.login') }}</a>
                         </nav>
                     </div>
                     <div class="col w-full md:w-1/3">
                         <nav>
-                            <a href="{{ route('showing.index', ['date' => now()->toDateString()]) }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('showing.all') }}</a>
-                            <a href="{{ route('film.index') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('film.all') }}</a>
-                            <a href="{{ route('register') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.register') }}</a>
-                            <a href="{{ route('login') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.login') }}</a>
-                        </nav>
-                    </div>
-                    <div class="col w-full md:w-1/3">
-                        <nav>
-                            <a href="{{ route('showing.index', ['date' => now()->toDateString()]) }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('showing.all') }}</a>
-                            <a href="{{ route('film.index') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('film.all') }}</a>
-                            <a href="{{ route('register') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.register') }}</a>
-                            <a href="{{ route('login') }}" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>{{ trans('auth.login') }}</a>
+                            <a href="https://www.themoviedb.org/" class="py-3 block text-xl hover:text-gray-300"><i class="fa fa-caret-right pr-2"></i>themoviedb.org</a>
                         </nav>
                     </div>
                     <div class="col w-full flex justify-center">

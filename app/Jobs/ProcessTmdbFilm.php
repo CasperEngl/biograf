@@ -38,16 +38,24 @@ class ProcessTmdbFilm implements ShouldQueue
     public function handle(FilmActions $filmActions)
     {
         $images = $filmActions->tmdb($this->film)->getImages();
+        
         $runtime = (integer) $filmActions->tmdb($this->film)->getRuntime();
-
         $posters = collect($images->filterPosters()->toArray());
         $backdrops = collect($images->filterBackdrops()->toArray());
 
-        $filmActions->downloadTmdbImages($this->film, $posters, 'poster');
-        $filmActions->downloadTmdbImages($this->film, $backdrops, 'backdrop');
-
         $this->film->runtime = $runtime;
 
+        $this->film->posters = $posters->map(function ($poster) {
+            return tmdb_image()->getUrl($poster, 'w780');
+        })->values();
+
+        $this->film->backdrops = $backdrops->map(function ($backdrop) {
+            return tmdb_image()->getUrl($backdrop, 'w1280');
+        })->values();
+
         $this->film->save();
+
+        $filmActions->downloadTmdbImages($this->film, $posters, 'poster');
+        $filmActions->downloadTmdbImages($this->film, $backdrops, 'backdrop');
     }
 }

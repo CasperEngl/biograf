@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\MorphToMany;
 use Spatie\NovaTranslatable\Translatable;

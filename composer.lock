@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c99576da5ac58d866e2e6854c3a1a3f9",
+    "content-hash": "966562ca61954657efadca12c53623ca",
     "packages": [
         {
             "name": "alexbowers/nova-prepopulate-searchable",
@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.112.21",
+            "version": "3.112.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "218d29c4729eb40a668242a53cbfde905fd94792"
+                "reference": "eda066813388de5ab8584f06707dacd0b15908b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/218d29c4729eb40a668242a53cbfde905fd94792",
-                "reference": "218d29c4729eb40a668242a53cbfde905fd94792",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eda066813388de5ab8584f06707dacd0b15908b0",
+                "reference": "eda066813388de5ab8584f06707dacd0b15908b0",
                 "shasum": ""
             },
             "require": {
@@ -137,7 +137,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-10-14T18:08:52+00:00"
+            "time": "2019-10-22T18:17:52+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -6023,6 +6023,65 @@
                 "environment"
             ],
             "time": "2019-09-10T21:37:39+00:00"
+        },
+        {
+            "name": "willvincent/laravel-rateable",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willvincent/laravel-rateable.git",
+                "reference": "f8d8a612540c74cd4c5ddf9ba4065d629bebddfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willvincent/laravel-rateable/zipball/f8d8a612540c74cd4c5ddf9ba4065d629bebddfc",
+                "reference": "f8d8a612540c74cd4c5ddf9ba4065d629bebddfc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~6.0",
+                "illuminate/support": "~6.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "willvincent\\Rateable\\RateableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/commands"
+                ],
+                "psr-4": {
+                    "willvincent\\Rateable\\": "src/Rateable"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Will Vincent",
+                    "email": "tcindie@gmail.com"
+                }
+            ],
+            "description": "Allows multiple models to be rated with a fivestar like system.",
+            "keywords": [
+                "Rating",
+                "fivestar",
+                "laravel",
+                "laravel 6",
+                "rateable",
+                "vote"
+            ],
+            "time": "2019-09-20T17:27:43+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

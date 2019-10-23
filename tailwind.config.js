@@ -141,6 +141,7 @@ module.exports = {
     aspectRatio: ['responsive'],
     opacity: ['group-hover'],
     textColor: ['responsive', 'hover', 'focus', 'visited', 'group-hover'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'group-hover'],
   },
   plugins: [
     require('tailwindcss-aspect-ratio')(),

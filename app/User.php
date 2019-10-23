@@ -3,7 +3,10 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use Spatie\Image\Manipulations;
+use willvincent\Rateable\Rating;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -46,21 +49,52 @@ class User extends Authenticatable implements HasMedia
             ->saveSlugsTo('slug');
     }
 
+    public function registerMediaCollections()
+    {
+        $this
+            ->addMediaCollection('profile')
+            ->useFallbackUrl('/img/placeholder/user.png')
+            ->useFallbackPath(public_path('/img/placeholder/user.png'))
+            ->singleFile();
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this
+            ->addMediaConversion('thumb')
+            ->crop(Manipulations::CROP_CENTER, 100, 100);
+    }
+
+    public function setFirstnameAttribute($value)
+    {
+        $this->attributes['firstname'] = ucwords($value);
+    }
+
+    public function setLastnameAttribute($value)
+    {
+        $this->attributes['lastname'] = ucwords($value);
+    }
+
     public function getNameAttribute()
     {
-        return ucwords("{$this->firstname} {$this->lastname}");
+        return isset($this->lastname) ?  ucwords("{$this->firstname} {$this->lastname}") : ucwords($this->firstname);
     }
 
     public function avatar()
     {
         return asset(
             optional($this->getFirstMedia('avatar'))->getUrl('thumb') ?:
-            'images/placeholder.jpg'
+            '/img/placeholder/user.png'
         );
     }
 
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 }

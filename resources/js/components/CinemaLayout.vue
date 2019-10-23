@@ -6,7 +6,7 @@
       class="block mx-auto text-red-700"
       :style="{
         maxWidth: `${cinemaWidth * 1.15}px`,
-        color: `${showing.film.colors && showing.film.colors.pop()}` || false,
+        // color: `${showing.film.colors && showing.film.colors.pop()}` || false,
       }"
     ></span>
     <table class="my-8 mx-auto" ref="cinema">

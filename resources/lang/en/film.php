@@ -11,4 +11,5 @@ return [
   'cast' => 'Cast',
   'previous' => 'Previous',
   'next' => 'Next',
+  'pick' => 'Pick film'
 ];

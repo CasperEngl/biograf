@@ -4,6 +4,7 @@ use App\Http\Controllers\FilmController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\ShowingController;
+use App\Http\Controllers\FilmRatingController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PaymentController\ReservationPaymentController;
 
@@ -22,11 +23,20 @@ Route::prefix('film')->group(
     function () {
         Route::get('/', [FilmController::class, 'index'])->name('film.index');
         Route::get('/{slug}', [FilmController::class, 'show'])->name('film.show');
+        Route::get('/vælg', [FilmController::class, 'pick'])->name('film.pick');
+
+        Route::prefix('anmeldelse')->group(
+            function () {
+                Route::get('/{film}', [FilmRatingController::class, 'index'])->name('film.rating.index');
+                Route::post('/{film}', [FilmRatingController::class, 'store'])->name('film.rating.store');
+            }
+        );
     }
 );
 
 Route::prefix('visninger')->group(
     function () {
+        Route::get('/', [ShowingController::class, 'pick'])->name('showing.pick');
         Route::get('/{date}', [ShowingController::class, 'index'])
             ->where(['date' => '\d{4}-\d{2}-\d{2}'])
             ->name('showing.index');

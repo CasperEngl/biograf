@@ -1,0 +1,1 @@
+<textarea id="{{ $id }}" name="{{ $name }}" placeholder="{{ isset($placeholder) ? $placeholder : '' }}" rows="{{ $rows }}" cols="{{ $cols }}" class="field">{!! $slot !!}</textarea>

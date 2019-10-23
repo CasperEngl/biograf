@@ -1,1 +1,1 @@
-<input id="{{ $id }}" type="{{ $type }}" name="{{ $name }}" class="field">
+<input id="{{ $id }}" type="{{ $type }}" name="{{ $name }}" placeholder="{{ isset($placeholder) ? $placeholder : '' }}" class="field">

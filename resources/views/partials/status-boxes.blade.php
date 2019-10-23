@@ -2,7 +2,7 @@
 <status-box
     v-cloak
     box-type="success"
-    class="bg-green-400 text-white"
+    class="bg-green-600 text-white"
     :timeout="5000"
 >
     {{ session('status.success') }}
@@ -13,7 +13,7 @@
 <status-box
     v-cloak
     box-type="failure"
-    class="bg-red-400 text-white"
+    class="bg-red-600 text-white"
     :timeout="5000"
 >
     {{ session('status.error') }}
@@ -24,7 +24,7 @@
 <status-box
     v-cloak
     box-type="info"
-    class="bg-blue-400 text-white"
+    class="bg-blue-600 text-white"
     :timeout="5000"
 >
     {{ session('status.info') }}

@@ -15,7 +15,9 @@ class FilmController extends Controller
 
     public function index()
     {
-        return $this->film->all();
+        $films = $this->film->all();
+
+        return view('film.pick', compact('films'));
     }
 
     public function show(string $slug)

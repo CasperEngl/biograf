@@ -7,6 +7,7 @@ use App\Showing;
 use App\FilmCast;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use willvincent\Rateable\Rateable;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Film extends Model implements HasMedia
 {
-    use HasMediaTrait, HasSlug, HasTranslations, SoftDeletes;
+    use HasMediaTrait, HasSlug, HasTranslations, SoftDeletes, Rateable;
 
     public $translatable = ['title', 'overview', 'homepage'];
     
@@ -34,10 +35,16 @@ class Film extends Model implements HasMedia
         'imdb_id' => 'integer',
         'runtime' => 'integer',
         'colors' => 'collection',
+        'posters' => 'collection',
+        'backdrops' => 'collection',
     ];
 
     protected $dates = [
         'premiere',
+    ];
+
+    protected $with = [
+        'showings',
     ];
 
     public static function boot()
@@ -108,5 +115,10 @@ class Film extends Model implements HasMedia
     public function showings()
     {
         return $this->hasMany(Showing::class);
+    }
+
+    public function ratings()
+    {
+        return $this->morphMany('willvincent\Rateable\Rating', 'rateable')->latest();
     }
 }

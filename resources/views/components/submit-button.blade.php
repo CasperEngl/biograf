@@ -1,1 +1,1 @@
-<button type="submit" class="bg-red-600 hover:bg-red-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">{!! $slot !!}</button>
+<button type="submit" class="btn btn-primary">{!! $slot !!}</button>

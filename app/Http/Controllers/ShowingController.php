@@ -10,6 +10,7 @@ use App\Reservation;
 use App\Actions\FilmActions;
 use Illuminate\Http\Request;
 use App\Actions\ShowingActions;
+use App\Http\Requests\ShowingDatePickRequest;
 
 class ShowingController extends Controller
 {
@@ -52,5 +53,15 @@ class ShowingController extends Controller
         });
 
         return view('showing.days', compact('film', 'showingDays'));
+    }
+
+    public function pick(ShowingDatePickRequest $request)
+    {
+        $days = generateSubsequentDates(now()->add(request('page', 1) * 12 - 12, 'days'), 12);
+        $page = request('page', 1);
+        $next = request('page', 1) + 1;
+        $previous = request('page', 1) - 1;
+
+        return view('showing.pick', compact('days', 'page', 'next', 'previous'));
     }
 }

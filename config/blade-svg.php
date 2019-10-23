@@ -68,5 +68,5 @@ return [
     |
     */
 
-    'class' => 'icon fill-current max-w-full h-auto',
+    'class' => 'icon fill-current h-auto',
 ];

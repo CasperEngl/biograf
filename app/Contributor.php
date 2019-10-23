@@ -23,8 +23,8 @@ class Contributor extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('profile')
-            ->useFallbackUrl('/images/anonymous-user.jpg')
-            ->useFallbackPath(public_path('/images/anonymous-user.jpg'))
+            ->useFallbackUrl('/img/placeholder/user.png')
+            ->useFallbackPath(public_path('/img/placeholder/user.png'))
             ->singleFile();
     }
 

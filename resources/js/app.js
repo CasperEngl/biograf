@@ -10,6 +10,8 @@ import 'js-polyfills/keyboard';
 import { store } from './store';
 import './bootstrap';
 
+Vue.prototype.svg = require('./svg');
+
 Vue.use(AsyncComputed);
 Vue.use(PortalVue);
 Vue.use(VueYouTubeEmbed, { global: true, componentId: 'youtube-embed' });
@@ -24,7 +26,11 @@ Vue.use(VueMq, {
   defaultBreakpoint: 'md',
 });
 
-Vue.prototype.svg = require('./svg');
+Vue.component('vue-star-rating', (resolve) => {
+  import('vue-star-rating' /* webpackChunkName: 'js/vue-star-rating' */).then((AsyncComponent) => {
+    resolve(AsyncComponent.default);
+  });
+});
 
 const files = require.context('./', true, /\.vue$/i);
 

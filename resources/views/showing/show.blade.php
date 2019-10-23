@@ -28,7 +28,7 @@
         @if ($showing->film->runtime)
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.runtime') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ trans('showing.runtime', compact('hours', 'minutes')) }}</h3>
+          <h3 class="text-2xl uppercase font-black text-white">{{ trans_choice('showing.runtime.hours', $hours, compact('hours')) }} {{ trans_choice('showing.runtime.minutes', $minutes, compact('minutes')) }}</h3>
         </div>
         @endif
         @if ($showing->version)

@@ -12,6 +12,13 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(App\User::class)->create([
+            'firstname' => 'Anonymous',
+            'email' => 'anonymous@' . parse_url(env('APP_URL'))['host'],
+            'phonenumber' => '00000000',
+            'password' => bcrypt(env('ANONYMOUS_PASS')),
+        ]);
+        
+        factory(App\User::class)->create([
             'firstname' => 'Casper',
             'lastname' => 'Engelmann',
             'email' => 'me@casperengelmann.com',

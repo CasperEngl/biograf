@@ -43,9 +43,8 @@
     <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
       <a href="{{ route('showing.index', ['date' => $date->toDateString()]) }}"
         class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
-        <div class="text-sm">{{ $date->format('D') }}</div>
-        <div class="text-3xl my-2">{{ $date->format('m-d') }}</div>
-        <div class="text-sm">{{ $date->format('M') }}</div>
+        <div class="text-sm uppercase mb-2">{{ $date->format('l') }}</div>
+        <div class="text-3xl mb-1">{{ $date->format('d. M') }}</div>
       </a>
     </div>
     @endforeach
@@ -53,40 +52,49 @@
 </div>
 <div class="container my-16 mb-64">
   <div class="row-tight">
-    <div class="relative col w-full md:w-2/3 min-h-xs flex items-center">
-      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(0)->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;"></div>
+    <div class="relative col w-full md:w-2/3 min-h-xs flex items-end">
+      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(0)->getFirstMediaUrl('backdrop', 'medium') }}') no-repeat center center; background-size: cover;"></div>
       <div class="relative p-10">
-        <h4 class="mb-6 max-w-md text-4xl uppercase font-black">{{ $films->get(0)->title }}</h4>
-        <a href="{{ route('film.show', ['slug' => $films->get(0)->slug]) }}" class="btn btn-ghost">{{ trans('film.read_more') }}</a>
+        <div class="row items-center">
+          <div class="col w-1/6">
+            <figure>
+              {{ $films->get(0)->getFirstMedia('poster') }}
+            </figure>
+          </div>
+          <div class="col w-5/6">
+            <h4 class="mx-4 mb-6 max-w-md text-3xl uppercase font-black">{{ $films->get(0)->title }}</h4>
+            <a href="{{ route('film.show', ['slug' => $films->get(0)->slug]) }}" class="mx-4 btn btn-ghost">{{ trans('film.read_more') }}</a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="relative col w-full md:w-1/3 min-h-xs flex items-center">
-      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(1)->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;"></div>
+    <div class="relative col w-full md:w-1/3 min-h-xs flex items-end">
+      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(1)->getFirstMediaUrl('backdrop', 'medium') }}') no-repeat center center; background-size: cover;"></div>
       <div class="relative p-10">
-        <h4 class="mb-6 max-w-md text-4xl uppercase font-black">{{ $films->get(1)->title }}</h4>
+        <h4 class="mb-6 max-w-md text-3xl uppercase font-black">{{ $films->get(1)->title }}</h4>
         <a href="{{ route('film.show', ['slug' => $films->get(1)->slug]) }}" class="btn btn-ghost">{{ trans('film.read_more') }}</a>
       </div>
     </div>
   </div>
   <div class="row-tight">
-    <div class="relative col w-full md:w-1/3 min-h-xs flex items-center">
-      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(2)->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;"></div>
+    <div class="relative col w-full md:w-1/3 min-h-xs flex items-end">
+      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(2)->getFirstMediaUrl('backdrop', 'medium') }}') no-repeat center center; background-size: cover;"></div>
       <div class="relative p-10">
-        <h4 class="mb-6 max-w-md text-4xl uppercase font-black">{{ $films->get(2)->title }}</h4>
+        <h4 class="mb-6 max-w-md text-3xl uppercase font-black">{{ $films->get(2)->title }}</h4>
         <a href="{{ route('film.show', ['slug' => $films->get(2)->slug]) }}" class="btn btn-ghost">{{ trans('film.read_more') }}</a>
       </div>
     </div>
-    <div class="relative col w-full md:w-1/3 min-h-xs flex items-center">
-      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(3)->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;"></div>
+    <div class="relative col w-full md:w-1/3 min-h-xs flex items-end">
+      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(3)->getFirstMediaUrl('backdrop', 'medium') }}') no-repeat center center; background-size: cover;"></div>
       <div class="relative p-10">
-        <h4 class="mb-6 max-w-md text-4xl uppercase font-black">{{ $films->get(3)->title }}</h4>
+        <h4 class="mb-6 max-w-md text-3xl uppercase font-black">{{ $films->get(3)->title }}</h4>
         <a href="{{ route('film.show', ['slug' => $films->get(3)->slug]) }}" class="btn btn-ghost">{{ trans('film.read_more') }}</a>
       </div>
     </div>
-    <div class="relative col w-full md:w-1/3 min-h-xs flex items-center">
-      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(4)->getFirstMediaUrl('backdrop', 'large') }}') no-repeat center center; background-size: cover;"></div>
+    <div class="relative col w-full md:w-1/3 min-h-xs flex items-end">
+      <div class="absolute w-full h-full" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('{{ $films->get(4)->getFirstMediaUrl('backdrop', 'medium') }}') no-repeat center center; background-size: cover;"></div>
       <div class="relative p-10">
-        <h4 class="mb-6 max-w-md text-4xl uppercase font-black">{{ $films->get(4)->title }}</h4>
+        <h4 class="mb-6 max-w-md text-3xl uppercase font-black">{{ $films->get(4)->title }}</h4>
         <a href="{{ route('film.show', ['slug' => $films->get(4)->slug]) }}" class="btn btn-ghost">{{ trans('film.read_more') }}</a>
       </div>
     </div>

@@ -39,6 +39,10 @@ class FilmActions
             ],
         );
 
+        // Process images from TMDB which are then added to
+        // the film with $this->downloadTmdbImages
+        ProcessTmdbFilm::dispatch($film, $movie);
+
         // Make sure the original language title exists
         $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
 
@@ -60,10 +64,6 @@ class FilmActions
 
         // Save translations
         $film->save();
-
-        // Process images from TMDB which are then added to
-        // the film with $this->downloadTmdbImages
-        ProcessTmdbFilm::dispatch($film, $movie);
     }
 
     public function downloadTmdbImages(
