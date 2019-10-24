@@ -57,9 +57,9 @@ class Contributor extends Resource
                 ->conversionOnIndexView('thumb')
                 ->rules('required'),
 
-            HasMany::make('FilmCasts'),
+            HasMany::make('Cast', 'casts', FilmCast::class),
 
-            HasMany::make('FilmCrews'),
+            HasMany::make('Crew', 'crews', FilmCrew::class),
         ];
     }
 
