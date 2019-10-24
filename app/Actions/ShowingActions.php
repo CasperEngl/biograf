@@ -30,40 +30,40 @@ class ShowingActions
         });
     }
 
-    public function reserveSeats(Showing $showing, Collection $seats, Collection $ticket_count)
+    public function reserveSeats(Showing $showing, Collection $data)
     {
-        $seats = $seats
-            ->map(function ($row) {
-                return collect($row)->filter(function ($column) {
-                    return (int) $column;
-                })->all();
+        Reservation::where('reserver_id', auth()->id() ?? session()->getId())
+            ->get()
+            ->filter(function ($reservation) {
+                return $reservation->status === Reservation::PENDING;
             })
-            ->filter(function ($row) {
-                return collect($row)->count();
-            })
-            ->each(function ($columns, $row) use ($showing, $ticket_count) {
-                collect($columns)->each(function ($_, $column) use ($showing, $row, $ticket_count) {
-                    $seat = Seat::where('cinema_id', $showing->cinema()->getKey())
-                        ->where('row', $row)
-                        ->where('column', $column)
-                        ->firstOrFail();
+            ->each
+            ->delete();
 
-                    $reservation = Reservation::firstOrCreate(
-                        [
-                            'showing_id' => $showing->getKey(),
-                            'user_id' => auth()->id(),
-                        ],
-                        [
-                            'end' => now()->addMinutes(10),
-                            'ticket_count' => $ticket_count,
-                        ],
-                    );
+        $reservation = Reservation::create(
+            [
+                'showing_id' => $showing->getKey(),
+                'reserver_id' => auth()->id() ?? session()->getId(),
+                'reserver_email' => $data->get('email'),
+                'ticket_count' => $data->get('ticket_count'),
+                'end' => now()->addMinutes(10),
+                'is_guest' => auth()->check() ? false : true,
+            ],
+        );
 
-                    $reservation->seats()->save($seat);
-                });
+        $data->get('seats')
+            ->each(function ($seat, $row) use ($showing, $reservation) {
+                $seat = (object) $seat;
+
+                $seat = Seat::where('cinema_id', $showing->cinema()->getKey())
+                    ->where('row', $seat->row)
+                    ->where('column', $seat->column)
+                    ->firstOrFail();
+
+                $reservation->seats()->save($seat);
             });
 
-        return auth()->user()->reservations->last();
+        return Reservation::where('reserver_id', auth()->id() ?? session()->getId())->latest()->first();
     }
 
     public function nextShowings(Showing $showing, $count = 1)
