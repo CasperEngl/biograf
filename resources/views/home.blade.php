@@ -43,8 +43,8 @@
     <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
       <a href="{{ route('showing.index', ['date' => $date->toDateString()]) }}"
         class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
-        <div class="text-sm uppercase mb-2">{{ $date->format('l') }}</div>
-        <div class="text-3xl mb-1">{{ $date->format('d. M') }}</div>
+        <div class="text-sm uppercase mb-2">{{ $date->isoFormat('dddd') }}</div>
+        <div class="text-3xl mb-1 uppercase">{{ $date->isoFormat('D. MMMM') }}</div>
       </a>
     </div>
     @endforeach
