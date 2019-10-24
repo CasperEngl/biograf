@@ -46,7 +46,7 @@ class ImportPopularMovies extends Command
         $movies = collect($repo->getPopular()->toArray());
 
         $movies->each(function ($movie) {
-            (new \App\Actions\FilmActions)->import($movie, 'popular');
+            (new \App\Actions\FilmActions)->import($movie, 'popular', true);
         });
         
         $this->comment('Import finished.');

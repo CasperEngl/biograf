@@ -46,7 +46,7 @@ class ImportNowPlayingMovies extends Command
         $movies = collect($repo->getNowPlaying()->toArray());
 
         $movies->each(function ($movie) {
-            (new \App\Actions\FilmActions)->import($movie, 'now-playing');
+            (new \App\Actions\FilmActions)->import($movie, 'now-playing', true);
         });
 
         $this->comment('Import finished.');
