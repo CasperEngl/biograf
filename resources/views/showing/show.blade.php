@@ -47,8 +47,8 @@
   @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $nextShowing)
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
     <a href="{{ route('showing.show', ['date' => $nextShowing->start->toDateString(), 'showing' => $nextShowing]) }}" class="btn btn-ghost h-full w-full inline-flex flex-col items-center text-center">
-      <div class="text-sm mb-1">{{ $nextShowing->start->format('l') }}</div>
-      <div class="text-sm mb-2">{{ $nextShowing->start->format('d. M') }}</div>
+      <div class="text-sm mb-1">{{ ucwords($nextShowing->start->isoFormat('dddd')) }}</div>
+      <div class="text-sm mb-2">{{ ucwords($nextShowing->start->isoFormat('D. MMMM')) }}</div>
       <div class="text-xl mb-1">{{ $nextShowing->start->format('H:i') }}</div>
     </a>
   </div>
@@ -65,14 +65,14 @@
       <div class="col w-full" :class="{
         'md:w-1/3': $store.getters.ticketsCount,
       }">
-        <cinema-ticket-controller price="{{ $showing->price }}" class="h-full rounded"></cinema-ticket-controller>
+        <cinema-ticket-controller price="{{ $showing->price }}" :multiplier="{{ json_encode($showing->multiplier) }}" class="h-full rounded"></cinema-ticket-controller>
       </div>
       <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
-        <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" :disabled="false"></cinema-layout>
+        <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" reserver-id="{{ auth()->id() ?? session()->getId() }}" :disabled="false"></cinema-layout>
       </div>
       <div class="my-8 col w-full flex justify-between">
-        <a href="{{ url()->previous() }}" class="btn btn-lg btn-ghost">{!! trans('pagination.back') !!}</a>
-        <button type="submit" class="btn btn-lg btn-primary rounded-full" v-if="$store.getters.ticketsCount">{!! trans('showing.order') !!}</button>
+        <a href="{{ url()->previous() }}" class="btn btn-lg btn-ghost rounded-full">{!! trans('pagination.back') !!}</a>
+        <a href="{{ route('reservation.finalize', $showing) }}" class="btn btn-lg btn-primary rounded-full" v-if="$store.getters.ticketsCount">{{ trans('showing.order') }}</a>
       </div>
     </div>
   </form>
