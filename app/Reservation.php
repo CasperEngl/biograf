@@ -2,9 +2,6 @@
 
 namespace App;
 
-use App\Seat;
-use App\User;
-use App\Showing;
 use App\Payment\PaymentGateway;
 use App\Payment\PayableInterface;
 use App\Payment\Traits\HasPayable;
@@ -24,11 +21,12 @@ class Reservation extends Model implements PayableInterface
 
     protected $fillable = [
         'showing_id',
-        'seat_id',
-        'user_id',
+        'reserver_id',
+        'reserver_email',
         'payment_key',
         'ticket_count',
         'end',
+        'is_guest',
     ];
 
     protected $casts = [
@@ -59,11 +57,6 @@ class Reservation extends Model implements PayableInterface
         self::restored(function ($reservation) {
             $reservation->setStatus(self::PENDING);
         });
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function showing()
@@ -132,7 +125,7 @@ class Reservation extends Model implements PayableInterface
 
     public function getCustomerEmail()
     {
-        return $this->user->email;
+        return $this->reserver->email;
     }
 
     public function getCustomerLanguage()
