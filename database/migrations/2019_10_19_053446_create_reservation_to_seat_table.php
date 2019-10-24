@@ -19,6 +19,18 @@ class CreateReservationToSeatTable extends Migration
             $table->bigInteger('reservation_id')->unsigned();
             $table->bigInteger('seat_id')->unsigned();
 
+            $table
+                ->foreign('reservation_id')
+                ->references('id')
+                ->on('reservations')
+                ->onDelete('cascade');
+                
+            $table
+                ->foreign('seat_id')
+                ->references('id')
+                ->on('seats')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
