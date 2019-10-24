@@ -53,7 +53,8 @@ class FilmCrew extends Resource
             
             Number::make('Order'),
             
-            BelongsTo::make('Film'),
+            BelongsTo::make('Film')
+                ->searchable(),
 
             BelongsTo::make('Contributor')
                 ->sortable()
