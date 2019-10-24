@@ -6,7 +6,7 @@
   <div class="mb-4 row-tight">
     @foreach ($days as $day)
       <div class="my-1 col w-full sm:w-1/3">
-        <a href="{{ route('showing.index', ['date' => $day->toDateString()]) }}" class="group p-0 w-full h-full btn inline-flex flex-col items-center text-center">
+        <a href="{{ route('showing.index', ['date' => $day->toDateString()]) }}" class="group p-0 w-full h-full btn focus:bg-gray-200 inline-flex flex-col items-center text-center">
           @if ($day->startOfDay()->eq(now()->startOfDay()))
             <div class="py-6 text-3xl tracking-wide uppercase">{{ trans('showing.today') }}</div>
           @endif
