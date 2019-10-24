@@ -44,7 +44,7 @@ class Seat extends Model
         'cinema_id',
         'row',
         'column',
-        'active',
+        'disability',
     ];
 
     protected $casts = [
@@ -58,7 +58,7 @@ class Seat extends Model
 
     public function getSelectedAttribute()
     {
-        return 0;
+        return $this->trashed() ? 1 : 0;
     }
 
     public function cinema()
