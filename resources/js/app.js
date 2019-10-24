@@ -5,12 +5,26 @@ import VueYouTubeEmbed from 'vue-youtube-embed';
 import vClickOutside from 'v-click-outside';
 import VueMq from 'vue-mq';
 
+import get from 'lodash-es/get';
+import eachRight from 'lodash-es/eachRight';
+import replace from 'lodash-es/replace';
+
 import 'js-polyfills/keyboard';
 
 import { store } from './store';
 import './bootstrap';
 
 Vue.prototype.svg = require('./svg');
+
+Vue.prototype.trans = (string, args) => {
+  let value = get(window.i18n, string);
+
+  eachRight(args, (paramVal, paramKey) => {
+    value = replace(value, `:${paramKey}`, paramVal);
+  });
+
+  return value;
+};
 
 Vue.use(AsyncComputed);
 Vue.use(PortalVue);
