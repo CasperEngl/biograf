@@ -1,16 +1,17 @@
 <template>
-    <default-field :field="field" :errors="errors">
-        <template slot="field">
-            <input
-                :id="field.name"
-                type="text"
-                class="w-full form-control form-input form-input-bordered"
-                :class="errorClasses"
-                :placeholder="field.name"
-                v-model="value"
-            />
-        </template>
-    </default-field>
+  <default-field :field="field" :errors="errors" :full-width-content="true">
+    <template slot="field">
+      <!-- <input
+        :id="field.name"
+        type="text"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="field.name"
+        :value="JSON.parse(value).map(v => `${v.row}-${v.column}`).join(', ')"
+      /> -->
+      <cinema-layout :cinema-seats="value" @updatedSeats="handleChange"></cinema-layout>
+    </template>
+  </default-field>
 </template>
 
 <script>
@@ -21,26 +22,30 @@ export default {
 
   props: ['resourceName', 'resourceId', 'field'],
 
+  data: (vm) => ({
+    value: JSON.stringify(vm.field.value),
+  }),
+
   methods: {
     /*
-         * Set the initial, internal value for the field.
-         */
+     * Set the initial, internal value for the field.
+     */
     setInitialValue() {
-      this.value = this.field.value || '';
+      this.value = JSON.stringify(this.field.value);
     },
 
     /**
-         * Fill the given FormData object with the field's internal value.
-         */
+     * Fill the given FormData object with the field's internal value.
+     */
     fill(formData) {
       formData.append(this.field.attribute, this.value || '');
     },
 
     /**
-         * Update the field's internal value.
-         */
+     * Update the field's internal value.
+     */
     handleChange(value) {
-      this.value = value;
+      this.value = JSON.stringify(value);
     },
   },
 };

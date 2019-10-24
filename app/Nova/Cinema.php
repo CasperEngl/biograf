@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
+use Devant\CinemaMaker\CinemaMaker;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -53,9 +54,15 @@ class Cinema extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Number::make('Rows', 'row_count')->sortable(),
+            Number::make('Rows', 'row_count')
+                ->sortable()
+                ->readonly(),
                 
-            Number::make('Columns', 'column_count')->sortable(),
+            Number::make('Columns', 'column_count')
+                ->sortable()
+                ->readonly(),
+
+            CinemaMaker::make('Seats', 'trashedSeats')->onlyOnForms(),
 
             HasMany::make('Seats'),
 
