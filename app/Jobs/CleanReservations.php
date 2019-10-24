@@ -30,10 +30,15 @@ class CleanReservations implements ShouldQueue
      */
     public function handle(Reservation $reservation)
     {
-        $reservation->all()->each(function ($reservation) {
-            if ($reservation->end->isPast() && !$reservation->isPaid) {
-                $reservation->delete();
-            }
-        });
+        $reservation
+            ->withTrashed()
+            ->get()
+            ->each(function ($reservation) {
+                if (($reservation->trashed() || $reservation->end->isPast()) && !$reservation->isPaid) {
+                    event(new \App\Events\ReservationUpdated($reservation));
+                    
+                    $reservation->forceDelete();
+                }
+            });
     }
 }
