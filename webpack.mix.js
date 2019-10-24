@@ -36,5 +36,7 @@ mix
 if (mix.inProduction()) {
   mix
     .version()
-    .purgeCss();
+    .purgeCss({
+      folders: ['resources', 'public/vendor/nova']
+    });
 }
