@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Jobs\CleanShowings;
-use App\Jobs\CleanReservations;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,6 +17,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\ImportMovieGenres',
         'App\Console\Commands\ImportNowPlayingMovies',
         'App\Console\Commands\ImportPopularMovies',
+        'App\Console\Commands\ImportUpcomingMovies',
         'App\Console\Commands\MoviesData',
         'App\Console\Commands\RemoveAllMediaLibrary',
     ];
@@ -31,8 +30,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new CleanReservations)->everyMinute();
-        $schedule->job(new CleanShowings)->everyMinute();
+        $schedule->job(new \App\Jobs\CleanShowings)->everyMinute();
+        $schedule->job(new \App\Jobs\CleanReservations)->everyMinute();
     }
 
     /**
