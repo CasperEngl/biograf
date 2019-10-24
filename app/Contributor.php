@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\FilmCast;
-use App\FilmCrew;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -40,12 +38,12 @@ class Contributor extends Model implements HasMedia
         return sprintf('https://www.themoviedb.org/person/%s', $this->tmdb_id);
     }
 
-    public function filmCrews()
+    public function crews()
     {
         return $this->hasMany(FilmCrew::class);
     }
 
-    public function filmCasts()
+    public function casts()
     {
         return $this->hasMany(FilmCast::class);
     }
