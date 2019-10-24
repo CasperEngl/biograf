@@ -22,8 +22,8 @@ class CreateFilmsTable extends Migration
             $table->string('tmdb_id');
             $table->string('imdb_id')->nullable();
             $table->string('slug');
-            $table->string('category');
             $table->string('language');
+            $table->json('categories')->nullable();
             $table->json('posters')->nullable();
             $table->json('backdrops')->nullable();
             $table->json('colors')->nullable();
