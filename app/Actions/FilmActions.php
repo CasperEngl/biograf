@@ -8,9 +8,9 @@ use App\Showing;
 use App\FilmCast;
 use App\FilmCrew;
 use App\Contributor;
+use Tmdb\Model\Movie;
 use App\Actions\FilmActions;
 use App\Jobs\ProcessTmdbFilm;
-use App\Jobs\ProcessFilmPoster;
 use App\Jobs\ProcessContributor;
 use League\ColorExtractor\Color;
 use Illuminate\Support\Collection;
@@ -19,16 +19,17 @@ use League\ColorExtractor\ColorExtractor;
 
 class FilmActions
 {
-    public function import($movie, string $category)
+    public function import(Movie $movie, string $category, $console = false)
     {
-        echo $movie->getTitle();
-        echo "\n";
+        if ($console) {
+            echo $movie->getTitle();
+            echo "\n";
+        }
 
         // All TMDB movie data must be accessed with getters
         $film = Film::updateOrCreate(
             [
                 'tmdb_id' => $movie->getId(),
-                'category' => $category,
             ],
             [
                 'imdb_id' => $movie->getImdbId(),
@@ -39,6 +40,10 @@ class FilmActions
             ],
         );
 
+        $categories = $film->categories ?? collect([]);
+        
+        $film->categories = $categories->merge([$category]);
+
         // Process images from TMDB which are then added to
         // the film with $this->downloadTmdbImages
         ProcessTmdbFilm::dispatch($film, $movie);
@@ -46,24 +51,36 @@ class FilmActions
         // Make sure the original language title exists
         $film->setTranslation('title', $movie->getOriginalLanguage(), $movie->getTitle());
 
-        echo '  Adding translations ';
-        echo $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations())) ? '✅' : '🚫';
-        echo "\n";
+        if ($console) {
+            echo '  Adding translations ';
+            echo $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations())) ? '✅' : '🚫';
+            echo "\n";
         
-        echo '  Adding genres ';
-        echo $this->addGenres($film, collect($this->tmdb($film)->getGenres())) ? '✅' : '🚫';
-        echo "\n";
+            echo '  Adding genres ';
+            echo $this->addGenres($film, collect($this->tmdb($film)->getGenres())) ? '✅' : '🚫';
+            echo "\n";
         
-        echo '  Adding cast ';
-        echo $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast())) ? '✅' : '🚫';
-        echo "\n";
+            echo '  Adding cast ';
+            echo $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast())) ? '✅' : '🚫';
+            echo "\n";
         
-        echo '  Adding crew ';
-        echo $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew())) ? '✅' : '🚫';
-        echo "\n";
+            echo '  Adding crew ';
+            echo $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew())) ? '✅' : '🚫';
+            echo "\n";
+        } else {
+            $this->addTranslations($film, $movie, collect($this->tmdb($film)->getTranslations()));
+            $this->addGenres($film, collect($this->tmdb($film)->getGenres()));
+            $this->addCast($film, collect($this->tmdb($film)->getCredits()->getCast()));
+            $this->addCrew($film, collect($this->tmdb($film)->getCredits()->getCrew()));
+        }
 
         // Save translations
         $film->save();
+
+        // Useful if called like an API
+        return [
+            'status' => 'success',
+        ];
     }
 
     public function downloadTmdbImages(
@@ -78,10 +95,6 @@ class FilmActions
                     ->addMediaFromUrl('http:' . tmdb_image()->getUrl($image)) // Add the image file
                     ->toMediaCollection($mediaCollection); // Add to the passed collection
             }
-
-            ProcessFilmPoster::dispatch($film)->delay(
-                now()->addMinutes(2)
-            );
         }
     }
 
@@ -191,7 +204,7 @@ class FilmActions
                         ],
                     );
     
-                    $contributor->filmCasts()->save($filmcast);
+                    $contributor->casts()->save($filmcast);
                     $film->casts()->save($filmcast);
                     
                     ProcessContributor::dispatch($cast, $contributor, $filmcast);
@@ -200,6 +213,7 @@ class FilmActions
 
             return true;
         } catch (\Throwable $th) {
+            echo $th->getMessage();
             return false;
         }
     }
@@ -231,7 +245,7 @@ class FilmActions
                         ],
                     );
     
-                    $contributor->filmCrews()->save($filmcrew);
+                    $contributor->crews()->save($filmcrew);
                     $film->casts()->save($filmcrew);
                     
                     ProcessContributor::dispatch($crew, $contributor, $filmcrew);
