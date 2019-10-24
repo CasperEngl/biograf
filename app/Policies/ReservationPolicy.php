@@ -31,9 +31,9 @@ class ReservationPolicy
      * @param  \App\Reservation  $reservation
      * @return mixed
      */
-    public function view(User $user, Reservation $reservation)
+    public function view(?User $user, Reservation $reservation)
     {
-        return $reservation->user->is($user) || $this->viewAny($user);
+        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
     }
 
     /**
@@ -54,9 +54,9 @@ class ReservationPolicy
      * @param  \App\Reservation  $reservation
      * @return mixed
      */
-    public function update(User $user, Reservation $reservation)
+    public function update(?User $user, Reservation $reservation)
     {
-        return $reservation->user->is($user) || $this->viewAny($user);
+        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
     }
 
     /**
@@ -66,9 +66,9 @@ class ReservationPolicy
      * @param  \App\Reservation  $reservation
      * @return mixed
      */
-    public function delete(User $user, Reservation $reservation)
+    public function delete(?User $user, Reservation $reservation)
     {
-        return $reservation->user->is($user) || $this->viewAny($user);
+        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
     }
 
     /**
@@ -78,9 +78,9 @@ class ReservationPolicy
      * @param  \App\Reservation  $reservation
      * @return mixed
      */
-    public function restore(User $user, Reservation $reservation)
+    public function restore(?User $user, Reservation $reservation)
     {
-        return $reservation->user->is($user) || $this->viewAny($user);
+        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
     }
 
     /**
