@@ -1,7 +1,4 @@
 import isNumber from 'lodash-es/isNumber';
-import groupBy from 'lodash-es/groupBy';
-import last from 'lodash-es/last';
-import { assertReservationsDoNotExist, assertSeatsExist } from './assertions';
 
 /**
  *
@@ -32,35 +29,14 @@ export function reverseObject(obj) {
   }, {});
 }
 
-export function closestSeatsToMiddle(seats, row, seatCount, adder = 0, restart = false) {
-  const lastSeat = last(row);
-  const middleSeat = Math.floor(lastSeat.column / 2);
-
-  const start = restart ? 0 : middleSeat - seatCount;
-
-  if (start + seatCount + adder > row.length) {
-    closestSeatsToMiddle(seats, row, seatCount, adder, true);
-
-    return;
-  }
-
-  const reservation = row.slice(start, start + seatCount);
-
-  try {
-    assertReservationsDoNotExist(reservation);
-    assertSeatsExist(seats, reservation);
-
-    return reservation;
-  } catch (error) {
-    console.error(error);
-    closestSeatsToMiddle(seats, row, seatCount, adder + 1);
-  }
-}
-
-export function bestSeats(seats, seatCount, rowCount) {
-  const row = groupBy(seats, 'row')[alphabet(Math.floor(rowCount / 2))];
-
-  const middle = closestSeatsToMiddle(seats, row, seatCount);
-
-  console.log({ middle });
+/**
+ *
+ * @param {array} seats
+ * @param {number} length
+ */
+export function getMissingSeats(seats, length) {
+  return seats
+    .slice(0, length)
+    .filter((_, index, array) => !array.find((s) => s.column === index))
+    .length;
 }
