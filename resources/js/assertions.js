@@ -5,7 +5,7 @@ export function assertTicketAndSeatCountEqual(ticketCount, seatCount) {
 }
 
 export function assertReservationsDoNotExist(seats) {
-  if (seats.some((seat) => seat.reservation)) {
+  if (seats.some((seat) => seat.reservation && !seat.currentReserver)) {
     throw new Error('Et af de valgte sæder er allerede reserveret');
   }
 }
