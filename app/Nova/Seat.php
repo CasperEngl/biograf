@@ -63,6 +63,8 @@ class Seat extends Resource
      */
     public static $search = [
         'cinema_id',
+        'row',
+        'column',
     ];
 
     /**
@@ -75,6 +77,8 @@ class Seat extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            Text::make('Label')->readonly(),
 
             BelongsTo::make('Cinema')
                 ->sortable()

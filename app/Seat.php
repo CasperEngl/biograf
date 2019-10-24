@@ -54,7 +54,13 @@ class Seat extends Model
 
     protected $appends = [
         'selected',
+        'label',
     ];
+
+    public function getLabelAttribute()
+    {
+        return "{$this->row}-{$this->column}";
+    }
 
     public function getSelectedAttribute()
     {
