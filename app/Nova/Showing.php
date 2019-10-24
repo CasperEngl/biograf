@@ -65,13 +65,11 @@ class Showing extends Resource
                 ->options(self::VERSIONS)
                 ->sortable(),
 
-            Date::make('Date'),
-
             DateTime::make('Start'),
             
-            DateTime::make('End'),
+            DateTime::make('End')->readonly(),
 
-            BelongsTo::make('Cinema'),
+            // BelongsTo::make('Cinema', 'cinema'),
 
             BelongsTo::make('Film'),
         ];
