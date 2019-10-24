@@ -24,7 +24,7 @@ class Film extends Model implements HasMedia
     protected $fillable = [
         'tmdb_id',
         'imdb_id',
-        'category',
+        'categories',
         'title',
         'language',
         'overview',
@@ -34,6 +34,7 @@ class Film extends Model implements HasMedia
         'tmdb_id' => 'integer',
         'imdb_id' => 'integer',
         'runtime' => 'integer',
+        'categories' => 'collection',
         'colors' => 'collection',
         'posters' => 'collection',
         'backdrops' => 'collection',
@@ -45,6 +46,7 @@ class Film extends Model implements HasMedia
 
     protected $with = [
         'showings',
+        'genres',
     ];
 
     public static function boot()
