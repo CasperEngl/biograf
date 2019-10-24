@@ -27,6 +27,7 @@
         "nothingworks/blade-svg": "^0.3.2",
         "php-tmdb/api": "^2.1",
         "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "^4.0",
         "quickpay/quickpay-php-client": "^1.0",
         "spatie/image": "^1.7",
         "spatie/laravel-blade-x": "^2.3",
@@ -39,7 +40,8 @@
         "spatie/laravel-view-models": "^1.2",
         "spatie/nova-translatable": "^2.0",
         "tightenco/ziggy": "^0.8.0",
-        "willvincent/laravel-rateable": "^2.0"
+        "willvincent/laravel-rateable": "^2.0",
+        "devant/tmdb-import": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
@@ -88,6 +90,10 @@
         {
             "type": "path",
             "url": "./nova-components/CinemaMaker"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/TmdbImport"
         }
     ],
     "scripts": {
@@ -103,6 +109,12 @@
         ],
         "post-update-cmd": [
             "@php artisan nova:publish"
+        ],
+        "pre-update-cmd": [
+            "@php -r \"mkdir('./resources/lang/vendor/nova', 0776, true);\"",
+            "@php -r \"copy('https://raw.githubusercontent.com/franzdumfart/laravel-nova-localizations/master/lang/da.json', './resources/lang/vendor/nova/da.json') || exit (1);\"",
+            "@php -r \"mkdir('./resources/lang/vendor/nova/da', 0776, true);\"",
+            "@php -r \"copy('https://raw.githubusercontent.com/franzdumfart/laravel-nova-localizations/master/lang/da/validation.php', './resources/lang/vendor/nova/da/validation.php') || exit (1);\""
         ]
     }
 }
