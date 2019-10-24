@@ -11,13 +11,11 @@
 </div>
 <div class="mt-16 mb-64 container">
   <div class="row">
-    <div class="col w-2/3">
-      <film-showings :films="{{ json_encode($films) }}" date="{{ $date . ' 00:00:00' }}"></film-showings>
+    <div class="col w-full">
       <div class="row">
         @foreach ($films as $film)
           <div class="col w-1/3 mb-6">
             <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="overflow-hidden relative block">
-              {{-- <div class="absolute inset-0 z-10 w-full" style="background: linear-gradient(transparent 70%, rgba(26, 32, 44, 1) 90%); pointer-events: none;"></div> --}}
               <figure class="relative aspect-ratio-16/9 mb-2 block">
                 <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" onerror="this.src = '/img/placeholder/backdrop-small.png'" alt="{{ $film->title }}" class="absolute">
               </figure>
@@ -41,11 +39,6 @@
             <a href="{{ route('showing.days', ['slug' => $film->slug]) }}" class="my-1 w-full btn btn-ghost border-gray-500">{{ trans('showing.all_days') }}</a>
           </div>
         @endforeach
-      </div>
-    </div>
-    <div class="col w-1/3 bg-gray-800">
-      <div class="p-6">
-        <h3 class="text-2xl uppercase font-black">{{ trans('showing.time') }}</h3>
       </div>
     </div>
   </div>
