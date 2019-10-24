@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Showing;
-use App\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -34,6 +32,11 @@ class Cinema extends Model
     public function seats()
     {
         return $this->hasMany(Seat::class);
+    }
+
+    public function trashedSeats()
+    {
+        return $this->hasMany(Seat::class)->withTrashed();
     }
 
     public function genres()
