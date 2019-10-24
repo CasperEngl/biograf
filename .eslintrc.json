@@ -11,7 +11,9 @@
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly",
-        "route": true
+        "route": true,
+        "Echo": true,
+        "Nova": true
     },
     "parserOptions": {
         "parser": "babel-eslint",
