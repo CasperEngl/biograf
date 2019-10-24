@@ -106,3 +106,17 @@ if (! function_exists('generateSubsequentDates')) {
         return $dates;
     }
 }
+
+if (! function_exists('str_slug')) {
+    /**
+     * Helper function for Str::slug
+     *
+     * @param string $string
+     *
+     * @return \Illuminate\Support\Str
+     */
+    function str_slug(string $str)
+    {
+        return \Illuminate\Support\Str::slug($str);
+    }
+}
