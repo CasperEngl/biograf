@@ -57,6 +57,10 @@ export default {
       type: String,
       required: true,
     },
+    multiplier: {
+      type: Object,
+      required: true,
+    },
   },
   created() {
     this.$store.commit('changeTicketCount', {
@@ -71,12 +75,12 @@ export default {
 
     this.$store.commit('changeTicketPrice', {
       type: 'regular',
-      value: Math.floor(this.price / 100 / 5) * 5,
+      value: Math.floor((this.price * this.multiplier.regular) / 100 / 5) * 5,
     });
 
     this.$store.commit('changeTicketPrice', {
       type: 'senior',
-      value: Math.floor((this.price * 0.9) / 100 / 5) * 5,
+      value: Math.floor((this.price * this.multiplier.senior) / 100 / 5) * 5,
     });
   },
   data: () => ({
