@@ -31,7 +31,7 @@ class CleanShowings implements ShouldQueue
     public function handle(Showing $showing)
     {
         $showing->all()->each(function ($showing) {
-            if ($showing->endTime->isPast()) {
+            if ($showing->end->isPast()) {
                 $showing->forceDelete();
             }
         });
