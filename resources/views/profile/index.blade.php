@@ -77,7 +77,6 @@
                 <p class="text-xl text-gray-300 uppercase leading-normal">{{ $reservation->showing->end->isPast() ? $reservation->showing->end->isoFormat('dddd DD. MMM') : $reservation->showing->start->isoFormat('dddd DD. MMM hh:mm') }}</p>
                 <p class="mb-4 text-xl text-gray-300 uppercase leading-normal">{{ trans('reservation.price') }} {{ $reservation->getPaymentAmount() / 100 }},-</p>
                 <h4 class="text-3xl uppercase font-black text-gray-600 tracking-wider">Status <span class="text-white">{{ trans('reservation.status.' . $reservation->status) }}</span></h4>
-
             </div>
                 
             @endforeach
