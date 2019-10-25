@@ -39,6 +39,12 @@ class CinemaMaker extends Field
                         ]
                     );
 
+                    if ($seatObj->selected) {
+                        $seat->delete();
+                    } else {
+                        $seat->restore();
+                    }
+
                     return $seat;
                 });
 

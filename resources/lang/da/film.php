@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
   'all' => 'Film',
   'read_more' => 'Læs mere',

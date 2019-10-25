@@ -34,8 +34,12 @@ class CleanReservations implements ShouldQueue
             ->withTrashed()
             ->get()
             ->each(function ($reservation) {
-                if (($reservation->trashed() || $reservation->end->isPast()) && !$reservation->isPaid) {
-                    event(new \App\Events\ReservationUpdated($reservation));
+                $deleteCondition = (
+                    $reservation->trashed() || $reservation->end->isPast()
+                ) && $reservation->status === Reservation::PENDING;
+                
+                if ($deleteCondition) {
+                    event(new \App\Events\ReservationCanceled($reservation));
                     
                     $reservation->forceDelete();
                 }

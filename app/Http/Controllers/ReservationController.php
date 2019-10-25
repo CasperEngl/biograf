@@ -15,7 +15,7 @@ class ReservationController extends Controller
         $data = collect([
             'seats' => collect($request->seats),
             'ticket_count' => collect($request->ticket_count),
-            'email' => auth()->user()->email ?? $request->email,
+            'email' => optional(auth()->user())->email,
         ]);
 
         $reservation = (new ShowingActions)->reserveSeats(
@@ -30,6 +30,8 @@ class ReservationController extends Controller
 
     public function show(Reservation $reservation)
     {
+        $this->authorize('view', $reservation);
+        
         return view('reservation.overview.show', compact('reservation'));
     }
 
@@ -41,7 +43,16 @@ class ReservationController extends Controller
                 'reserver_id',
                 auth()->id() ?? session()->getId(),
             )
+            ->sortByDesc('end')
             ->first();
+
+        if (!$reservation) {
+            return redirect()->back()->with('status.error', trans('reservation.status.error.missing'));
+        }
+
+        if (!$reservation->reserver_email) {
+            return redirect()->route('reservation.update.email.index', compact('reservation'));
+        }
 
         return redirect()->route('reservation.payment.index', compact('reservation'));
     }

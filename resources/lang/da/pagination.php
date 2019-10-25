@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
     'back' => '<i class="fa fa-caret-left pr-2"></i> Tilbage',
     'forward'     => 'Fremad <i class="fa fa-caret-right pl-2"></i>',

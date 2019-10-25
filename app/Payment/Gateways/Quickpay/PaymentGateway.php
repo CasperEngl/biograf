@@ -122,7 +122,7 @@ class PaymentGateway implements PaymentGatewayInterface
                 $paymentResult = self::PAYMENT_RESULT_OK;
                 break;
             case '40000':
-                $paymentResult = self::PAYMENT_RESULT_CANCELLED;
+                $paymentResult = self::PAYMENT_RESULT_CANCELED;
                 break;
                 
             default:

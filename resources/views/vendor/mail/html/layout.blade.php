@@ -36,9 +36,13 @@
                                 <!-- Body content -->
                                 <tr>
                                     <td class="content-cell">
-                                        {{ Illuminate\Mail\Markdown::parse($slot) }}
-
-                                        {{ $subcopy ?? '' }}
+                                        <div class="container">
+                                            <div class="markdown my-8">
+                                                {{ Illuminate\Mail\Markdown::parse($slot) }}
+                                            </div>
+    
+                                            {{ $subcopy ?? '' }}
+                                        </div>
                                     </td>
                                 </tr>
                             </table>

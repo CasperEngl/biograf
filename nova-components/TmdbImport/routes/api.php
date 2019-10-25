@@ -36,8 +36,6 @@ Route::post(
         $repo = $tmdb->repository();
 
         $movie = $repo->load(request('id'));
-
-        return $movie->getImdbId();
         
         return (new \App\Actions\FilmActions)->import($movie, 'manual');
     }

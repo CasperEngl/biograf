@@ -16,13 +16,15 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('reserver_id');
-            $table->string('reserver_email');
             $table->bigInteger('showing_id')->unsigned();
+            $table->string('cinema_id')->nullable();
+            $table->string('film_id')->nullable();
+            $table->string('reserver_id');
+            $table->string('reserver_email')->nullable();
             $table->string('payment_key')->nullable();
             $table->json('ticket_count');
-            $table->dateTime('end');
             $table->boolean('is_guest');
+            $table->dateTime('end');
 
             $table->softDeletes();
             $table->timestamps();

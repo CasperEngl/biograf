@@ -46,6 +46,12 @@ Vue.component('vue-star-rating', (resolve) => {
   });
 });
 
+Vue.component('v-popover', (resolve) => {
+  import('v-tooltip' /* webpackChunkName: 'js/v-tooltip' */).then((AsyncComponent) => {
+    resolve(AsyncComponent.VPopover);
+  });
+});
+
 const files = require.context('./', true, /\.vue$/i);
 
 files

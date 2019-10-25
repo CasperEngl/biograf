@@ -3,9 +3,11 @@
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShowingController;
 use App\Http\Controllers\FilmRatingController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReservationUpdateController;
 use App\Http\Controllers\PaymentController\ReservationPaymentController;
 
 Auth::routes();
@@ -13,13 +15,11 @@ Broadcast::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('cinema')->group(
+Route::prefix('profile')->group(
     function () {
-        Route::get('/', [CinemaController::class, 'index'])
-            ->name('cinema.index');
-
-        Route::get('/{cinema}', [CinemaController::class, 'edit'])
-            ->name('cinema.edit');
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/', [ProfileController::class, 'store'])->name('profile.store');
+        Route::post('/password', [ProfileController::class, 'password'])->name('profile.password');
     }
 );
 
@@ -60,7 +60,7 @@ Route::prefix('visninger')->group(
 
 Route::prefix('reservation')->group(
     function () {
-        Route::get('/betal/{showing}', [
+        Route::get('/complete/{showing}', [
             ReservationController::class,
             'finalize',
         ])->name('reservation.finalize');
@@ -94,6 +94,16 @@ Route::prefix('reservation')->group(
             ReservationPaymentController::class,
             'cancel',
         ])->name('reservation.payment.cancel');
+
+        Route::get('/{reservation}/update/email', [
+            ReservationUpdateController::class,
+            'index'
+        ])->name('reservation.update.email.index');
+
+        Route::post('/{reservation}/update/email', [
+            ReservationUpdateController::class,
+            'store'
+        ])->name('reservation.update.email.store');
     }
 );
 

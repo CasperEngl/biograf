@@ -25,9 +25,4 @@ class CinemaController extends Controller
             'cinemas' => $this->cinema->all(),
         ]);
     }
-
-    public function edit(Cinema $cinema)
-    {
-        return dd($cinema);
-    }
 }

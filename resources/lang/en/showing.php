@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
   'all' => 'Showings',
   'none' => 'No showings on this date',

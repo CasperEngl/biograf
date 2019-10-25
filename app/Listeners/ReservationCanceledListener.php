@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Events\ReservationUpdated;
 use App\Events\ReservationCanceled;
-use App\Mail\ReservationCanceledMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationCanceledMail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -30,6 +31,8 @@ class ReservationCanceledListener
     {
         Mail::to($event->reservation->reserver_email)->send(new ReservationCanceledMail($event->reservation));
 
-        $reservation->delete();
+        $event->reservation->delete();
+        
+        event(new ReservationUpdated($event->reservation));
     }
 }

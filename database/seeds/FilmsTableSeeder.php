@@ -12,5 +12,7 @@ class FilmsTableSeeder extends Seeder
     public function run()
     {
         Artisan::call('import:movies:now-playing');
+
+        App\Film::withTrashed()->take(5)->restore();
     }
 }

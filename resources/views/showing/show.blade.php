@@ -13,7 +13,7 @@
       </div>
       <div class="col w-full md:w-2/3 md:mb-64">
         <a href="{{ route('film.show', ['slug' => $showing->film->slug]) }}">
-          <h1 class="text-6xl italic uppercase font-black my-4 text-white text-center md:text-left">{{ $showing->film->title }}</h1>
+          <h1 class="text-3xl md:text-6xl italic uppercase font-black my-4 text-white text-center md:text-left">{{ $showing->film->title }}</h1>
         </a>
       </div>
     </div>
@@ -23,18 +23,18 @@
       <div class="row md:w-2/3">
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.date') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->start->format('l') }} {{ $showing->start->toFormattedDateString() }} {{ $showing->start->format('H:i') }}</h3>
+          <h3 class="text-lg md:text-2xl uppercase font-black text-white">{{ $showing->start->isoFormat('dddd DD. MMM') }} {{ $showing->start->format('H:i') }}</h3>
         </div>
         @if ($showing->film->runtime)
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.runtime') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ trans_choice('showing.runtime.hours', $hours, compact('hours')) }} {{ trans_choice('showing.runtime.minutes', $minutes, compact('minutes')) }}</h3>
+          <h3 class="text-lg md:text-2xl uppercase font-black text-white">{{ trans_choice('showing.runtime.hours', $hours, compact('hours')) }} {{ trans_choice('showing.runtime.minutes', $minutes, compact('minutes')) }}</h3>
         </div>
         @endif
         @if ($showing->version)
         <div class="col my-3 w-full">
           <h4 class="mb-2 text-xl uppercase font-bold text-gray-500">{{ trans('showing.title.version') }}</h4>
-          <h3 class="text-2xl uppercase font-black text-white">{{ $showing->version }}</h3>
+          <h3 class="text-lg md:text-2xl uppercase font-black text-white">{{ $showing->version }}</h3>
         </div>
         @endif
       </div>
@@ -42,7 +42,29 @@
   </div>
 </section>
 <section class="container my-16">
-  <h2 class="mb-4 text-2xl uppercase font-black">{{ trans('showing.next.title') }}</h2>
+  <div class="row">
+    <div class="col w-full" :class="{
+      'md:w-1/3': $store.getters.ticketsCount,
+    }">
+      <cinema-ticket-controller price="{{ $showing->price }}" :multiplier="{{ json_encode($showing->multiplier) }}" class="h-full rounded"></cinema-ticket-controller>
+    </div>
+    <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
+      <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" reserver-id="{{ auth()->id() ?? session()->getId() }}" :disabled="false"></cinema-layout>
+    </div>
+    <div class="my-8 col w-full">
+      <div class="row">
+        <div class="my-3 col w-1/2 flex md:justify-start">
+          <a href="{{ url()->previous() }}" class="btn md:btn-lg btn-ghost rounded-full">{!! trans('pagination.back') !!}</a>
+        </div>
+        <div class="my-3 col w-1/2 flex md:justify-end">
+          <a href="{{ route('reservation.finalize', $showing) }}" class="btn md:btn-lg btn-primary rounded-full" v-if="$store.getters.ticketsCount">{{ trans('showing.order') }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container my-16">
+  <h2 class="mb-4 text-2xl uppercase font-black text-center">{{ trans('showing.next.title') }}</h2>
   <div class="row-tight">
   @forelse ((new App\Actions\ShowingActions)->nextShowings($showing, 6) as $nextShowing)
   <div class="col w-1/2 sm:w-1/3 md:w-1/6 my-1">
@@ -56,25 +78,5 @@
   <p class="text-xl">{{ trans('showing.next.none') }}</p>
   @endforelse
   </div>
-</section>
-<section class="container my-16">
-  <form action="{{ route('reservation.store', compact('date', 'showing')) }}" method="POST">
-    @csrf
-    @method('POST')
-    <div class="row">
-      <div class="col w-full" :class="{
-        'md:w-1/3': $store.getters.ticketsCount,
-      }">
-        <cinema-ticket-controller price="{{ $showing->price }}" :multiplier="{{ json_encode($showing->multiplier) }}" class="h-full rounded"></cinema-ticket-controller>
-      </div>
-      <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
-        <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" reserver-id="{{ auth()->id() ?? session()->getId() }}" :disabled="false"></cinema-layout>
-      </div>
-      <div class="my-8 col w-full flex justify-between">
-        <a href="{{ url()->previous() }}" class="btn btn-lg btn-ghost rounded-full">{!! trans('pagination.back') !!}</a>
-        <a href="{{ route('reservation.finalize', $showing) }}" class="btn btn-lg btn-primary rounded-full" v-if="$store.getters.ticketsCount">{{ trans('showing.order') }}</a>
-      </div>
-    </div>
-  </form>
 </section>
 @endsection

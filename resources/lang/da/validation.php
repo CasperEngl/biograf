@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +94,7 @@ return [
     'not_in'               => 'Valgte :attribute er ugyldig.',
     'not_regex'            => 'Formatet for :attribute er ugyldigt.',
     'numeric'              => ':attribute skal være et tal.',
+    'old_password'         => ':attribute er ikke ens.',
     'present'              => ':attribute skal være tilstede.',
     'regex'                => ':attribute formatet er ugyldigt.',
     'required'             => ':attribute skal udfyldes.',

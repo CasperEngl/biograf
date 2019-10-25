@@ -1,10 +1,10 @@
-@import '@fortawesome/fontawesome-free/css/fontawesome.css';
-@import '@fortawesome/fontawesome-free/css/regular.css';
-@import '@fortawesome/fontawesome-free/css/solid.css';
-@import '@fortawesome/fontawesome-free/css/brands.css';
+@import "@fortawesome/fontawesome-free/css/fontawesome.css";
+@import "@fortawesome/fontawesome-free/css/regular.css";
+@import "@fortawesome/fontawesome-free/css/solid.css";
+@import "@fortawesome/fontawesome-free/css/brands.css";
 
 :root {
-  --primary: #E53E3E;
+  --primary: #e53e3e;
 }
 
 #app {
@@ -40,6 +40,14 @@
   .content-box {
     box-sizing: content-box;
   }
+
+  .btn-md {
+    @apply py-3 px-7 text-lg;
+  }
+
+  .btn-lg {
+    @apply py-4 px-10 text-xl;
+  }
 }
 
 [v-cloak] {
@@ -47,15 +55,18 @@
 }
 
 .field {
-  @apply bg-white border border-gray-300 border-2 rounded-sm px-5 py-2 leading-normal text-gray-700 text-base w-full appearance-none;
+  @apply bg-white border border-gray-300 border-2 rounded px-5 py-2 leading-normal text-gray-700 text-base w-full appearance-none;
 }
 
 select.field {
   @apply appearance-none px-4 py-2 pr-12 w-full border border-gray-300 border-2 rounded leading-normal text-gray-700 text-base;
-  background: #fff url("data:image/svg+xml,%3Csvg width='10px' height='6px' viewBox='0 0 10 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='UI' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Edit-account' transform='translate(-721.000000, -472.000000)' fill='%23C5C5C5' fill-rule='nonzero'%3E%3Cg id='Group-24' transform='translate(375.000000, 178.000000)'%3E%3Cg id='Group-5'%3E%3Cg id='Group-42' transform='translate(0.000000, 246.000000)'%3E%3Cpath d='M353.849661,53.6267188 C354.253063,54.0039259 354.274298,54.6367347 353.897091,55.0401368 C353.519884,55.4435388 352.887075,55.464774 352.483673,55.0875669 L348.817006,51.6589955 C348.394331,51.2637671 348.394331,50.5933757 348.817006,50.1981474 L352.483673,46.7695759 C352.887075,46.3923688 353.519884,46.413604 353.897091,46.8170061 C354.274298,47.2204081 354.253063,47.8532169 353.849661,48.2304241 L350.964142,50.9285714 L353.849661,53.6267188 Z' id='Path-6' transform='translate(351.333335, 50.928571) rotate(-90.000000) translate(-351.333335, -50.928571) '%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat right 20px center;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg width='10px' height='6px' viewBox='0 0 10 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='UI' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Edit-account' transform='translate(-721.000000, -472.000000)' fill='%23C5C5C5' fill-rule='nonzero'%3E%3Cg id='Group-24' transform='translate(375.000000, 178.000000)'%3E%3Cg id='Group-5'%3E%3Cg id='Group-42' transform='translate(0.000000, 246.000000)'%3E%3Cpath d='M353.849661,53.6267188 C354.253063,54.0039259 354.274298,54.6367347 353.897091,55.0401368 C353.519884,55.4435388 352.887075,55.464774 352.483673,55.0875669 L348.817006,51.6589955 C348.394331,51.2637671 348.394331,50.5933757 348.817006,50.1981474 L352.483673,46.7695759 C352.887075,46.3923688 353.519884,46.413604 353.897091,46.8170061 C354.274298,47.2204081 354.253063,47.8532169 353.849661,48.2304241 L350.964142,50.9285714 L353.849661,53.6267188 Z' id='Path-6' transform='translate(351.333335, 50.928571) rotate(-90.000000) translate(-351.333335, -50.928571) '%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+    no-repeat right 20px center;
 }
 
-.btn.bg-primary, .btn.bg-primary:not([disabled]):not(.btn-disabled):hover {
+.btn.bg-primary,
+.btn.bg-primary:not([disabled]):not(.btn-disabled):hover {
   background-color: var(--primary);
 }
 
@@ -71,7 +82,8 @@ select.field {
   @apply outline-none shadow-outline;
 }
 
-.btn:disabled, .btn-disabled {
+.btn:disabled,
+.btn-disabled {
   @apply bg-gray-500;
 }
 
@@ -95,18 +107,120 @@ select.field {
   @apply border-gray-300 bg-white text-black;
 }
 
-.btn-md {
-  @apply py-3 px-7 text-lg;
-}
-
-.btn-lg {
-  @apply py-4 px-10 text-xl;
-}
-
 .tag {
   @apply px-5 py-2 inline-block border-2 border-gray-700 bg-gray-600 text-white text-xs uppercase font-bold rounded-full;
+}
+
+.svg-max-w-full svg {
+  @apply max-w-full;
 }
 
 #nova svg {
   display: inherit;
 }
+
+.markdown {
+  h1 {
+    @apply mb-3 text-4xl text-gray-900 font-bold;
+  }
+
+  h2 {
+    @apply mb-3 text-3xl text-gray-700 font-bold;
+  }
+
+  h3 {
+    @apply mb-2 text-2xl text-gray-700;
+  }
+
+  p {
+    @apply mb-2 text-xl text-gray-600;
+  }
+}
+
+/* html body .menu-dropdown.tooltip.popover {
+  .wrapper {
+    .popover-inner.tooltip-inner {
+      ul {
+        a {
+          li.dd-inner-menu-item {
+            .enter-icon {
+              svg {
+                transition: margin 0.15s;
+              }
+              max-width: 10px;
+              justify-content: flex-end;
+              display: flex;
+            }
+            .menu-content {
+              strong,
+              p {
+                width: 100%;
+                display: flex;
+              }
+              display: flex;
+              flex: 1;
+              flex-wrap: wrap;
+            }
+            .icon-spot {
+              svg {
+                fill: #bbbbbb;
+              }
+              display: flex;
+              max-width: 35px;
+            }
+            &:hover svg {
+              fill: #f88730;
+            }
+            &:hover .enter-icon svg {
+              margin-right: -5px;
+              transition: 0.15s;
+            }
+            &:hover strong,
+            &:hover p {
+              color: #e47926;
+            }
+            cursor: pointer;
+            max-width: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 18px 18px;
+            border-bottom: 2px solid #f5f5f5;
+          }
+          &:last-child {
+            li {
+              border-bottom: none;
+            }
+            li.dd-inner-menu-item {
+              border-bottom: none;
+            }
+            border-bottom: none;
+          }
+        }
+        list-style-type: none;
+        padding: 0px;
+      }
+      .menu-dropdown-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logout-bar {
+        &:hover {
+          opacity: 0.8;
+        }
+        color: #979797;
+        padding: 15px 18px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      background: white;
+    }
+    .popover-arrow {
+      border-color: white;
+    }
+  }
+} */

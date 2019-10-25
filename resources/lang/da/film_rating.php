@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
   'title.hero' => '<span class="text-gray-600">Din anmeldelse af</span> :title',
   'title' => 'Overskrift',

@@ -1,0 +1,15 @@
+<svg width="6px" height="13px" viewBox="0 0 6 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Account-dropdown" transform="translate(-335.000000, -258.000000)" fill="#D2D2D2" fill-rule="nonzero">
+            <g id="Group-29" transform="translate(0.000000, -1.000000)">
+                <g id="Group-28">
+                    <g id="Rectangle">
+                        <g id="Group-21" transform="translate(18.000000, 246.000000)">
+                            <path d="M317.191264,14.5881717 C316.866426,14.1415191 316.965176,13.5161022 317.411828,13.1912639 C317.858481,12.8664257 318.483898,12.9651757 318.808736,13.4118283 L322.808736,18.9118283 C323.063755,19.2624788 323.063755,19.7375212 322.808736,20.0881717 L318.808736,25.5881717 C318.483898,26.0348243 317.858481,26.1335743 317.411828,25.8087361 C316.965176,25.4838978 316.866426,24.8584809 317.191264,24.4118283 L320.763503,19.5 L317.191264,14.5881717 Z" id="Path-5"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

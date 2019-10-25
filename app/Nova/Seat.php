@@ -10,9 +10,12 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Seat extends Resource
 {
+    use SearchesRelations;
+    
     const ROW_IDS = [
         'a' => 'A',
         'b' => 'B',
@@ -43,6 +46,15 @@ class Seat extends Resource
     ];
 
     /**
+     * The relationship columns that should be searched.
+     *
+     * @var array
+     */
+    public static $searchRelations = [
+        'cinema' => ['name'],
+    ];
+
+    /**
      * The model the resource corresponds to.
      *
      * @var string
@@ -54,7 +66,7 @@ class Seat extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'label';
 
     /**
      * The columns that should be searched.
@@ -62,7 +74,6 @@ class Seat extends Resource
      * @var array
      */
     public static $search = [
-        'cinema_id',
         'row',
         'column',
     ];
@@ -78,19 +89,23 @@ class Seat extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Label')->readonly(),
+            Text::make('Label', function ($seat) {
+                return mb_strtoupper($seat->label);
+            })->readonly(),
 
             BelongsTo::make('Cinema')
                 ->sortable()
                 ->searchable()
                 ->prepopulate(),
                 
-            Select::make('Row')
+            Select::make('Row', function ($seat) {
+                return mb_strtoupper($seat->row);
+            })
                 ->options(self::ROW_IDS)
                 ->sortable(),
 
             Number::make('Column')
-                ->rules('numeric', 'max:20')
+                ->rules('numeric')
                 ->sortable(),
 
             Boolean::make('Disability')->sortable(),

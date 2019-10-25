@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
   'all' => 'Visninger',
   'none' => 'Ingen visninger på denne dato',

@@ -16,8 +16,6 @@ $factory->define(Showing::class, function (Faker $faker) {
         $date = $faker->dateTimeBetween($morning, now()->addDays(30));
     }
 
-    App\Film::withTrashed()->take(5)->restore();
-
     return [
         'cinema_id' => App\Cinema::all()->random(),
         'film_id' => App\Film::all()->random(),

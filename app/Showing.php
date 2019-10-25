@@ -31,7 +31,7 @@ class Showing extends Model
     ];
 
     protected $appends = [
-        // 'cinema',
+        'cinema',
     ];
 
     public function setStartAttribute($value)

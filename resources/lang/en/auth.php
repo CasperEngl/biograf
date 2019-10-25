@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
 
     /*
@@ -16,31 +18,40 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
-    'logout' => 'Logout',
+    'logout' => [
+        'default' => 'Log ud',
+    ],
 
-    'login' => 'Login',
-    'login.title' => 'Find your tickets',
-    'login.subtitle' => 'Enter your e-mail or phonenumber and your password to find your tickets.',
-    'login.email' => 'Email or phonenumber',
-    'login.password' => 'Password',
-    'login.remember' => 'Remember me',
-    'login.submit' => 'Login',
-    'login.forgot' => 'Forgot password?',
-    'login.no-account' => 'Not registered yet?',
-    'login.register' => 'Register here',
+    'login' => [
+        'default' => 'Login',
+        'title' => 'Find your tickets',
+        'subtitle' => 'Enter your e-mail or phonenumber and your password to find your tickets.',
+        'email' => 'Email or phonenumber',
+        'only.email' => 'Email',
+        'password' => 'Password',
+        'remember' => 'Remember me',
+        'submit' => 'Login',
+        'forgot' => 'Forgot password?',
+        'no-account' => 'Not registered yet?',
+        'register' => 'Register here',
+    ],
 
-    'register' => 'Register',
-    'register.title' => 'Register',
-    'register.subtitle' => 'Sign up to store your tickets.',
-    'register.name' => 'Name',
-    'register.firstname' => 'First name',
-    'register.lastname' => 'Last name',
-    'register.email' => 'Email',
-    'register.phonenumber' => 'Phone number',
-    'register.password' => 'Password',
-    'register.password.confirm' => 'Confirm password',
-    'register.submit' => 'Register',
-    'register.already-registered' => 'Already registered?',
-    'register.login' => 'Login',
+    'register' => [
+        'default' => 'Register',
+        'title' => 'Register',
+        'subtitle' => 'Sign up to store your tickets.',
+        'name' => 'Name',
+        'firstname' => 'First name',
+        'lastname' => 'Last name',
+        'email' => 'Email',
+        'phonenumber' => 'Phonenumber',
+        'submit' => 'Register',
+        'already-registered' => 'Already registered?',
+        'login' => 'Login',
+        'password' => [
+            'default' => 'Password',
+            'confirm' => 'Confirm password',
+        ],
+    ],
 
 ];

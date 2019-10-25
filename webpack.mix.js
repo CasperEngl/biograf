@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
 
 const atImport = require('postcss-import');
+const nested = require('postcss-nested');
 // const colorFunction = require('postcss-color-function');
 // const colorModFunction = require('postcss-color-mod-function');
 
@@ -24,9 +25,11 @@ mix.svg({
 mix
   .js('resources/js/app.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css')
+  .copy('public/css/app.css', 'resources/views/vendor/mail/html/themes/tailwind.css')
   .postCssConfig({
     plugins: [
       atImport(),
+      nested(),
       // colorFunction({ preserveCustomProps: true }),
       // colorModFunction(),
     ],
@@ -37,6 +40,6 @@ if (mix.inProduction()) {
   mix
     .version()
     .purgeCss({
-      folders: ['resources', 'public/vendor/nova']
+      folders: ['resources', 'public/vendor/nova', 'resources/views/vendor/mail/html'],
     });
 }

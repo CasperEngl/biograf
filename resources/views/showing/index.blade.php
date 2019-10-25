@@ -14,7 +14,7 @@
     <div class="col w-full">
       <div class="row">
         @foreach ($films as $film)
-          <div class="col w-1/3 mb-6">
+          <div class="col w-full md:w-1/3 mb-6">
             <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="overflow-hidden relative block">
               <figure class="relative aspect-ratio-16/9 mb-2 block">
                 <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" onerror="this.src = '/img/placeholder/backdrop-small.png'" alt="{{ $film->title }}" class="absolute">

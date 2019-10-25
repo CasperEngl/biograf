@@ -14,13 +14,15 @@ class Reservation extends Model implements PayableInterface
 {
     use HasPayable, HasStatuses, SoftDeletes;
 
-    const CANCELLED = 'cancelled';
+    const CANCELED = 'canceled';
     const PENDING = 'pending';
     const DENIED = 'denied';
     const PAID = 'paid';
 
     protected $fillable = [
         'showing_id',
+        'cinema_id',
+        'film_id',
         'reserver_id',
         'reserver_email',
         'payment_key',
@@ -51,7 +53,7 @@ class Reservation extends Model implements PayableInterface
         });
 
         self::deleting(function ($reservation) {
-            $reservation->setStatus(self::CANCELLED);
+            $reservation->setStatus(self::CANCELED);
         });
 
         self::restored(function ($reservation) {
@@ -69,14 +71,21 @@ class Reservation extends Model implements PayableInterface
         return $this->belongsToMany(Seat::class, 'reservation_to_seat');
     }
 
+    public function film()
+    {
+        return $this->belongsTo(Film::class);
+    }
+
     public function getTransaction()
     {
-        return count($this->transactions) && $this->transactions->last()->status === 'approved';
+        return $this->transactions->last();
     }
 
     public function getIsPaidAttribute()
     {
-        return $this->getTransaction() && $this->paymentAuthorized();
+        return count($this->transactions)
+            && $this->transactions->last()->status === 'approved'
+            && $this->paymentAuthorized();
     }
 
     public function paymentAuthorized()
@@ -105,12 +114,16 @@ class Reservation extends Model implements PayableInterface
 
     public function getTransactionId()
     {
-        return 'reservation' . $this->getTransactionIdSuffix();
+        // if (! app()->environment('production')) {
+        //     return $this->getTransactionIdSuffix();
+        // }
+
+        return str_pad('reservation-' . $this->getKey(), 20, '0', STR_PAD_RIGHT);
     }
 
     public function getTransactionIdSuffix()
     {
-        return sprintf('-%s-%s', config('payment.suffix', 'unknown'), $this->getKey());
+        return sprintf('%s-%s', config('payment.suffix', 'unknown'), $this->payment_key);
     }
 
     public function getPaymentAmount()
@@ -125,7 +138,7 @@ class Reservation extends Model implements PayableInterface
 
     public function getCustomerEmail()
     {
-        return $this->reserver->email;
+        return $this->reserver_email;
     }
 
     public function getCustomerLanguage()

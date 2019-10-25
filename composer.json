@@ -13,6 +13,7 @@
         "aws/aws-sdk-php": "^3.112",
         "caouecs/laravel-lang": "~4.0",
         "devant/cinema-maker": "*",
+        "devant/tmdb-import": "*",
         "ebess/advanced-nova-media-library": "^2.9",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
@@ -24,6 +25,7 @@
         "league/color-extractor": "^0.3.2",
         "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^0.3.7",
+        "milon/barcode": "^6.0",
         "nothingworks/blade-svg": "^0.3.2",
         "php-tmdb/api": "^2.1",
         "predis/predis": "^1.1",
@@ -40,8 +42,8 @@
         "spatie/laravel-view-models": "^1.2",
         "spatie/nova-translatable": "^2.0",
         "tightenco/ziggy": "^0.8.0",
-        "willvincent/laravel-rateable": "^2.0",
-        "devant/tmdb-import": "*"
+        "titasgailius/search-relations": "^1.0",
+        "willvincent/laravel-rateable": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

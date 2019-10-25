@@ -1,6 +1,16 @@
 @component('mail::message')
-# {{ trans('reservation.canceled.greeting', compact('name')) }}
+# {{ trans('mail.reservation.canceled.greeting', compact('name')) }}
 
-{{ trans('reservation.canceled.content', compact('film', 'date')) }}
+@if (is_array(trans('mail.reservation.canceled.body')))
+@foreach (trans('mail.reservation.canceled.body') as $body)
+
+{{ $body }}
+
+@endforeach
+@else
+
+{{ trans('mail.reservation.canceled.body') }}
+
+@endif
 
 @endcomponent

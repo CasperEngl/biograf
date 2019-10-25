@@ -3,11 +3,13 @@
 namespace App\Actions;
 
 use App\Film;
+use App\User;
 use App\Genre;
 use App\Showing;
 use App\FilmCast;
 use App\FilmCrew;
 use App\Contributor;
+use App\Reservation;
 use Tmdb\Model\Movie;
 use App\Actions\FilmActions;
 use App\Jobs\ProcessTmdbFilm;
@@ -278,5 +280,26 @@ class FilmActions
         $showing = Showing::where('film_id', $film->getKey())->orderBy('start')->first();
 
         return $showing;
+    }
+
+    public function pastViewedFilms(User $user): Collection
+    {
+        $films = Reservation::where('reserver_id', $user->id ?? session()->getId())
+            ->latest()
+            ->get()
+            ->filter(function ($reservation) {
+                return $reservation->showing->end->isPast();
+            })
+            ->map(function ($reservation) {
+                return Film::find($reservation->film_id);
+            });
+
+        if (! $films->count()) {
+            return collect([
+                Film::all()->random(),
+            ]);
+        }
+
+        return $films;
     }
 }

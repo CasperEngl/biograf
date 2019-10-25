@@ -121,6 +121,11 @@ export default {
         });
 
         this.seats = this.transformSeats(response.data.cinema.seats);
+
+        const { cinema } = response.data;
+        console.log({
+          cinema,
+        });
       } catch (error) {
         console.error(error);
       }

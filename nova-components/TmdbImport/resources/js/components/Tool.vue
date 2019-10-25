@@ -70,7 +70,7 @@ export default {
           },
         });
 
-        // console.log(data);
+        console.log(data);
 
         this.pages = data.total_pages;
         this.page = data.page;
@@ -95,6 +95,8 @@ export default {
             id,
           },
         });
+
+        console.log(data);
 
         if (data.status === 'success') {
           Swal.close();

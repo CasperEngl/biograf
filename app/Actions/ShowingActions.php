@@ -43,6 +43,8 @@ class ShowingActions
         $reservation = Reservation::create(
             [
                 'showing_id' => $showing->getKey(),
+                'cinema_id' => $showing->cinema->getKey(),
+                'film_id' => $showing->film->getKey(),
                 'reserver_id' => auth()->id() ?? session()->getId(),
                 'reserver_email' => $data->get('email'),
                 'ticket_count' => $data->get('ticket_count'),

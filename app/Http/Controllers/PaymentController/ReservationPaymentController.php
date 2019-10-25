@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Payment\PaymentGateway;
 use App\Http\Controllers\Controller;
 use App\Events\ReservationPaid;
-use App\Events\ReservationCancelled;
+use App\Events\ReservationCanceled;
 
 class ReservationPaymentController extends Controller
 {
@@ -60,7 +60,7 @@ class ReservationPaymentController extends Controller
     {
         $this->authorize('delete', $reservation);
 
-        $reservation->setStatus(Reservation::CANCELLED);
+        $reservation->setStatus(Reservation::CANCELED);
 
         $reservation->transactions->last()->update(
             [
@@ -68,12 +68,15 @@ class ReservationPaymentController extends Controller
             ]
         );
 
-        event(new ReservationCancelled($reservation));
+        event(new ReservationCanceled($reservation));
 
         return redirect()
             ->route(
-                'reservation.overview.show',
-                $reservation
+                'showing.show',
+                [
+                    'date' => $reservation->showing->start->format('Y-m-d'),
+                    'showing' => $reservation->showing,
+                ],
             )
             ->with(
                 'status.info',

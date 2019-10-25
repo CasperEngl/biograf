@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable
+
 return [
   'title.hero' => '<span class="text-gray-600">Your review of</span> :title',
   'title' => 'Title',

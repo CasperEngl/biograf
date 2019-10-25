@@ -4,8 +4,11 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Actions\SendReservationPaidMail;
 
 class Reservation extends Resource
 {
@@ -43,11 +46,13 @@ class Reservation extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('User')->searchable(),
-
-            BelongsTo::make('Seat')->searchable(),
-
             BelongsTo::make('Showing')->searchable(),
+
+            Text::make('Email', function ($reservation) {
+                return $reservation->reserver_email;
+            })->readonly(),
+
+            BelongsToMany::make('Seats')->searchable(),
         ];
     }
 
@@ -92,6 +97,8 @@ class Reservation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new SendReservationPaidMail,
+        ];
     }
 }

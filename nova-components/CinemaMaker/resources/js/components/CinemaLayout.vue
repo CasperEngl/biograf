@@ -220,8 +220,6 @@ export default {
 
       this.seats = seats;
 
-      console.log(this.seats);
-
       return seats;
     },
   },
@@ -229,7 +227,6 @@ export default {
     seats: {
       deep: true,
       handler(value) {
-        console.log(value);
         this.$emit('updatedSeats', value);
       },
     },

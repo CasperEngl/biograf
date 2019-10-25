@@ -61,6 +61,10 @@ class User extends Authenticatable implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this
+            ->addMediaConversion('tiny-thumb')
+            ->crop(Manipulations::CROP_CENTER, 50, 50);
+        
+        $this
             ->addMediaConversion('thumb')
             ->crop(Manipulations::CROP_CENTER, 100, 100);
     }

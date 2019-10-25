@@ -18,6 +18,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Events\ReservationCanceled::class => [
+            \App\Listeners\ReservationCanceledListener::class,
+        ],
+        \App\Events\ReservationDeleted::class => [
+            \App\Listeners\ReservationDeletedListener::class,
+        ],
+        \App\Events\ReservationPaid::class => [
+            \App\Listeners\ReservationPaidListener::class,
+        ],
     ];
 
     /**
