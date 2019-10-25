@@ -74,7 +74,8 @@
             @foreach ((new \App\Actions\ReservationActions)->reservations(auth()->user()) as $reservation)
             <div class="p-5 rounded bg-gray-800">
                 <h3 class="mb-2 text-3xl uppercase font-black">{{ $reservation->film->title }}</h3>
-                <p class="mb-4 text-xl text-gray-300 uppercase">{{ $reservation->showing->end->isPast() ? $reservation->showing->end->isoFormat('dddd DD. MMM') : $reservation->showing->start->isoFormat('dddd DD. MMM hh:mm') }}</p>
+                <p class="text-xl text-gray-300 uppercase leading-normal">{{ $reservation->showing->end->isPast() ? $reservation->showing->end->isoFormat('dddd DD. MMM') : $reservation->showing->start->isoFormat('dddd DD. MMM hh:mm') }}</p>
+                <p class="mb-4 text-xl text-gray-300 uppercase leading-normal">{{ trans('reservation.price') }} {{ $reservation->getPaymentAmount() / 100 }},-</p>
                 <h4 class="text-3xl uppercase font-black text-gray-600 tracking-wider">Status <span class="text-white">{{ trans('reservation.status.' . $reservation->status) }}</span></h4>
 
             </div>
