@@ -30,7 +30,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email', 'phonenumber',
+        'id', 'name', 'email',
     ];
 
     /**
@@ -46,6 +46,10 @@ class User extends Resource
 
             Gravatar::make(),
 
+            // Text::make('Name')
+            //     ->sortable()
+            //     ->rules('required', 'max:255'),
+            
             Text::make('Firstname')
                 ->sortable()
                 ->rules('required', 'max:255'),
@@ -59,12 +63,10 @@ class User extends Resource
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
-                
+            
             Text::make('Phonenumber')
                 ->sortable()
-                ->rules('required', 'digits:8')
-                ->creationRules('digits:8')
-                ->updateRules('digits:8,{{resourceId}}'),
+                ->rules('required', 'digits:8'),
 
             Password::make('Password')
                 ->onlyOnForms()

@@ -57,7 +57,7 @@ class ShowingActions
             ->each(function ($seat, $row) use ($showing, $reservation) {
                 $seat = (object) $seat;
 
-                $seat = Seat::where('cinema_id', $showing->cinema()->getKey())
+                $seat = Seat::where('cinema_id', $showing->cinemaWithSeats()->getKey())
                     ->where('row', $seat->row)
                     ->where('column', $seat->column)
                     ->firstOrFail();

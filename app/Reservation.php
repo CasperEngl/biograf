@@ -114,11 +114,11 @@ class Reservation extends Model implements PayableInterface
 
     public function getTransactionId()
     {
-        // if (! app()->environment('production')) {
-        //     return $this->getTransactionIdSuffix();
-        // }
+        if (! app()->environment('production')) {
+            return $this->getTransactionIdSuffix();
+        }
 
-        return str_pad('reservation-' . $this->getKey(), 20, '0', STR_PAD_RIGHT);
+        return 'reservation-' . str_pad($this->getKey(), 8, 0, STR_PAD_LEFT);
     }
 
     public function getTransactionIdSuffix()

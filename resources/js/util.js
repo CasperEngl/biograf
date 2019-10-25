@@ -40,3 +40,12 @@ export function getMissingSeats(seats, length) {
     .filter((_, index, array) => !array.find((s) => s.column === index))
     .length;
 }
+
+/**
+ * @param {number} length;
+ */
+export function arrayWithLength(length) {
+  return [
+    ...Array(length),
+  ];
+}

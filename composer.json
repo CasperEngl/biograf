@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "64robots/nova-fields": "^0.13.1",
         "alexbowers/nova-prepopulate-searchable": "^1.0",
         "aws/aws-sdk-php": "^3.112",
         "caouecs/laravel-lang": "~4.0",
@@ -46,6 +47,7 @@
         "willvincent/laravel-rateable": "^2.0"
     },
     "require-dev": {
+        "beyondcode/laravel-er-diagram-generator": "^1.4",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "laravel-frontend-presets/tailwindcss": "^2.0",

@@ -16,7 +16,7 @@
             <h2 class="text-2xl uppercase font-bold">{{ trans('reservation.update.title.with-email') }}</h2>
             <div class="my-3 w-full">
               <input-label for="email">{{ trans('reservation.update.email') }}</input-label>
-              <input-field id="email" type="text" class="{{ $errors->has('email') ? ' border-red-500' : '' }}" name="email" value="{{ old('email') }}" required autofocus></input-field>
+              <input-field id="email" type="text" class="{{ $errors->has('email') ? ' border-red-500' : '' }}" name="email" :value="old('email')" required autofocus></input-field>
               <error-message key="email"></error-message>
             </div>
           </div>
@@ -34,7 +34,7 @@
             <h2 class="text-2xl uppercase font-bold">{{ trans('reservation.update.title.with-login') }}</h2>
             <div class="my-3 w-full">
               <input-label for="email">{{ trans('auth.login.only.email') }}</input-label>
-              <input-field id="email" type="text" name="email" value="{{ old('email') }}" required autofocus></input-field>
+              <input-field id="email" type="text" name="email" :value="old('email')" required autofocus></input-field>
               <error-message key="email"></error-message>
             </div>
             <div class="my-3 w-full">

@@ -14,7 +14,7 @@
                 <div class="row my-3">
                     <div class="col w-full">
                         <input-label for="email">{{ trans('auth.login.email') }}</input-label>
-                        <input-field id="email" type="text" name="email" value="{{ old('email') }}" required autofocus></input-field>
+                        <input-field id="email" type="text" name="email" :value="old('email')" required autofocus></input-field>
                         <error-message key="email"></error-message>
                     </div>
                 </div>

@@ -14,35 +14,44 @@ use Titasgailius\SearchRelations\SearchesRelations;
 
 class Seat extends Resource
 {
+    public static $displayInNavigation = false;
+
+    /**
+     * The pagination per-page options configured for this resource.
+     *
+     * @return array
+     */
+    public static $perPageOptions = [50, 100, 150];
+    
     use SearchesRelations;
     
     const ROW_IDS = [
-        'a' => 'A',
-        'b' => 'B',
-        'c' => 'C',
-        'd' => 'D',
-        'e' => 'E',
-        'f' => 'F',
-        'g' => 'G',
-        'h' => 'H',
-        'i' => 'I',
-        'j' => 'J',
-        'k' => 'K',
-        'l' => 'L',
-        'm' => 'M',
-        'n' => 'N',
-        'o' => 'O',
-        'p' => 'P',
-        'q' => 'Q',
-        'r' => 'R',
-        's' => 'S',
-        't' => 'T',
-        'u' => 'U',
-        'v' => 'V',
-        'w' => 'W',
-        'x' => 'X',
-        'y' => 'Y',
-        'z' => 'Z',
+        'A' => 'A',
+        'B' => 'B',
+        'C' => 'C',
+        'D' => 'D',
+        'E' => 'E',
+        'F' => 'F',
+        'G' => 'G',
+        'H' => 'H',
+        'I' => 'I',
+        'J' => 'J',
+        'K' => 'K',
+        'L' => 'L',
+        'M' => 'M',
+        'N' => 'N',
+        'O' => 'O',
+        'P' => 'P',
+        'Q' => 'Q',
+        'R' => 'R',
+        'S' => 'S',
+        'T' => 'T',
+        'U' => 'U',
+        'V' => 'V',
+        'W' => 'W',
+        'X' => 'X',
+        'Y' => 'Y',
+        'Z' => 'Z',
     ];
 
     /**
@@ -91,22 +100,15 @@ class Seat extends Resource
 
             Text::make('Label', function ($seat) {
                 return mb_strtoupper($seat->label);
-            })->readonly(),
+            }),
 
-            BelongsTo::make('Cinema')
-                ->sortable()
-                ->searchable()
-                ->prepopulate(),
+            Text::make('Cinema', function ($seat) {
+                return $seat->cinema->first()->name;
+            }),
                 
-            Select::make('Row', function ($seat) {
-                return mb_strtoupper($seat->row);
-            })
-                ->options(self::ROW_IDS)
-                ->sortable(),
+            Text::make('Row')->readonly(),
 
-            Number::make('Column')
-                ->rules('numeric')
-                ->sortable(),
+            Text::make('Column')->readonly(),
 
             Boolean::make('Disability')->sortable(),
         ];

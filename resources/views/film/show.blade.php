@@ -54,7 +54,7 @@
                 @foreach ($film->casts->take(4) as $cast)
                 <a href="{{ $cast->contributor->tmdbLink }}" class="col my-1 inline-flex flex-col items-center">
                   <figure class="mb-1">
-                    <img src="{{ $cast->getFirstMediaUrl('profile', 'thumb') }}" onerror="this.src='{{ Avatar::create($cast->contributor->name)->toBase64() }}'" alt="{{ $cast->contributor->name }}" class="rounded-full border-2 border-gray-800">
+                    <img src="{{ $cast->getFirstMediaUrl('profile', 'thumb') }}" alt="{{ $cast->contributor->name }}" class="rounded-full border-2 border-gray-800">
                   </figure>
                   <h4 class="mb-2 text-gray-400 font-black">{{ $cast->contributor->name }}</h4>
                   <h5 class="text-gray-400">{{ $cast->character }}</h5>
@@ -70,7 +70,7 @@
                 @foreach ($film->crews->where('job', 'Director')->take(4) as $director)
                 <a href="{{ $director->contributor->tmdbLink }}" class="col my-1 inline-flex flex-col items-center">
                     <figure class="mb-1">
-                      <img src="{{ $director->getFirstMediaUrl('profile', 'thumb') }}" onerror="this.src='{{ Avatar::create($director->contributor->name)->toBase64() }}'" alt="{{ $director->contributor->name }}" class="rounded-full border-2 border-gray-800">
+                      <img src="{{ $director->getFirstMediaUrl('profile', 'thumb') }}" alt="{{ $director->contributor->name }}" class="rounded-full border-2 border-gray-800">
                     </figure>
                     <h4 class="mb-2 text-gray-400 font-black">{{ $director->contributor->name }}</h4>
                     <h5 class="text-gray-400">{{ $director->job }}</h5>

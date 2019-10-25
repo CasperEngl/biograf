@@ -49,7 +49,7 @@
       <cinema-ticket-controller price="{{ $showing->price }}" :multiplier="{{ json_encode($showing->multiplier) }}" class="h-full rounded"></cinema-ticket-controller>
     </div>
     <div class="col w-full md:w-2/3" v-if="$store.getters.ticketsCount">
-      <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinema()) }}" reserver-id="{{ auth()->id() ?? session()->getId() }}" :disabled="false"></cinema-layout>
+      <cinema-layout class="mb-4" :showing="{{ json_encode($showing) }}" :cinema="{{ json_encode($showing->cinemaWithSeats()) }}" reserver-id="{{ auth()->id() ?? session()->getId() }}" :disabled="false"></cinema-layout>
     </div>
     <div class="my-8 col w-full">
       <div class="row">

@@ -77,8 +77,9 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import groupBy from 'lodash-es/groupBy';
+import flatten from 'lodash-es/flatten';
 
-import { reverseObject, alphabet, getMissingSeats } from '../util';
+import { reverseObject, alphabet, getMissingSeats, arrayWithLength } from '../util';
 
 import {
   assertTicketAndSeatCountEqual,
@@ -120,12 +121,7 @@ export default {
           url: route('api.showing', data.showing_id),
         });
 
-        this.seats = this.transformSeats(response.data.cinema.seats);
-
-        const { cinema } = response.data;
-        console.log({
-          cinema,
-        });
+        this.seats = this.transformSeats(response.data.cinemaWithSeats.seats);
       } catch (error) {
         console.error(error);
       }
@@ -277,21 +273,19 @@ export default {
       return Object.values(this.cinemaRows).find(() => true);
     },
     cinemaRows() {
-      const rows = [];
+      const rows = arrayWithLength(this.rows).map(
+        (_, rowIndex) => {
+          const row = alphabet(rowIndex, true);
 
-      for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
-        const row = alphabet(rowIndex, true);
-
-        for (let column = 0; column < this.columns; column++) {
-          rows.push({
+          return arrayWithLength(this.columns).map((_, column) => ({
             rowIndex,
             row,
             column,
-          });
-        }
-      }
+          }));
+        },
+      );
 
-      return reverseObject(groupBy(rows, 'row'));
+      return reverseObject(groupBy(flatten(rows), 'row'));
     },
   },
   asyncComputed: {

@@ -62,13 +62,9 @@ class Cinema extends Resource
                 ->sortable()
                 ->readonly(),
 
-            CinemaMaker::make('Seats', 'trashedSeats')->onlyOnForms(),
+            CinemaMaker::make('Seats', 'trashedSeats')->onlyOnForms()->hideWhenCreating(),
 
             HasMany::make('Seats'),
-
-            MorphToMany::make('Genres')
-                ->searchable()
-                ->prepopulate(),
         ];
     }
 
