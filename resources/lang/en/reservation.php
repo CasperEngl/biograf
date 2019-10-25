@@ -28,4 +28,5 @@ return [
             'with-login' => 'Use login',
         ],
     ],
+    'price' => 'Price',
 ];

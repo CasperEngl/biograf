@@ -17,4 +17,5 @@ return [
   'update.email' => 'Email',
   'update.submit' => 'Opdater',
   'missing' => 'Reservation er udløbet',
+  'price' => 'Pris',
 ];
