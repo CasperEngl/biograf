@@ -2,14 +2,14 @@
 
 namespace App\Policies;
 
+use App\Seat;
 use App\User;
-use App\Reservation;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReservationPolicy
+class SeatPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any reservations.
      *
@@ -30,12 +30,12 @@ class ReservationPolicy
      * Determine whether the user can view the reservation.
      *
      * @param  \App\User  $user
-     * @param  \App\Reservation  $reservation
+     * @param  \App\Seat  $seat
      * @return mixed
      */
-    public function view(?User $user, Reservation $reservation)
+    public function view(?User $user, Seat $seat)
     {
-        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        return true;
     }
 
     /**
@@ -54,48 +54,50 @@ class ReservationPolicy
      * Determine whether the user can update the reservation.
      *
      * @param  \App\User  $user
-     * @param  \App\Reservation  $reservation
+     * @param  \App\Seat  $seat
      * @return mixed
      */
-    public function update(?User $user, Reservation $reservation)
+    public function update(?User $user, Seat $seat)
     {
-        // return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
-        return $reservation->reserver_id == $user->id ?? session()->getId();
+        // return $seat->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        // return $this->viewAny($user);
+        return false;
     }
 
     /**
      * Determine whether the user can delete the reservation.
      *
      * @param  \App\User  $user
-     * @param  \App\Reservation  $reservation
+     * @param  \App\Seat  $seat
      * @return mixed
      */
-    public function delete(?User $user, Reservation $reservation)
+    public function delete(?User $user, Seat $seat)
     {
-        // return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
-        return $reservation->reserver_id == $user->id ?? session()->getId();
+        // return $seat->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        return $this->viewAny($user);
     }
 
     /**
      * Determine whether the user can restore the reservation.
      *
      * @param  \App\User  $user
-     * @param  \App\Reservation  $reservation
+     * @param  \App\Seat  $seat
      * @return mixed
      */
-    public function restore(?User $user, Reservation $reservation)
+    public function restore(?User $user, Seat $seat)
     {
-        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        // return $seat->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        return $this->viewAny($user);
     }
 
     /**
      * Determine whether the user can permanently delete the reservation.
      *
      * @param  \App\User  $user
-     * @param  \App\Reservation  $reservation
+     * @param  \App\Seat  $seat
      * @return mixed
      */
-    public function forceDelete(User $user, Reservation $reservation)
+    public function forceDelete(User $user, Seat $seat)
     {
         // return $this->viewAny($user);
         return false;

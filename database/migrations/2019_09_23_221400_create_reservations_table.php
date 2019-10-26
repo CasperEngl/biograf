@@ -16,7 +16,7 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('showing_id')->unsigned();
+            $table->bigInteger('showing_id')->unsigned()->nullable();
             $table->string('cinema_id')->nullable();
             $table->string('film_id')->nullable();
             $table->string('reserver_id');
@@ -33,7 +33,7 @@ class CreateReservationsTable extends Migration
                 ->foreign('showing_id')
                 ->references('id')
                 ->on('showings')
-                ->onDelete('cascade');
+                ->onDelete('set null');
         });
     }
 

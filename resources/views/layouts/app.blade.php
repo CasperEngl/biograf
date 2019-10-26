@@ -14,7 +14,7 @@
 </head>
 <body class="bg-gray-900 text-white h-screen antialiased leading-none">
     <div id="app">
-        <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6 fixed w-full top-0 print:hidden" style="background: rgba(0,0,0,0.75);">
+        <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6 z-40 fixed w-full top-0 print:hidden" style="background: rgba(0,0,0,0.75);">
             <div class="flex-1 flex items-center flex-shrink-0 text-white mr-6">
                 <a href="{{ url('/') }}" class="text-white no-underline hover:text-white hover:no-underline" href="#">
                     <span class="text-2xl pl-2">
@@ -31,7 +31,7 @@
             </div>
 
             @auth
-                <v-popover placement="left-start" offset="8" v-cloak popover-class="menu-dropdown" trigger="hover click focus" class="lg:order-last">
+                <v-popover placement="left-start" v-cloak popover-class="z-50 menu-dropdown" trigger="hover click focus" class="lg:order-last">
                     <figure class="cursor-pointer inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline pl-4">
                         <img src="{{ auth()->user()->getFirstMediaUrl('profile', 'tiny-thumb') }}" alt="{{ auth()->user()->name }}" class="max-w-12 max-h-12">
                     </figure>
@@ -67,11 +67,11 @@
             <div class="w-full flex-grow md:flex md:items-center md:w-auto hidden md:block pt-6 md:pt-0" id="nav-content">
                 <ul class="list-reset md:flex justify-end flex-1 items-center">
                     <li class="mx-1">
-                        <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="{{ route('showing.pick') }}">{{ trans('showing.pick') }}</a>
+                        <a class="btn" href="{{ route('showing.pick') }}">{{ trans('showing.pick') }}</a>
                     </li>
-                    <li class="mx-1">
+                    {{-- <li class="mx-1">
                         <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="{{ route('film.pick') }}">{{ trans('film.pick') }}</a>
-                    </li>
+                    </li> --}}
                     @guest
                         <li class="mx-1">
                             <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="{{ route('login') }}">{{ trans('auth.login.default') }}</a>

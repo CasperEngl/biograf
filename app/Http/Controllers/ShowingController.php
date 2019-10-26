@@ -41,6 +41,8 @@ class ShowingController extends Controller
         $hours = floor(($showing->film->runtime - $days * 1440) / 60) ?? 0;
         $minutes = $showing->film->runtime - ($days * 1440) - ($hours * 60) ?? 0;
 
+        $showing = $showing->append('cinemaWithSeats');
+
         return view('showing.show', compact('showing', 'date', 'hours', 'minutes'));
     }
 

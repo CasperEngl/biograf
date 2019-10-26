@@ -13,6 +13,8 @@ use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 
 class Contributor extends Resource
 {
+    public static $displayInNavigation = false;
+    
     /**
      * The model the resource corresponds to.
      *

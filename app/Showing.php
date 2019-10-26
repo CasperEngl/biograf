@@ -31,12 +31,12 @@ class Showing extends Model
     ];
 
     protected $appends = [
-        'cinema',
+        // 'cinemaWithSeats',
     ];
 
     public function setStartAttribute($value)
     {
-        $this->attributes['start'] = getNearestTimeRoundedUpWithMinimum($value, 5);
+        $this->attributes['start'] = getNearestTimeRoundedUpWithMinimum(\Carbon\Carbon::parse($value), 5);
     }
     
     public function getEndAttribute()
@@ -44,16 +44,16 @@ class Showing extends Model
         return $this->start->addMinutes($this->film->runtime);
     }
 
-    public function getCinemaAttribute()
+    public function getCinemaWithSeatsAttribute()
     {
-        return $this->cinema();
+        return $this->cinemaWithSeats();
     }
 
-    public function cinema()
+    public function cinemaWithSeats()
     {
         // get() wraps up query builder
         // first() is used because get() returns a collection of one item
-        $cinema = $this->belongsTo(Cinema::class)->first();
+        $cinema = $this->cinema->first();
 
         $cinema->seats->map(function ($seat) {
             // Only attach the current reservation for this showing
@@ -70,6 +70,11 @@ class Showing extends Model
         });
 
         return $cinema;
+    }
+
+    public function cinema()
+    {
+        return $this->belongsTo(Cinema::class);
     }
 
     public function reservations()

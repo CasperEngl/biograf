@@ -6,7 +6,7 @@
           slug: film.slug,
         })" class="overflow-hidden relative block">
           <figure class="relative aspect-ratio-16/9 mb-2 block">
-            <img :src="film.backdrops[0]" onerror="this.src = '/img/placeholder/backdrop-small.png'" :alt="film.title" class="absolute">
+            <img :src="film.backdrops[0]" :alt="film.title" class="absolute">
           </figure>
           <h3 class="text-2xl uppercase font-black">{{ title(film.title, 16) }}</h3>
         </a>

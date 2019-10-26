@@ -17,8 +17,8 @@ class CreateCinemasTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name');
-            $table->string('row_count');
-            $table->string('column_count');
+            $table->string('row_count')->nullable();
+            $table->string('column_count')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

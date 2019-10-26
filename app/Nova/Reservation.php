@@ -9,9 +9,21 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Actions\SendReservationPaidMail;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Reservation extends Resource
 {
+    use SearchesRelations;
+
+    /**
+     * The relationship columns that should be searched.
+     *
+     * @var array
+     */
+    public static $searchRelations = [
+        'showing' => ['film'],
+    ];
+
     /**
      * The model the resource corresponds to.
      *
@@ -46,13 +58,17 @@ class Reservation extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Showing')->searchable(),
+            BelongsTo::make('Showing')->readonly(),
 
             Text::make('Email', function ($reservation) {
                 return $reservation->reserver_email;
-            })->readonly(),
+            }),
+            
+            Text::make('Status', function ($reservation) {
+                return trans('reservation.status.' . $reservation->status);
+            }),
 
-            BelongsToMany::make('Seats')->searchable(),
+            BelongsToMany::make('Seats')->readonly(),
         ];
     }
 

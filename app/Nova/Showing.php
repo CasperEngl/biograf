@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Cinema;
+use R64\NovaFields\JSON;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -9,16 +11,16 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laraning\NovaTimeField\TimeField;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Showing extends Resource
 {
     const VERSIONS = [
-        '2D',
-        '3D',
-        'IMAX 2D',
-        'IMAX 3D',
+        '2D' => '2D',
+        '3D' => '3D',
+        'IMAX 2D' => 'IMAX 2D',
+        'IMAX 3D' => 'IMAX 3D',
     ];
 
     /**
@@ -60,6 +62,11 @@ class Showing extends Resource
             })->readonly(),
             
             Number::make('Real Price', 'price'),
+
+            JSON::make('Multiplier', [
+                Number::make('Regular')->withMeta(['value' => 1])->step(0.01)->rules('required', 'numeric'),
+                Number::make('Senior')->withMeta(['value' => 0.9])->step(0.01)->rules('required', 'numeric'),
+            ]),
             
             Select::make('Version')
                 ->options(self::VERSIONS)
@@ -67,11 +74,11 @@ class Showing extends Resource
 
             DateTime::make('Start'),
             
-            DateTime::make('End')->readonly(),
+            // DateTime::make('End')->readonly(),
 
-            // BelongsTo::make('Cinema', 'cinema'),
+            BelongsTo::make('Cinema'),
 
-            BelongsTo::make('Film'),
+            BelongsTo::make('Film')->prepopulate(),
         ];
     }
 

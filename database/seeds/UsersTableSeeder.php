@@ -25,6 +25,16 @@ class UsersTableSeeder extends Seeder
             'phonenumber' => '40413916',
             'password' => bcrypt('1234'),
         ]);
+
+        factory(App\User::class)->create([
+            'email' => 'test1@biograf.test',
+            'password' => bcrypt('kodeord123'),
+        ]);
+
+        factory(App\User::class)->create([
+            'email' => 'test2@biograf.test',
+            'password' => bcrypt('kodeord123'),
+        ]);
         
         factory(App\User::class, 10)->create();
     }

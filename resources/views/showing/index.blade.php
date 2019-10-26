@@ -17,7 +17,7 @@
           <div class="col w-full md:w-1/3 mb-6">
             <a href="{{ route('film.show', ['slug' => $film->slug]) }}" class="overflow-hidden relative block">
               <figure class="relative aspect-ratio-16/9 mb-2 block">
-                <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" onerror="this.src = '/img/placeholder/backdrop-small.png'" alt="{{ $film->title }}" class="absolute">
+                <img src="{{ $film->getFirstMediaUrl('backdrop', 'small') }}" alt="{{ $film->title }}" class="absolute">
               </figure>
               <h3 class="text-2xl uppercase font-black">{{ Str::limit($film->title, 16) }}</h3>
             </a>
@@ -27,7 +27,7 @@
               <div class="col w-1/2">
                 <a href="{{ route('showing.show', compact('date', 'showing')) }}" class="relative my-1 h-12 bg-gray-700 hover:bg-gray-800 group flex">
                   <p class="p-1 pl-4 w-full flex items-center">{{ getNearestTimeRoundedUpWithMinimum($showing->start, 5)->format('H:i') }}</p>
-                  <span class="absolute inset-y-0 right-0 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500 group-hover:bg-orange-400 p-px w-12" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinema()->name }}</span>
+                  <span class="absolute inset-y-0 right-0 text-center block overflow-hidden flex items-center justify-center flex-no-wrap h-8 text-sm bg-orange-500 group-hover:bg-orange-400 p-px w-12" style="transform: rotate(90deg) translate(8px, -7px);">{{ $showing->cinemaWithSeats()->name }}</span>
                 </a>
               </div>
               @endforeach

@@ -18,5 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api')->get('/showing/{showing}', function (App\Showing $showing) {
-    return $showing;
+    return $showing->append('cinemaWithSeats');
 })->name('api.showing');
