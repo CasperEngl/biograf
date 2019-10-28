@@ -37,6 +37,19 @@ mix
   .tailwind('./tailwind.config.js');
 
 if (mix.inProduction()) {
+  const ASSET_URL = `${process.env.ASSET_URL}/`;
+
+  mix.webpackConfig((webpack) => ({
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.ASSET_PATH': JSON.stringify(ASSET_URL),
+      }),
+    ],
+    output: {
+      publicPath: ASSET_URL,
+    },
+  }));
+
   mix
     .version()
     .purgeCss({
