@@ -28,41 +28,6 @@ if (! function_exists('plural')) {
     }
 }
 
-if (! function_exists('tmdb')) {
-    /**
-     * Helper function for TMDB Client
-     * @return \Tmdb\Client
-     */
-    function tmdb()
-    {
-        return (new \App\Tmdb)->client;
-    }
-}
-
-if (! function_exists('tmdb_repo')) {
-    /**
-     * Helper function for TMDB Movie Repository
-     *
-     * @return \Tmdb\Repository\MovieRepository
-     */
-    function tmdb_repo()
-    {
-        return (new \App\Tmdb)->repository();
-    }
-}
-
-if (! function_exists('tmdb_image')) {
-    /**
-     * Helper function for TMDB Image Helper
-     *
-     * @return \Tmdb\Helper\ImageHelper
-     */
-    function tmdb_image()
-    {
-        return (new \App\Tmdb)->imageHelper();
-    }
-}
-
 if (! function_exists('console_log')) {
     function console_log($any)
     {
@@ -118,5 +83,42 @@ if (! function_exists('str_slug')) {
     function str_slug(string $str)
     {
         return \Illuminate\Support\Str::slug($str);
+    }
+}
+
+if (env('TMDB_API_KEY')) {
+    if (! function_exists('tmdb')) {
+        /**
+         * Helper function for TMDB Client
+         * @return \Tmdb\Client
+         */
+        function tmdb()
+        {
+            return (new \App\Tmdb)->client;
+        }
+    }
+    
+    if (! function_exists('tmdb_repo')) {
+        /**
+         * Helper function for TMDB Movie Repository
+         *
+         * @return \Tmdb\Repository\MovieRepository
+         */
+        function tmdb_repo()
+        {
+            return (new \App\Tmdb)->repository();
+        }
+    }
+    
+    if (! function_exists('tmdb_image')) {
+        /**
+         * Helper function for TMDB Image Helper
+         *
+         * @return \Tmdb\Helper\ImageHelper
+         */
+        function tmdb_image()
+        {
+            return (new \App\Tmdb)->imageHelper();
+        }
     }
 }
