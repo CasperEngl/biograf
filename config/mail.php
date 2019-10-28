@@ -116,7 +116,7 @@ return [
         'theme' => 'tailwind',
 
         'paths' => [
-            resource_path('views/vendor/mail'),
+            public_path('vendor/mail'),
         ],
     ],
 
