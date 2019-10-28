@@ -8,7 +8,7 @@
     @foreach ($reservation->seats as $seat)
     <div class="my-5 md:my-1 col w-full md:w-1/3 print:w-1/2">
         <figure class="p-5 bg-white">
-          <img src="{{ url(DNS2D::getBarcodePNGPath($reservation->getTransactionId() . '|' . $seat->label, 'QRCODE', 20, 20)) }}" alt="qr code" class="print:mx-auto print:w-full print:max-w-48">
+          <img src="{{ generate_barcode_image($reservation->getTransactionId() . '|' . $seat->label, 'QRCODE', 20, 20) }}" alt="qr code" class="print:mx-auto print:w-full print:max-w-48">
         </figure>
       </div>
     @endforeach

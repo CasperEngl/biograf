@@ -53,7 +53,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this
             ->addMediaCollection('profile')
-            ->useFallbackUrl(\Storage::url('/img/placeholder/user.png'))
+            ->useFallbackUrl(asset('img/placeholder/user.png'))
             ->useFallbackPath(public_path('/img/placeholder/user.png'))
             ->singleFile();
     }

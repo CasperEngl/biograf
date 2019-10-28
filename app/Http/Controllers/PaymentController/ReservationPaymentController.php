@@ -44,20 +44,6 @@ class ReservationPaymentController extends Controller
 
             event(new ReservationPaid($reservation));
 
-            $reservation->seats->each(function ($seat) use ($reservation) {
-                $filename = $reservation->getTransactionId() . '|' . $seat->label . '.png';
-
-                \Storage::put(
-                    'img/barcode/' . $filename,
-                    \DNS2D::getBarcodePNG(
-                        $filename,
-                        'QRCODE',
-                        20,
-                        20,
-                    )
-                );
-            });
-
             return redirect()
                 ->route(
                     'reservation.overview.show',

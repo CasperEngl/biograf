@@ -122,3 +122,23 @@ if (! function_exists('tmdb_image')) {
         return (new \App\Tmdb)->imageHelper();
     }
 }
+
+if (! function_exists('generate_barcode_image')) {
+    /**
+     * Generate barcode image encoded as base64
+     * @param string $name
+     * @param string $type
+     * @param integer $w
+     * @param integer $h
+     * @return string
+     */
+    function generate_barcode_image(string $name, string $type, int $w, int $h): string
+    {
+        return 'data:image/png;base64,' . \DNS2D::getBarcodePNG(
+            $name,
+            $type,
+            $w,
+            $h,
+        );
+    }
+}

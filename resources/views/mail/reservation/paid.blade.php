@@ -14,10 +14,10 @@
 @endif
 
 <div class="row-tight">
-    @foreach ($barcodes as $barcode)
+    @foreach ($reservation->seats as $seat)
     <div class="my-5 col w-1/2">
         <figure class="p-5 bg-white">
-            <img src="{{ asset('img/barcode/' . $barcode) }}" alt="qr code" class="mx-auto w-full max-w-48">
+            <img src="{{ generate_barcode_image($reservation->getTransactionId() . '|' . $seat->label, 'QRCODE', 20, 20) }}" alt="qr code" class="mx-auto w-full max-w-48">
         </figure>
     </div>
     @endforeach

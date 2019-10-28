@@ -69,11 +69,11 @@ class Film extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('poster')
-            ->useFallbackUrl(\Storage::url('/img/placeholder/poster-medium.png'));
+            ->useFallbackUrl(asset('img/placeholder/poster-medium.png'));
 
         $this
             ->addMediaCollection('backdrop')
-            ->useFallbackUrl(\Storage::url('/img/placeholder/backdrop-medium.png'));
+            ->useFallbackUrl(asset('img/placeholder/backdrop-medium.png'));
     }
 
     public function registerMediaConversions(Media $media = null)
