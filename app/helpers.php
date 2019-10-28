@@ -38,9 +38,9 @@ if (! function_exists('console_log')) {
 if (! function_exists('getNearestTimeRoundedUpWithMinimum')) {
     /**
      *
-     * @param \Carbon\Carbon $now
-     * @param int $nearestMin
-     * @param int $minimumMinutes
+     * @param  \Carbon\Carbon $now
+     * @param  int            $nearestMin
+     * @param  int            $minimumMinutes
      * @return \Carbon\Carbon
      */
     function getNearestTimeRoundedUpWithMinimum($now, $nearestMin = 30, $minimumMinutes = 0)
@@ -56,8 +56,9 @@ if (! function_exists('getNearestTimeRoundedUpWithMinimum')) {
 if (! function_exists('generateSubsequentDates')) {
     /**
      * Generates a collection of dates following the start date up to the maximum count
-     * @param \Carbon\Carbon $startDate
-     * @param int $count
+     *
+     * @param  \Carbon\Carbon $startDate
+     * @param  int            $count
      * @return Illuminate\Support\Collection
      */
     function generateSubsequentDates($startDate, $count)
@@ -86,39 +87,38 @@ if (! function_exists('str_slug')) {
     }
 }
 
-if (env('TMDB_API_KEY')) {
-    if (! function_exists('tmdb')) {
-        /**
-         * Helper function for TMDB Client
-         * @return \Tmdb\Client
-         */
-        function tmdb()
-        {
-            return (new \App\Tmdb)->client;
-        }
+if (! function_exists('tmdb')) {
+    /**
+     * Helper function for TMDB Client
+     *
+     * @return \Tmdb\Client
+     */
+    function tmdb()
+    {
+        return (new \App\Tmdb)->client;
     }
+}
     
-    if (! function_exists('tmdb_repo')) {
-        /**
-         * Helper function for TMDB Movie Repository
-         *
-         * @return \Tmdb\Repository\MovieRepository
-         */
-        function tmdb_repo()
-        {
-            return (new \App\Tmdb)->repository();
-        }
+if (! function_exists('tmdb_repo')) {
+    /**
+     * Helper function for TMDB Movie Repository
+     *
+     * @return \Tmdb\Repository\MovieRepository
+     */
+    function tmdb_repo()
+    {
+        return (new \App\Tmdb)->repository();
     }
+}
     
-    if (! function_exists('tmdb_image')) {
-        /**
-         * Helper function for TMDB Image Helper
-         *
-         * @return \Tmdb\Helper\ImageHelper
-         */
-        function tmdb_image()
-        {
-            return (new \App\Tmdb)->imageHelper();
-        }
+if (! function_exists('tmdb_image')) {
+    /**
+     * Helper function for TMDB Image Helper
+     *
+     * @return \Tmdb\Helper\ImageHelper
+     */
+    function tmdb_image()
+    {
+        return (new \App\Tmdb)->imageHelper();
     }
 }
