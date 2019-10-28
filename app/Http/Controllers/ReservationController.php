@@ -31,8 +31,12 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         $this->authorize('view', $reservation);
+
+        $barcodes = $reservation->seats->map(function ($seat) use ($reservation) {
+            return $reservation->getTransactionId() . '|' . $seat->label . '.png';
+        });
         
-        return view('reservation.overview.show', compact('reservation'));
+        return view('reservation.overview.show', compact('reservation', 'barcodes'));
     }
 
     public function finalize(Showing $showing)

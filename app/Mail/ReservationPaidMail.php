@@ -33,6 +33,12 @@ class ReservationPaidMail extends Mailable
     {
         $user = \App\User::find($this->reservation->reserver_id);
 
+        $reservation = $this->reservation;
+
+        $barcodes = $reservation->seats->map(function ($seat) use ($reservation) {
+            return \Storage::url('img/barcode/' . $reservation->getTransactionId() . '|' . $seat->label . '.png');
+        });
+
         return $this
             ->subject(trans('mail.reservation.paid.subject') . ' - ' . config('app.name'))
             ->markdown(
@@ -40,6 +46,7 @@ class ReservationPaidMail extends Mailable
                 [
                     'reservation' => $this->reservation,
                     'name' => $user ? $user->firstname : '',
+                    'barcodes' => $barcodes,
                 ]
             );
     }

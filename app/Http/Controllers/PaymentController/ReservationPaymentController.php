@@ -44,12 +44,12 @@ class ReservationPaymentController extends Controller
 
             event(new ReservationPaid($reservation));
 
-            $reservation->seats->each(function ($seat) {
-                $filename = $reservation->getTransactionId() . '|' . $seat->label;
-                
-                Storage::put(
+            $reservation->seats->each(function ($seat) use ($reservation) {
+                $filename = $reservation->getTransactionId() . '|' . $seat->label . '.png';
+
+                \Storage::put(
                     'img/barcode/' . $filename,
-                    DNS2D::getBarcodePNG(
+                    \DNS2D::getBarcodePNG(
                         $filename,
                         'QRCODE',
                         20,
