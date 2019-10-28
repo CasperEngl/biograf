@@ -7,7 +7,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @if (app()->environment('local'))
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
     
     <script src="/js/lang.js"></script>
     @routes
@@ -128,7 +132,11 @@
         <portal-target name="modal"></portal-target>
     </div>
 
-    <script src="{{ mix('js/app.js') }}"></script>
+    @if (app()->environment('local'))
+        <script src="{{ mix('js/app.js') }}"></script>
+    @else
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    @endif
 
     <script>
         document.getElementById('nav-toggle').onclick = function(){
