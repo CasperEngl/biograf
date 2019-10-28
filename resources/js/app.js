@@ -52,15 +52,11 @@ Vue.component('v-popover', (resolve) => {
   });
 });
 
-const files = require.context('./', true, /\.vue$/i);
+const files = require.context('./', true, /\.vue$/i, 'lazy').keys();
 
-files
-  .keys()
-  .map(
-    (key) => Vue.component(key.split('/')
-      .pop()
-      .split('.')[0], files(key).default),
-  );
+files.forEach((file) => {
+  Vue.component(file.split('/').pop().split('.')[0], () => import(`${file}`));
+});
 
 const app = new Vue({ // eslint-disable-line
   el: '#app',
