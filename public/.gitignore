@@ -8,3 +8,4 @@ fonts/*
 svg/*
 resources/*
 vendors~js
+*.js
