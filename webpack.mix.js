@@ -25,7 +25,7 @@ mix.svg({
 mix
   .js('resources/js/app.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css')
-  .copy('public/css/app.css', 'public/vendor/mail/html/themes/tailwind.css')
+  // .copy('public/css/app.css', 'public/vendor/mail/html/themes/tailwind.css')
   .postCssConfig({
     plugins: [
       atImport(),
