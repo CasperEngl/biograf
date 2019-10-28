@@ -116,11 +116,11 @@
                 </div>
               </div>
             @endforeach
-            @if ((new App\Actions\ReservationActions)->pastFilmReservations(auth()->user(), $film)->count())
-              <a href="{{ route('film.rating.index', compact('film')) }}" class="mt-4 btn btn-ghost">{{ trans('film_rating.review.write') }}</a>
-            @else
-              
-            @endif
+            @auth    
+              @if ((new App\Actions\ReservationActions)->pastFilmReservations(auth()->user(), $film)->count())
+                <a href="{{ route('film.rating.index', compact('film')) }}" class="mt-4 btn btn-ghost">{{ trans('film_rating.review.write') }}</a>
+              @endif
+            @endauth
           </div>
         @endif
       </div>
