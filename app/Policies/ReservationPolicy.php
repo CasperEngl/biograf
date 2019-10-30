@@ -35,7 +35,7 @@ class ReservationPolicy
      */
     public function view(?User $user, Reservation $reservation)
     {
-        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        return $reservation->reserver_id == (optional($user)->id ?? session()->getId()) || $this->viewAny($user);
     }
 
     /**
@@ -60,7 +60,7 @@ class ReservationPolicy
     public function update(?User $user, Reservation $reservation)
     {
         // return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
-        return $reservation->reserver_id == $user->id ?? session()->getId();
+        return $reservation->reserver_id == (optional($user)->id ?? session()->getId());
     }
 
     /**
@@ -73,7 +73,7 @@ class ReservationPolicy
     public function delete(?User $user, Reservation $reservation)
     {
         // return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
-        return $reservation->reserver_id == $user->id ?? session()->getId();
+        return $reservation->reserver_id == (optional($user)->id ?? session()->getId());
     }
 
     /**
@@ -85,7 +85,7 @@ class ReservationPolicy
      */
     public function restore(?User $user, Reservation $reservation)
     {
-        return $reservation->reserver_id == $user->id ?? session()->getId() || $this->viewAny($user);
+        return $reservation->reserver_id == (optional($user)->id ?? session()->getId()) || $this->viewAny($user);
     }
 
     /**
