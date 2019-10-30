@@ -6,7 +6,6 @@ use App\Film;
 use Tmdb\Model\Movie;
 use App\Actions\FilmActions;
 use Illuminate\Bus\Queueable;
-use App\Jobs\ProcessFilmPoster;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,9 +59,5 @@ class ProcessTmdbFilm implements ShouldQueue
 
         $filmActions->downloadTmdbImages($this->film, $posters, 'poster');
         $filmActions->downloadTmdbImages($this->film, $backdrops, 'backdrop');
-
-        ProcessFilmPoster::dispatch($film)->delay(
-            now()->addMinutes(2)
-        );
     }
 }

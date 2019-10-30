@@ -13,6 +13,7 @@ use App\Reservation;
 use Tmdb\Model\Movie;
 use App\Actions\FilmActions;
 use App\Jobs\ProcessTmdbFilm;
+use App\Jobs\ProcessFilmPoster;
 use App\Jobs\ProcessContributor;
 use League\ColorExtractor\Color;
 use Illuminate\Support\Collection;
@@ -98,6 +99,10 @@ class FilmActions
                     ->toMediaCollection($mediaCollection); // Add to the passed collection
             }
         }
+
+        ProcessFilmPoster::dispatch($film)->delay(
+            now()->addMinutes(2)
+        );
     }
 
     public function tmdb(Film $film)
