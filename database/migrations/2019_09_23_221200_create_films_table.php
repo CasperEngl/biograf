@@ -20,7 +20,7 @@ class CreateFilmsTable extends Migration
             $table->date('premiere')->nullable();
             
             $table->string('slug');
-            $table->string('language');
+            $table->string('language')->nullable();
             $table->string('tmdb_id')->nulllable();
             $table->string('imdb_id')->nullable();
             $table->json('categories')->nullable();
