@@ -136,8 +136,8 @@ module.exports = {
       maxHeight: spacing,
       minHeight: spacing,
       screens: {
-        'print': {'raw': 'print'},
-      }
+        print: { raw: 'print' },
+      },
     },
   },
   variants: {
